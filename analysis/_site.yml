@@ -11,10 +11,12 @@ navbar:
       href: license.html
   right:
     - icon: fa-github
-      href: https://github.com/jdblischak/workflowr
+      href: https://han16.github.io/Data-Science-in-R/
+
 output:
   workflowr::wflow_html:
     toc: true
     toc_float: true
     theme: cosmo
     highlight: textmate
+

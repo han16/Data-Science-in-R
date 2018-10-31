@@ -6,4 +6,7 @@ output:
     toc: false
 ---
 
-Welcome to my research website.
+* [lecture 1](lecture1.html)
+* [lecture 2](lecture2.html)
+* [lecture 3](lecture3.html)
+* [lecture 4](lecture4.html)
