@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Shengtong" />
+
+<meta name="date" content="2018-09-17" />
+
+<title>week1</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Code</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jdblischak/workflowr">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">week1</h1>
+<h4 class="author"><em>Shengtong</em></h4>
+<h4 class="date"><em>September 17, 2018</em></h4>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2018-10-26</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20181026)</code> </summary></p>
+<p>The command <code>set.seed(20181026)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> 0d21361 </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    analysis/.DS_Store
+
+Untracked files:
+    Untracked:  analysis/lecture1.Rmd
+    Untracked:  analysis/lecture2.Rmd
+    Untracked:  analysis/lecture3.Rmd
+    Untracked:  docs/figure/
+
+Unstaged changes:
+    Modified:   analysis/index.Rmd
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<hr />
+<div id="r-tutorial" class="section level2">
+<h2>R tutorial</h2>
+<p>Run through examples in chap 1; practice R as a calculator</p>
+</div>
+<div id="vectors" class="section level2">
+<h2>vectors</h2>
+<ul>
+<li>define a vector and dsplay its characteristics</li>
+</ul>
+<pre class="r"><code>my_vector &lt;- c(1,3,5,8,10,-5,3)
+length(my_vector)</code></pre>
+<pre><code>[1] 7</code></pre>
+<pre class="r"><code>sum(my_vector)</code></pre>
+<pre><code>[1] 25</code></pre>
+<ul>
+<li>Set random seed and generate some random normal draws</li>
+</ul>
+<pre class="r"><code>set.seed(13579)
+my_normal_vector &lt;- rnorm(n=length(my_vector))
+my_normal_vector</code></pre>
+<pre><code>[1] -1.2347155 -1.2528339 -0.2547780 -1.5266466  1.0971147  2.4887442
+[7]  0.7794803</code></pre>
+<ul>
+<li>Vector multiplication (elementwise)</li>
+</ul>
+<pre class="r"><code>my_vector * my_normal_vector</code></pre>
+<pre><code>[1]  -1.234715  -3.758502  -1.273890 -12.213173  10.971147 -12.443721
+[7]   2.338441</code></pre>
+<ul>
+<li>Inner product</li>
+</ul>
+<pre class="r"><code>my_vector %*% my_normal_vector</code></pre>
+<pre><code>          [,1]
+[1,] -17.61441</code></pre>
+</div>
+<div id="matrix" class="section level2">
+<h2>matrix</h2>
+<ul>
+<li>Create matrix: 5 x 4 by Normal distribution: mean=10, sd=4</li>
+</ul>
+<pre class="r"><code>my_matrix &lt;- matrix(rnorm(n=5*4, mean=10, sd=4),
+                    nrow=5, ncol=4)</code></pre>
+<ul>
+<li>Create another matrix: 5 x 4 by rexp distribution</li>
+</ul>
+<pre class="r"><code>gen_exp &lt;- rexp(n=5*4, rate=1)
+my_matrix_2 &lt;- matrix(gen_exp, ncol=4, nrow=5)</code></pre>
+<ul>
+<li>Double check the product functions (elementwise multiplication)</li>
+</ul>
+<pre class="r"><code>my_matrix</code></pre>
+<pre><code>          [,1]     [,2]      [,3]      [,4]
+[1,] 10.753500 6.933320 10.987272  3.201161
+[2,]  5.894216 8.250841  6.553208 13.599404
+[3,]  8.973170 8.113796 12.639644 12.884479
+[4,] 12.984201 7.754463  9.852634  9.346003
+[5,] 11.884883 5.139338  6.189902  6.933884</code></pre>
+<pre class="r"><code>my_matrix_2</code></pre>
+<pre><code>           [,1]       [,2]      [,3]      [,4]
+[1,] 0.33735737 1.30599715 0.5887249 0.3068181
+[2,] 2.82539938 0.19481413 0.4311200 1.2925390
+[3,] 1.12580580 0.09892251 4.1484588 0.1203261
+[4,] 0.44286020 2.12785120 0.4060667 0.8234967
+[5,] 0.02611241 1.52468762 2.4491404 1.0894686</code></pre>
+<pre class="r"><code>my_matrix * my_matrix_2</code></pre>
+<pre><code>           [,1]       [,2]      [,3]       [,4]
+[1,]  3.6277725  9.0548966  6.468480  0.9821741
+[2,] 16.6535149  1.6073804  2.825219 17.5777600
+[3,] 10.1020464  0.8026371 52.435041  1.5503396
+[4,]  5.7501857 16.5003440  4.000827  7.6964023
+[5,]  0.3103429  7.8358856 15.159939  7.5542487</code></pre>
+<ul>
+<li>Make use of head and tail commands</li>
+</ul>
+<pre class="r"><code>my_huge_matrix &lt;- matrix(rgamma(10000,
+                                shape=1), 
+                         ncol=10)
+head(my_huge_matrix)</code></pre>
+<pre><code>          [,1]      [,2]      [,3]       [,4]      [,5]       [,6]
+[1,] 0.1585023 0.2594988 0.3045265 0.08611515 1.3593091 0.46796143
+[2,] 2.3844915 2.1434004 0.2076556 0.63440774 0.4867942 2.49800677
+[3,] 2.0498783 0.5644282 0.6914348 0.09216033 0.1677927 0.06666595
+[4,] 0.6544284 0.7128908 2.6595979 0.62706588 0.5343128 0.61398043
+[5,] 0.2356970 0.0428360 0.9375176 1.54803682 2.1684759 0.96108695
+[6,] 1.6757674 0.1273529 0.3218827 0.05611610 0.4491089 1.35358352
+           [,7]       [,8]       [,9]      [,10]
+[1,] 0.01747011 1.11846385 0.48473271 2.56600850
+[2,] 1.33030870 1.00036235 1.47877854 0.27404199
+[3,] 1.04110944 1.31866862 0.00207013 0.01210107
+[4,] 1.22492017 0.67984458 0.61003525 0.69062251
+[5,] 2.83205475 0.09203886 3.78459495 1.74063865
+[6,] 0.53563203 2.12307883 0.55484225 0.64885783</code></pre>
+<pre class="r"><code>tail(my_huge_matrix)</code></pre>
+<pre><code>             [,1]      [,2]      [,3]      [,4]      [,5]       [,6]
+ [995,] 2.2065900 2.6204056 0.3617654 0.3113698 0.9299397 1.71883278
+ [996,] 0.1513955 0.4863449 0.6484172 1.5576926 1.6252196 0.22696258
+ [997,] 1.5559238 0.1786538 0.4939397 3.0058030 0.5783891 1.21986101
+ [998,] 0.3488299 0.3241757 0.6761012 0.8329858 0.6561114 0.04526154
+ [999,] 0.3982543 1.2403230 0.1033660 2.1795944 0.9295799 0.35622295
+[1000,] 1.5952870 0.2751454 1.0844354 0.1188376 0.2601905 1.78664851
+             [,7]       [,8]      [,9]      [,10]
+ [995,] 0.6832110 0.06476413 0.3178026 0.43963115
+ [996,] 0.1349167 2.13606096 0.3472772 0.06109482
+ [997,] 0.4762442 1.99384835 0.4734880 1.22129446
+ [998,] 0.6484562 0.46446190 0.4860314 0.22367593
+ [999,] 0.6209044 0.35793411 1.4893320 1.01059960
+[1000,] 2.0429866 1.20263627 0.3589378 0.83118101</code></pre>
+<ul>
+<li>sequence of values</li>
+</ul>
+<pre class="r"><code>## Make sequence of values
+1:10</code></pre>
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre class="r"><code>0:10</code></pre>
+<pre><code> [1]  0  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre class="r"><code>10:0</code></pre>
+<pre><code> [1] 10  9  8  7  6  5  4  3  2  1  0</code></pre>
+<pre class="r"><code>-5:5</code></pre>
+<pre><code> [1] -5 -4 -3 -2 -1  0  1  2  3  4  5</code></pre>
+<pre class="r"><code>seq(from=-5, to=50, by=5)</code></pre>
+<pre><code> [1] -5  0  5 10 15 20 25 30 35 40 45 50</code></pre>
+<pre class="r"><code>seq(from=-5, to=50, length=50)</code></pre>
+<pre><code> [1] -5.0000000 -3.8775510 -2.7551020 -1.6326531 -0.5102041  0.6122449
+ [7]  1.7346939  2.8571429  3.9795918  5.1020408  6.2244898  7.3469388
+[13]  8.4693878  9.5918367 10.7142857 11.8367347 12.9591837 14.0816327
+[19] 15.2040816 16.3265306 17.4489796 18.5714286 19.6938776 20.8163265
+[25] 21.9387755 23.0612245 24.1836735 25.3061224 26.4285714 27.5510204
+[31] 28.6734694 29.7959184 30.9183673 32.0408163 33.1632653 34.2857143
+[37] 35.4081633 36.5306122 37.6530612 38.7755102 39.8979592 41.0204082
+[43] 42.1428571 43.2653061 44.3877551 45.5102041 46.6326531 47.7551020
+[49] 48.8775510 50.0000000</code></pre>
+<ul>
+<li>data frame vesus matrix</li>
+</ul>
+<pre class="r"><code>## Data frame versus matrix
+my_df &lt;- data.frame(my_matrix, letters=c(&quot;A&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;,&quot;e&quot;))
+
+## Character vectors
+my_name_vector &lt;- c(&quot;Anne&quot;, &quot;Bob&quot;, &quot;Charles&quot;)
+
+## Check the class of objects
+class(my_name_vector)</code></pre>
+<pre><code>[1] &quot;character&quot;</code></pre>
+<pre class="r"><code>class(my_normal_vector)</code></pre>
+<pre><code>[1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code>class(my_huge_matrix)</code></pre>
+<pre><code>[1] &quot;matrix&quot;</code></pre>
+<pre class="r"><code>class(my_df)</code></pre>
+<pre><code>[1] &quot;data.frame&quot;</code></pre>
+</div>
+<div id="plots" class="section level2">
+<h2>plots</h2>
+<ul>
+<li>Basic plotting</li>
+</ul>
+<pre class="r"><code>#-------------------------------------------------------------
+## Basic plotting
+
+## Histogram: hist
+## ?hist
+## Histogram of first five columns of my_huge_matrix
+
+hist(my_huge_matrix[,c(1:5)])</code></pre>
+<p><img src="figure/lecture1.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>hist(my_huge_matrix[,1])</code></pre>
+<p><img src="figure/lecture1.Rmd/unnamed-chunk-11-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>hist(my_huge_matrix[,2])</code></pre>
+<p><img src="figure/lecture1.Rmd/unnamed-chunk-11-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>hist(my_huge_matrix[,3], main=&quot;Better histogram&quot;,
+     xlab=&quot;Value&quot;, breaks=50, 
+     col=&quot;cornflowerblue&quot;)</code></pre>
+<p><img src="figure/lecture1.Rmd/unnamed-chunk-11-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>par(mfrow=c(2,3))
+hist(my_huge_matrix[,1])
+hist(my_huge_matrix[,2])
+hist(my_huge_matrix[,3], main=&quot;Better histogram&quot;,
+     xlab=&quot;Value&quot;, breaks=50, 
+     col=&quot;cornflowerblue&quot;)</code></pre>
+<p><img src="figure/lecture1.Rmd/unnamed-chunk-11-5.png" width="672" style="display: block; margin: auto;" /></p>
+<ul>
+<li>Scatterplots</li>
+</ul>
+<pre class="r"><code>## Scatterplots
+data(iris)
+?plot
+## Plot petal length vs petal width
+col_vector &lt;- rep(NA, nrow(iris))
+setosa_index &lt;- which(iris$Species == &quot;setosa&quot;)
+versicolor_index &lt;- which(iris$Species == &quot;versicolor&quot;)
+virginica_index &lt;- which(iris$Species == &quot;virginica&quot;)
+col_vector[setosa_index] &lt;- &quot;blue&quot;
+col_vector[versicolor_index] &lt;- &quot;red&quot;
+col_vector[virginica_index] &lt;- &quot;black&quot;
+
+plot(x=iris$Petal.Length, 
+     y=iris$Petal.Width,
+     col=col_vector, pch=19)
+legend(&quot;topleft&quot;, pch=19,
+       col=c(&quot;blue&quot;,&quot;red&quot;,&quot;black&quot;),
+       legend=c(&quot;Setosa&quot;, &quot;Versicolor&quot;, &quot;Virginica&quot;))</code></pre>
+<p><img src="figure/lecture1.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Plot Petal length vs width, coloring by sepal length
+col_vector &lt;- rep(NA, nrow(iris))
+high_index &lt;- which(iris$Sepal.Length &gt; 
+                      mean(iris$Sepal.Length))
+col_vector[high_index] &lt;- &quot;red&quot;
+col_vector[-high_index] &lt;- &quot;blue&quot;
+shape_vector &lt;- rep(NA, nrow(iris))
+shape_vector[setosa_index] &lt;- &quot;S&quot;
+shape_vector[versicolor_index] &lt;- &quot;E&quot;
+shape_vector[virginica_index] &lt;- &quot;I&quot;
+
+plot(x=iris$Petal.Length, 
+     y=iris$Petal.Width,
+     col=col_vector, pch=shape_vector)
+legend(&quot;topleft&quot;, pch=19,
+       col=c(&quot;blue&quot;,&quot;red&quot;),
+       legend=c(&quot;Low sepal length&quot;, 
+                &quot;High sepal length&quot;))</code></pre>
+<p><img src="figure/lecture1.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(x=1:nrow(iris), y=sort(iris$Petal.Width),
+     type=&quot;l&quot;)</code></pre>
+<p><img src="figure/lecture1.Rmd/unnamed-chunk-13-2.png" width="672" style="display: block; margin: auto;" /></p>
+<ul>
+<li>Boxplots</li>
+</ul>
+<pre class="r"><code>## Boxplots
+boxplot(iris$Petal.Length ~ iris$Species,
+        col=c(&quot;red&quot;, &quot;blue&quot;, &quot;green&quot;))</code></pre>
+<p><img src="figure/lecture1.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Density plots
+## Hint: which function to select species
+## lines()
+plot(density(iris$Petal.Length[which(iris$Species == 
+                                       &quot;setosa&quot;)]),
+     xlim=c(0,8))
+lines(density(iris$Petal.Length[which(iris$Species == 
+                                       &quot;virginica&quot;)]))
+lines(density(iris$Petal.Length[which(iris$Species == 
+                                       &quot;versicolor&quot;)]))</code></pre>
+<p><img src="figure/lecture1.Rmd/unnamed-chunk-14-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.1 (2018-07-02)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS High Sierra 10.13.6
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+ [1] workflowr_1.1.1   Rcpp_0.12.19      digest_0.6.18    
+ [4] rprojroot_1.3-2   R.methodsS3_1.7.1 backports_1.1.2  
+ [7] magrittr_1.5      git2r_0.23.0      evaluate_0.12    
+[10] stringi_1.2.4     whisker_0.3-2     R.oo_1.22.0      
+[13] R.utils_2.7.0     rmarkdown_1.10    tools_3.5.1      
+[16] stringr_1.3.1     yaml_2.2.0        compiler_3.5.1   
+[19] htmltools_0.3.6   knitr_1.20       </code></pre>
+</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

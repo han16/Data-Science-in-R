@@ -1,0 +1,219 @@
+---
+title: "week1"
+author: "Shengtong"
+date: "September 17, 2018"
+output:
+  pdf_document: default
+#  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R tutorial 
+
+Run through examples in chap 1; practice R as a calculator
+
+
+## vectors 
+
+* define a vector and dsplay its characteristics 
+
+```{r, echo=T}
+
+my_vector <- c(1,3,5,8,10,-5,3)
+length(my_vector)
+sum(my_vector)
+
+```
+
+*  Set random seed and generate some random normal draws
+
+```{r, echo=T}
+set.seed(13579)
+my_normal_vector <- rnorm(n=length(my_vector))
+my_normal_vector
+```
+
+
+*  Vector multiplication (elementwise)
+
+```{r, echo=T}
+
+my_vector * my_normal_vector
+
+```
+
+* Inner product
+
+```{r, echo=T}
+my_vector %*% my_normal_vector
+```
+
+## matrix 
+
+*  Create matrix: 5 x 4 by  Normal distribution: mean=10, sd=4
+```{r, echo=T}
+my_matrix <- matrix(rnorm(n=5*4, mean=10, sd=4),
+                    nrow=5, ncol=4)
+```
+
+* Create another matrix: 5 x 4 by  rexp distribution
+```{r, echo=T}
+gen_exp <- rexp(n=5*4, rate=1)
+my_matrix_2 <- matrix(gen_exp, ncol=4, nrow=5)
+```
+
+*  Double check the product functions (elementwise multiplication)
+```{r, echo=T}
+my_matrix
+my_matrix_2
+my_matrix * my_matrix_2
+```
+
+
+
+*  Make use of head and tail commands
+```{r, echo=T}
+my_huge_matrix <- matrix(rgamma(10000,
+                                shape=1), 
+                         ncol=10)
+head(my_huge_matrix)
+tail(my_huge_matrix)
+
+```
+
+* sequence of values 
+
+```{r, echo=T}
+## Make sequence of values
+1:10
+0:10
+10:0
+-5:5
+seq(from=-5, to=50, by=5)
+seq(from=-5, to=50, length=50)
+
+```
+
+* data frame vesus matrix 
+
+```{r, echo=T}
+
+## Data frame versus matrix
+my_df <- data.frame(my_matrix, letters=c("A", "b", "c", "d","e"))
+
+## Character vectors
+my_name_vector <- c("Anne", "Bob", "Charles")
+
+## Check the class of objects
+class(my_name_vector)
+class(my_normal_vector)
+class(my_huge_matrix)
+class(my_df)
+
+```
+
+
+## plots 
+
+* Basic plotting
+
+```{r, echo=T}
+
+#-------------------------------------------------------------
+## Basic plotting
+
+## Histogram: hist
+## ?hist
+## Histogram of first five columns of my_huge_matrix
+
+hist(my_huge_matrix[,c(1:5)])
+hist(my_huge_matrix[,1])
+hist(my_huge_matrix[,2])
+hist(my_huge_matrix[,3], main="Better histogram",
+     xlab="Value", breaks=50, 
+     col="cornflowerblue")
+
+par(mfrow=c(2,3))
+hist(my_huge_matrix[,1])
+hist(my_huge_matrix[,2])
+hist(my_huge_matrix[,3], main="Better histogram",
+     xlab="Value", breaks=50, 
+     col="cornflowerblue")
+
+```
+
+* Scatterplots 
+
+```{r, echo=T}
+
+## Scatterplots
+data(iris)
+?plot
+## Plot petal length vs petal width
+col_vector <- rep(NA, nrow(iris))
+setosa_index <- which(iris$Species == "setosa")
+versicolor_index <- which(iris$Species == "versicolor")
+virginica_index <- which(iris$Species == "virginica")
+col_vector[setosa_index] <- "blue"
+col_vector[versicolor_index] <- "red"
+col_vector[virginica_index] <- "black"
+
+plot(x=iris$Petal.Length, 
+     y=iris$Petal.Width,
+     col=col_vector, pch=19)
+legend("topleft", pch=19,
+       col=c("blue","red","black"),
+       legend=c("Setosa", "Versicolor", "Virginica"))
+
+```
+
+```{r, echo=T}
+
+## Plot Petal length vs width, coloring by sepal length
+col_vector <- rep(NA, nrow(iris))
+high_index <- which(iris$Sepal.Length > 
+                      mean(iris$Sepal.Length))
+col_vector[high_index] <- "red"
+col_vector[-high_index] <- "blue"
+shape_vector <- rep(NA, nrow(iris))
+shape_vector[setosa_index] <- "S"
+shape_vector[versicolor_index] <- "E"
+shape_vector[virginica_index] <- "I"
+
+plot(x=iris$Petal.Length, 
+     y=iris$Petal.Width,
+     col=col_vector, pch=shape_vector)
+legend("topleft", pch=19,
+       col=c("blue","red"),
+       legend=c("Low sepal length", 
+                "High sepal length"))
+
+plot(x=1:nrow(iris), y=sort(iris$Petal.Width),
+     type="l")
+
+```
+
+* Boxplots 
+
+```{r, echo=T}
+
+## Boxplots
+boxplot(iris$Petal.Length ~ iris$Species,
+        col=c("red", "blue", "green"))
+
+## Density plots
+## Hint: which function to select species
+## lines()
+plot(density(iris$Petal.Length[which(iris$Species == 
+                                       "setosa")]),
+     xlim=c(0,8))
+lines(density(iris$Petal.Length[which(iris$Species == 
+                                       "virginica")]))
+lines(density(iris$Petal.Length[which(iris$Species == 
+                                       "versicolor")]))
+
+```
+

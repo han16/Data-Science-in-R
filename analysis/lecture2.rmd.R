@@ -1,0 +1,288 @@
+---
+title: "week2"
+author: "Shengtong"
+date: "September 26, 2018"
+output:
+  pdf_document: default
+#  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Working directory 
+
+```{r, echo=T, eval=F}
+
+#------------------------------------------------------------------
+## Working directories in R
+#------------------------------------------------------------------
+
+### What working directory are we in?
+# getwd() ## Get working directory
+# dir()   ## What else is in that directory?
+
+## Set working directory to a new place
+# !!! You need to change this!
+# setwd('/Users/raua/Desktop/PH718_AR/Lecture2')
+```
+
+## R script 
+
+* a prepared list of R commands that are processed sequentially by R from top to bottom and they can be typed, edited and saved as a file. 
+
+* only exist for windows and mac, not in Unix or Linux operating systems. 
+
+
+
+```{r, echo=T}
+
+
+#### Save R-script as "Lecture2_Rcode.R" to PH718 directory
+
+#### Enter the following lines
+x <- 1:10
+y <- 1:10
+plot(x,y)
+
+### Re-save this script
+
+### Now run the source()command as below, without the ## in front.
+##source("Lecture2_Rcode.R)
+
+### Now try running, without the comment ### bars in front.
+### Why do we get a "node stack overflow" error?
+
+### Make a new folder in your PH718 directory called More_R_Commands.
+
+### Create a new R script in that folder called "plot.R"
+### Use the same 3 lines as above
+### x <- 1:10
+### y <- 1:10
+### plot(x,y)
+
+### Now run 
+### source("More_R_Commands/plot.R")
+
+### Try the following commands
+### objects()
+### ls()
+### rm(list=c("x", "y"))
+### ls()
+
+```
+
+```{r, echo=T}
+#------------------------------------------------------------------
+## Functions in R
+#------------------------------------------------------------------
+
+
+### Here is a simple example
+example.sum <- function(a, b){
+return(a + b)
+}
+
+x <- 1:10
+y <- 11:20
+example.sum(x,y)
+```
+
+```{r, echo=T}
+### Naming conventions. Why not write example.sum() as:
+example.sum <- function(x, y, z){
+  tmp <- x + y
+  tmp2 <- tmp + z
+  return(tmp2)
+}
+x <- 1:10
+y <- 11:20
+z <- 100
+example.sum(x,y,z)
+```
+
+
+```{r, echo=T, eval=F}
+### Try this
+
+example.diff.sum <- function(x, y){
+  newy = example.sum(x,y) - 10
+  return(newy)
+}
+example.diff.sum(x, y)
+```
+
+```{r, echo=T}
+
+### This function example.diff.sum() works, but it is very BAD form.
+### Variable names can get complicated VERY quickly, if you're not
+### conscientious about it. The following would be much easier to 
+### understand. Note: when possible, try to name your variables 
+### and functions informatively and in a manner that they are easy to track.
+
+example.sum = function(a, b){
+return(a + b)
+}
+
+example.diff.sum = function(c, d){
+e = example.sum(c, d) - 10
+return(e)
+}
+
+x <- 1:10
+y <- 11:20
+example.diff.sum(x, y)
+```
+
+
+```{r, echo=T}
+
+## Example together: Hardy-Weinberg problem #3.6 from book
+
+HWE <- function(p) {
+  stopifnot(is.numeric(p))
+  stopifnot(p >= 0)
+  stopifnot(p <= 1)
+  prob_AA <- p^2
+  prob_AB <- 2*p*(1-p)
+  prob_BB <- (1-p)^2
+  return(c(prob_AA, prob_AB, prob_BB))
+}
+HWE(0)
+HWE(0.5)
+#HWE(-5)
+#HWE("andrea")
+```
+
+
+```{r, echo=T}
+
+## Write a function to convert Celsuis to Fahrenheit and vice versa
+
+C_to_F <- function(temp) {
+  return((temp * 1.8) + 32)
+}
+  
+F_to_C<- function(temp) {
+  return((temp - 32)/1.8)
+}
+
+par(mfrow=c(1,2))
+plot(1:100, C_to_F(1:100))
+plot(-40:212, F_to_C(-40:212))
+```
+
+```{r, echo=T}
+
+## type_of_conversion can be "F_to_C" or "C_to_F"
+temp_conversion <- function(temp, type_of_conversion="F_to_C") {
+  if(!type_of_conversion %in% c("F_to_C", "C_to_F")) {
+    stop("STOP!!! I only to C to F or F to C.")
+  }
+  if(type_of_conversion == "F_to_C") {
+    new_temp <- F_to_C(temp)
+  }
+  if(type_of_conversion == "C_to_F") {
+    new_temp <- C_to_F(temp)
+  }
+  return(list(temp=new_temp, conversion=type_of_conversion))
+}
+temp_conversion(100, type="C_to_F")
+```
+
+```{r, echo=T}
+
+#------------------------------------------------------------------
+## Loops in R
+#------------------------------------------------------------------
+
+#### An introductory example
+
+### This "initializes" the object "w" so that R knows what w "stands for."
+
+w <- NULL
+
+#### This is called a "for" loop
+
+for(i in 1:10){
+	w[i] <- i+10
+}
+
+### What do you think w looks like?
+w 
+```
+
+```{r, echo=T}
+w <- NULL
+for(hello in 1:10){
+w[hello] <- hello
+}
+## Now what does w look like?
+w
+```
+### You can embed loops as well.
+
+```{r, echo=T}
+w <- NULL
+counter <- 1
+for(j in 11:20){
+  for(i in 1:10){
+    w[counter] <- i + j
+    counter <- counter + 1
+  }
+}
+
+#### Think through these two loops carefully. 
+#### What is the difference between this loop and the last loop?
+w
+```
+
+```{r, echo=T}
+w <- NULL
+counter <- 1
+for(j in 11:20){
+	for(i in 1:10){
+	w[counter] <- i + j
+}
+	counter <- counter + 1
+}
+w
+```
+
+### An example of a "while" loop
+
+```{r, echo=T}
+w <- 100
+z <- 5
+
+while(w > 20){
+	w.plus.z <- w + z
+	w <- w - 1
+}
+w
+```
+
+```{r, echo=T, eval=F}
+
+### Make sure that your loop can be "closed."
+### The following loop willrun forever. DON'T actually run it!!!!!
+#w <- 100
+#z <- 5
+#while(w > 20){
+#	w.plus.z <- w + z
+#	w <- w + 1
+#}
+```
+
+### If we have time, let????Ts talk about indices and the which() function
+
+```{r, echo=T}
+ x <- rnorm(100)
+ x[1:10]
+ x[20:30]
+ index <- which(x < 0)
+ x[index]
+
+```

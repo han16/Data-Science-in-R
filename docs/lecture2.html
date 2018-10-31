@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Shengtong" />
+
+<meta name="date" content="2018-09-26" />
+
+<title>week2</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Code</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jdblischak/workflowr">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">week2</h1>
+<h4 class="author"><em>Shengtong</em></h4>
+<h4 class="date"><em>September 26, 2018</em></h4>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2018-10-29</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20181026)</code> </summary></p>
+<p>The command <code>set.seed(20181026)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> 0d21361 </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    analysis/.DS_Store
+
+Untracked files:
+    Untracked:  analysis/Lecture2_Rcode.R
+    Untracked:  analysis/lecture1.Rmd
+    Untracked:  analysis/lecture2.R
+    Untracked:  analysis/lecture2.Rmd
+    Untracked:  analysis/lecture2.rmd.R
+    Untracked:  analysis/lecture3.Rmd
+    Untracked:  docs/figure/
+
+Unstaged changes:
+    Modified:   analysis/index.Rmd
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<hr />
+<div id="working-directory" class="section level2">
+<h2>working directory</h2>
+<pre class="r"><code>#------------------------------------------------------------------
+## Working directories in R
+#------------------------------------------------------------------
+
+### What working directory are we in?
+# getwd() ## Get working directory
+# dir()   ## What else is in that directory?
+
+## Set working directory to a new place
+# !!! You need to change this!
+# setwd(&#39;/Users/raua/Desktop/PH718_AR/Lecture2&#39;)</code></pre>
+</div>
+<div id="r-script" class="section level2">
+<h2>R script</h2>
+<ul>
+<li><p>a prepared list of R commands that are processed sequentially by R from top to bottom and they can be typed, edited and saved as a file.</p></li>
+<li><p>only exist for windows and mac, not in Unix or Linux operating systems.</p></li>
+<li><p>Save R-script as “Lecture2_Rcode.R” to PH718 directory</p></li>
+</ul>
+<p>File -&gt; save as &gt; folder</p>
+<pre class="r"><code>#### Enter the following lines
+x &lt;- 1:10
+y &lt;- 1:10
+plot(x,y)</code></pre>
+<p><img src="figure/lecture2.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>### Re-save this script
+
+### Now run the source()command as below, without the ## in front.
+##source(&quot;Lecture2_Rcode.R)</code></pre>
+<ul>
+<li>two ways to run R code in Unix/Linux</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>copy the script and paste it at console prompt</li>
+<li>save the script in a folder and use the command source()</li>
+</ol>
+<pre class="r"><code>source(&quot;path-to-the-folder/**.R&quot;)</code></pre>
+<pre class="r"><code>### Now try running, without the comment ### bars in front.
+### Why do we get a &quot;node stack overflow&quot; error?
+
+### Make a new folder in your PH718 directory called More_R_Commands.
+
+### Create a new R script in that folder called &quot;plot.R&quot;
+### Use the same 3 lines as above
+### x &lt;- 1:10
+### y &lt;- 1:10
+### plot(x,y)
+
+### Now run 
+### source(&quot;More_R_Commands/plot.R&quot;)
+
+### Try the following commands
+### objects()
+### ls()
+### rm(list=c(&quot;x&quot;, &quot;y&quot;))
+### ls()</code></pre>
+</div>
+<div id="functions-in-r" class="section level2">
+<h2>Functions in R</h2>
+<ul>
+<li>sum function</li>
+</ul>
+<pre class="r"><code>#------------------------------------------------------------------
+## Functions in R
+#------------------------------------------------------------------
+
+
+### Here is a simple example
+example.sum &lt;- function(a, b){
+return(a + b)
+}
+
+x &lt;- 1:10
+y &lt;- 11:20
+example.sum(x,y)</code></pre>
+<pre><code> [1] 12 14 16 18 20 22 24 26 28 30</code></pre>
+<pre class="r"><code>### Naming conventions. Why not write example.sum() as:
+example.sum &lt;- function(x, y, z){
+  tmp &lt;- x + y
+  tmp2 &lt;- tmp + z
+  return(tmp2)
+}
+x &lt;- 1:10
+y &lt;- 11:20
+z &lt;- 100
+example.sum(x,y,z)</code></pre>
+<pre><code> [1] 112 114 116 118 120 122 124 126 128 130</code></pre>
+<pre class="r"><code>### Try this
+
+example.diff.sum &lt;- function(x, y){
+  newy = example.sum(x,y) - 10
+  return(newy)
+}
+example.diff.sum(x, y)</code></pre>
+<pre class="r"><code>### This function example.diff.sum() works, but it is very BAD form.
+### Variable names can get complicated VERY quickly, if you&#39;re not
+### conscientious about it. The following would be much easier to 
+### understand. Note: when possible, try to name your variables 
+### and functions informatively and in a manner that they are easy to track.
+
+example.sum = function(a, b){
+return(a + b)
+}
+
+example.diff.sum = function(c, d){
+e = example.sum(c, d) - 10
+return(e)
+}
+
+x &lt;- 1:10
+y &lt;- 11:20
+example.diff.sum(x, y)</code></pre>
+<pre><code> [1]  2  4  6  8 10 12 14 16 18 20</code></pre>
+<pre class="r"><code>## Example together: Hardy-Weinberg problem #3.6 from book
+
+HWE &lt;- function(p) {
+  stopifnot(is.numeric(p))
+  stopifnot(p &gt;= 0)
+  stopifnot(p &lt;= 1)
+  prob_AA &lt;- p^2
+  prob_AB &lt;- 2*p*(1-p)
+  prob_BB &lt;- (1-p)^2
+  return(c(prob_AA, prob_AB, prob_BB))
+}
+HWE(0)</code></pre>
+<pre><code>[1] 0 0 1</code></pre>
+<pre class="r"><code>HWE(0.5)</code></pre>
+<pre><code>[1] 0.25 0.50 0.25</code></pre>
+<pre class="r"><code>#HWE(-5)
+#HWE(&quot;andrea&quot;)</code></pre>
+<pre class="r"><code>## Write a function to convert Celsuis to Fahrenheit and vice versa
+
+C_to_F &lt;- function(temp) {
+  return((temp * 1.8) + 32)
+}
+  
+F_to_C&lt;- function(temp) {
+  return((temp - 32)/1.8)
+}
+
+par(mfrow=c(1,2))
+plot(1:100, C_to_F(1:100))
+plot(-40:212, F_to_C(-40:212))</code></pre>
+<p><img src="figure/lecture2.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## type_of_conversion can be &quot;F_to_C&quot; or &quot;C_to_F&quot;
+temp_conversion &lt;- function(temp, type_of_conversion=&quot;F_to_C&quot;) {
+  if(!type_of_conversion %in% c(&quot;F_to_C&quot;, &quot;C_to_F&quot;)) {
+    stop(&quot;STOP!!! I only to C to F or F to C.&quot;)
+  }
+  if(type_of_conversion == &quot;F_to_C&quot;) {
+    new_temp &lt;- F_to_C(temp)
+  }
+  if(type_of_conversion == &quot;C_to_F&quot;) {
+    new_temp &lt;- C_to_F(temp)
+  }
+  return(list(temp=new_temp, conversion=type_of_conversion))
+}
+temp_conversion(100, type=&quot;C_to_F&quot;)</code></pre>
+<pre><code>$temp
+[1] 212
+
+$conversion
+[1] &quot;C_to_F&quot;</code></pre>
+</div>
+<div id="loops-in-r" class="section level2">
+<h2>loops in R</h2>
+<pre class="r"><code>#------------------------------------------------------------------
+## Loops in R
+#------------------------------------------------------------------
+
+#### An introductory example
+
+### This &quot;initializes&quot; the object &quot;w&quot; so that R knows what w &quot;stands for.&quot;
+
+w &lt;- NULL
+
+#### This is called a &quot;for&quot; loop
+
+for(i in 1:10){
+    w[i] &lt;- i+10
+}
+
+### What do you think w looks like?
+w </code></pre>
+<pre><code> [1] 11 12 13 14 15 16 17 18 19 20</code></pre>
+<pre class="r"><code>w &lt;- NULL
+for(hello in 1:10){
+w[hello] &lt;- hello
+}
+## Now what does w look like?
+w</code></pre>
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<ul>
+<li>You can embed loops as well.</li>
+</ul>
+<pre class="r"><code>w &lt;- NULL
+counter &lt;- 1
+for(j in 11:20){
+  for(i in 1:10){
+    w[counter] &lt;- i + j
+    counter &lt;- counter + 1
+  }
+}
+
+#### Think through these two loops carefully. 
+#### What is the difference between this loop and the last loop?
+w</code></pre>
+<pre><code>  [1] 12 13 14 15 16 17 18 19 20 21 13 14 15 16 17 18 19 20 21 22 14 15 16
+ [24] 17 18 19 20 21 22 23 15 16 17 18 19 20 21 22 23 24 16 17 18 19 20 21
+ [47] 22 23 24 25 17 18 19 20 21 22 23 24 25 26 18 19 20 21 22 23 24 25 26
+ [70] 27 19 20 21 22 23 24 25 26 27 28 20 21 22 23 24 25 26 27 28 29 21 22
+ [93] 23 24 25 26 27 28 29 30</code></pre>
+<pre class="r"><code>w &lt;- NULL
+counter &lt;- 1
+for(j in 11:20){
+    for(i in 1:10){
+    w[counter] &lt;- i + j
+}
+    counter &lt;- counter + 1
+}
+w</code></pre>
+<pre><code> [1] 21 22 23 24 25 26 27 28 29 30</code></pre>
+<ul>
+<li>An example of a “while” loop</li>
+</ul>
+<pre class="r"><code>w &lt;- 100
+z &lt;- 5
+
+while(w &gt; 20){
+    w.plus.z &lt;- w + z
+    w &lt;- w - 1
+}
+w</code></pre>
+<pre><code>[1] 20</code></pre>
+<pre class="r"><code>### Make sure that your loop can be &quot;closed.&quot;
+### The following loop willrun forever. DON&#39;T actually run it!!!!!
+#w &lt;- 100
+#z &lt;- 5
+#while(w &gt; 20){
+#   w.plus.z &lt;- w + z
+#   w &lt;- w + 1
+#}</code></pre>
+<ul>
+<li>If we have time, let????Ts talk about indices and the which() function</li>
+</ul>
+<pre class="r"><code> x &lt;- rnorm(100)
+ x[1:10]</code></pre>
+<pre><code> [1] -0.12598866 -0.57737289 -0.01820977  0.25602522  1.12858682
+ [6] -0.78476041 -1.97086153 -0.41316941 -0.57988410 -1.08813897</code></pre>
+<pre class="r"><code> x[20:30]</code></pre>
+<pre><code> [1] -0.290170121 -0.229558952  0.827089347 -0.444364456  0.212571808
+ [6]  1.568327048 -0.005478409 -0.771890959 -0.583246151  1.044368800
+[11]  0.434598790</code></pre>
+<pre class="r"><code> index &lt;- which(x &lt; 0)
+ x[index]</code></pre>
+<pre><code> [1] -0.125988658 -0.577372888 -0.018209774 -0.784760412 -1.970861530
+ [6] -0.413169410 -0.579884096 -1.088138969 -0.131820049 -0.401212936
+[11] -0.290170121 -0.229558952 -0.444364456 -0.005478409 -0.771890959
+[16] -0.583246151 -1.567065917 -0.154372301 -0.942540670 -2.158801543
+[21] -0.458669909 -2.022700418 -1.287869976 -0.151628695 -0.259360191
+[26] -0.343993517 -1.760983261 -0.141146481 -1.256357749 -0.619715345
+[31] -0.163804062 -0.678671207 -1.530963569 -0.294261219 -1.156795738
+[36] -0.587257505 -1.686297423 -0.110220171 -1.144582785 -0.163459293
+[41] -0.534648250 -0.304997265 -0.124441464 -0.258255942 -1.043690940
+[46] -0.471939112 -0.890771589</code></pre>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.1 (2018-07-02)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS High Sierra 10.13.6
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+ [1] workflowr_1.1.1   Rcpp_0.12.19      digest_0.6.18    
+ [4] rprojroot_1.3-2   R.methodsS3_1.7.1 backports_1.1.2  
+ [7] magrittr_1.5      git2r_0.23.0      evaluate_0.12    
+[10] stringi_1.2.4     whisker_0.3-2     R.oo_1.22.0      
+[13] R.utils_2.7.0     rmarkdown_1.10    tools_3.5.1      
+[16] stringr_1.3.1     yaml_2.2.0        compiler_3.5.1   
+[19] htmltools_0.3.6   knitr_1.20       </code></pre>
+</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

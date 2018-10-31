@@ -1,0 +1,414 @@
+---
+title: "week3"
+author: "Shengtong"
+date: "October 23, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## review 
+
+* Review about functions (nesting)
+```{r, echo=T}
+myFirstFun <- function(n) {
+  return(n*n)
+}
+mySecFun <- function(v) {
+  u <- myFirstFun(v)
+  return(u)
+}
+v <- c(1,2,3,4,5)
+mySecFun(v)
+```
+
+#####################################################
+*  Loops in R
+######################################################
+
+ Rule of thumb: if you need to replicate something > 3 times
+ a loop is faster, more compact, more readable, more maintainable,
+ and saves you some typing!
+
+### Example 1
+
+*  This "initializes" the object "w" so that R knows what w "stands for."
+```{r, echo=T}
+w <- NULL
+#### This is called a "for" loop
+for(i in 1:10){
+  w[i] <- i+10
+}
+
+for(i in 1:10){
+  v[i] <- i+10
+}
+```
+*  What do you think w looks like?
+```{r, echo=T}
+w <- NULL
+for(hello in 1:10){
+  w[hello] <- hello
+}
+w
+```
+ Now what does w look like?
+
+### Example 2:
+
+*  You can embed loops as well.
+```{r, echo=T}
+w <- NULL
+counter <- 1
+for(j in 11:20){
+  for(i in 1:10){
+    cat("i=", i, "and j=", j, "\n")
+    w[counter] <- i + j
+    counter <- counter + 1
+  }
+}
+```
+
+*  Think through these two loops carefully.  What is the difference between this loop and the next loop?
+
+```{r, echo=T}
+w <- NULL
+counter <- 1
+for(j in 11:20){
+  for(i in 1:10){
+    w[counter] <- i + j
+  }
+  counter <- counter + 1
+}
+w
+```
+
+*  It is usually a better idea to pre-allocate a variable of the appropriate size. R has to reallocate memory at each iteration
+```{r, echo=T}
+w <- rep(NA, length(1:10))
+for(i in 1:10){
+  w[i] <- i+10
+}
+w
+```
+
+
+```{r, echo=T}
+system.time({
+  w <- c()
+  for(i in 1:10^6)
+    w[i] <- i+10
+  }
+)
+
+system.time({
+  w <- rep(NA, 10^6)
+  for(i in 1:10^6)
+    w[i] <- i+10
+  }
+)
+
+```
+
+## In class example: 
+
+* Construct a 10 x 10 multiplication table  using a nested loop.
+
+```{r, echo=T}
+my_mat <- matrix(NA, nrow=10, ncol=10)
+for(rows in 1:10) {
+  for(cols in 1:10) {
+    my_mat[rows, cols] <- rows * cols
+  }
+}
+my_mat
+```
+
+## Example 3: 
+
+ while loop: Based on onset and verification of a logical 
+ ;condition that is tested at beginning or end of the loop
+ ;Make sure the terminiation is explicitly set by testing a condition!
+
+*  An example of a "while" loop
+
+```{r, echo=T}
+w <- 100
+z <- 5
+while(w > 20){
+  print(w)
+  w.plus.z <- w + z
+  w <- w - 1
+}
+```
+
+*  Make sure that your loop can be "closed." The following loop will run forever. DON'T actually run it!!!!!
+
+```{r, echo=T, eval=F}
+w <- 100
+z <- 5
+while(w > 20){
+w.plus.z <- w + z
+w <- w + 1
+}
+
+```
+
+## Example 4:
+
+*  using break or next
+```{r, echo=T}
+m=20
+for(k in 1:m) {
+  if(!k %% 2)
+    next
+  print(k)
+}
+```
+
+```{r, echo=T}
+set.seed(12345) ## Set seed for random number generator
+m <- rnorm(10)
+for(i in 1:length(m)) {
+  if(m[i] < 0)
+    break
+  print(m[i])
+}
+```
+
+## In class example: 
+
+Construct a lower triangular matrix with a  10 x 10 multiplication table using a nested loop.
+
+```{r, echo=T}
+my_mat <- matrix(NA, nrow=10, ncol=10)
+for(rows in 1:10) {
+  for(cols in 1:10) {
+    if(rows >= cols) next
+    my_mat[rows, cols] <- rows * cols
+  }
+}
+my_mat
+my_mat[1,3]
+```
+
+
+* There is also the replicate function for repeated evaulation of the same thing:
+```{r, echo=T}
+m <- 10
+n <- 5
+mymat <- replicate(m, rnorm(n))
+```
+
+*  This is equivalent!
+```{r, echo=T}
+mymat <- matrix(NA, nrow=5, ncol=10)
+for(i in 1:ncol(mymat)) {
+  mymat[,i] <- rnorm(5)
+}
+```
+
+* This is also equivalent!
+```{r, echo=T}
+mymat <- matrix(NA, nrow=5, ncol=10)
+for(cols in 1:ncol(mymat)) {
+  for(rows in 1:nrow(mymat)) {
+    mymat[rows,cols] <- rnorm(1)
+  }
+}
+```
+
+* Checking on vector interpretaition of matrices
+```{r, echo=T}
+my_mat <- matrix(1:20, nrow=4, ncol=5)
+for(rows in 1:4) {
+    my_mat[rows, ] <- rnorm(5)
+}
+
+my_mat <- matrix(1:20, nrow=4, ncol=5)
+for(rows in 1:4) {
+  my_mat[rows] <- rnorm(5)
+}
+
+
+for(index in 1:20) {
+  my_mat[index] <- my_mat[index] * 10
+}
+```
+
+
+## Example 5:
+
+###  Vectorization
+
+In R, everything is a vector! Many loop constructs can be made 
+ implicit by using vectorization 
+
+*  Consider this:
+
+```{r, echo=T}
+v1 <- runif(10)
+v2 <- runif(10)
+v3 <- c()
+for (i in 1:10) {
+  v3[i] <-v1[i] + v2[i]
+}
+v3
+## versus this:
+v3 = v1 + v2
+v3
+```
+
+*  Consider this
+
+```{r, echo=T}
+A <- matrix(1:20, nrow=5, ncol=4)
+B <- matrix(21:40, nrow=5, ncol=4)
+matsum <- matrix(0, nrow=5, ncol=4)
+for(i in 1:5) {
+  for(j in 1:4) {
+    matsum[i,j] <- A[i,j] + B[i,j]
+  }
+}
+matsum
+## versus this:
+matsum <- A + B
+matsum
+```
+
+ Why is vectorization faster? R is an interpreted language!
+
+ Let's consider an example where we had some artificial "signal" to
+ random noise
+
+*  This is a bad loop with 'growing' data
+```{r, echo=T}
+set.seed(42)
+m <- 10
+n <- 10
+# Create matrix of normal random numbers
+mymat <- replicate(m, rnorm(n))
+# Transform into data frame
+mydframe <- data.frame(mymat)
+for (i in 1:m) {
+  for (j in 1:n) {
+    mydframe[i,j]<-mydframe[i,j] + 10*sin(0.75*pi)
+  }
+}
+# 
+```
+
+```{r, echo=T, eval=F}
+# ## Here is the vectorized form:
+mydframe_vec <- data.frame(mymat)
+mydframe_vec <- mydframe_vec + 10*sin(0.75*pi)
+mydframe_vec
+```
+
+```{r, echo=T, eval=F}
+## What happens when you add a matrix and a vector?
+m <- matrix(1:20, nrow=4, ncol=5)
+v <- c(1,10,100,1000,10000)
+m + v # v is treated as a matrix 
+```
+
+## In class example  
+
+ Quantify the execution time for the loop and vectorized
+ versions of the above example using system.time.
+ Try varying m and n (m=n=10, 100, 1000). 
+
+
+
+* This is a bad loop with 'growing' data
+```{r, echo=T, eval=F}
+time_check <- function(m,n) {
+  set.seed(42)
+  # Create matrix of normal random numbers
+  mymat <- replicate(m, rnorm(n))
+  # Transform into data frame
+  mydframe <- data.frame(mymat)
+  time_1 <- system.time({
+    for (i in 1:m) {
+      for (j in 1:n) {
+        mydframe[i,j]<-mydframe[i,j] + 10*sin(0.75*pi)
+      }
+    }
+  })
+  time_2 <- system.time({
+    mydframe_vec <- mydframe + 10*sin(0.75*pi)
+  })
+  return(list(loop = time_1, vectorized=time_2))
+}
+
+time_check(10,10)
+time_check(100,100)
+time_check(1000,1000)
+```
+
+
+## In class example  (from the Euler Project)
+
+If we list all the natural numbers below 10 that are multiples  of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23. Find the sum of all the multiples of 3 or 5 below 1000.
+
+* First write this in a loop.
+* Second, write this in vectorized form.
+
+* Loop
+```{r, echo=T, eval=F}
+keep <- c()
+counter <- 1
+while(counter < 1000) {
+  if(counter %% 3 & counter %% 5) {
+    counter <- counter + 1
+  } else {
+    keep <- c(keep, counter)
+    counter <- counter + 1
+  }
+}
+sum(keep)
+```
+
+
+## Time permitting, Chapter 7: Logic and control
+
+*  Simple logical operators
+```{r, echo=T, eval=F}
+a = TRUE
+ b = FALSE
+# 
+ a & b
+ a | b
+ !a & b
+ !a | !b
+```
+
+
+*  Other operators that evaluate to TRUE or FALSE
+```{r, echo=T}
+ x <- 10
+ x < 20
+# 
+ x <- 1:10
+ x < 5
+ x == 6
+# 
+ #### if-else conditions
+ x <- 5
+ ifelse(x==4, 1, 0)
+ 
+ x <- 1:10
+ ifelse(x<=4, 1, 0)
+# 
+ y <- NULL
+ x <- seq(0.1, 1, by=0.1)
+ for(i in 1:10){
+ 	if(x[i] < 0.5){
+ 		y[i] <- x[i]^2	
+ 	}else{
+ 		y[i] <- sqrt(x[i])}
+ }
+#}
+ ```

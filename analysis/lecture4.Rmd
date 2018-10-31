@@ -1,0 +1,338 @@
+---
+title: "lecture4"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, echo=T, eval=F}
+
+########################################################
+#### Read Chapters 3 and 5: http://r4ds.had.co.nz/transform.html
+####
+#### We will go over HW2 and talk through each problem.
+####
+### Any questions from last week? {Loops, vectorization in R}
+######################################################
+
+## First some review about vectorization
+
+#----------------------------------------------------------------
+#### In class example  (from the Euler Project)
+#### If we list all the natural numbers below 10 that are multiples 
+#### of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
+#### Find the sum of all the multiples of 3 or 5 below 1000.
+####
+#### First write this in a loop.
+#### Second, write this in vectorized form.
+#----------------------------------------------------------------
+
+## Loop form
+natural_numbers <- 1:1000
+sum_value <- 0
+for(i in 1:length(natural_numbers)) {
+  ## Is natural numbers divisible by 3?
+  ## Is natural numbers divisible by 5?
+  if(!natural_numbers[i] %% 3 | !natural_numbers[i] %% 5) {
+    print(natural_numbers[i])
+    sum_value <- sum_value + natural_numbers[i]
+  }
+}
+
+## Vectorized form
+new_vector <- sum(ifelse(!natural_numbers %% 3 | !natural_numbers %% 5,
+                     natural_numbers, 0))
+
+new_indices <- ifelse(!natural_numbers %% 3 | !natural_numbers %% 5,
+       TRUE, FALSE)
+natural_numbers[which(new_indices == TRUE)]
+
+##########################################################
+#### Chapter 7: Logic and control
+##########################################################
+
+# #### Simple logical operators
+a = TRUE
+b = FALSE
+
+a & b
+a | b
+!(a & b)
+!a | !b
+
+# #### Other operators that evaluate to TRUE or FALSE
+
+x <- 10
+x < 20
+
+x <- 1:10
+x < 5
+x == 6
+
+# #### if-else conditions
+x <- 5
+ifelse(x==4, 1, 0)
+
+x <- 1:10
+ifelse(x<=4, 1, 0)
+
+y <- NULL
+x <- seq(0.1, 1, by=0.1)
+for(i in 1:10){
+	if(x[i] < 0.5){
+		y[i] <- x[i]^2
+	}else{
+		y[i] <- sqrt(x[i])}
+}
+
+# What does this evaluate to, and why?
+(TRUE + TRUE) * FALSE
+
+##########################################################
+#### Installing packages in R
+##########################################################
+
+## Package = fundamental unit of shareable code
+## Bundles together code, data, documentation, tests, and is easy to share with others
+
+## 3 main repositories for packages in R:
+## CRAN: https://www.r-project.org/
+## Bioconductor: http://bioconductor.org/ (packages oriented towards analysis of biological data)
+## GitHub: at indivdual user's accounts, for example https://github.com/andreamrau/coseq
+## Also there is now Neuroconductor: https://neuroconductor.org/ for imaging analysis
+
+## There are > 6000 packages at CRAN alone! And growing rapidly!!
+## => Chances are, someone has probably already solved a problem you're working on
+## Make sure to give credit to package developers if you use their work! (citations etc)
+
+## Let's practice installing a couple of packages:
+
+# ## Tidyverse and devtools package from CRAN
+install.packages(c("tidyverse", "devtools"))  ## You only need to do this once per package
+library(tidyverse)
+library(devtools)
+?tidyverse
+
+## edgeR RNA-seq expression analysis package from Bioconductor
+## This is just an example, we won't actually be using edgeR today
+source("http://www.bioconductor.org/biocLite.R")   ## You only need to do this once per package
+biocLite("edgeR")  ## You only need to do this once per package
+library(edgeR)
+vignette("edgeR")
+
+# ## Install a GitHub package (using the devtools package above)
+# ## This is just an example, we won't actually be using HTSFilter today
+install_github("andreamrau/HTSFilter")  ## You only need to do this once per package
+library(HTSFilter)
+
+
+
+##########################################################
+####  Core structures for analysis: data.frames and tibbles
+##########################################################
+
+## First of all: What is the tidyverse? https://www.tidyverse.org/
+##    - A "meta-package" that is an optionated collection of several R packages for data science
+##    - Includes ggplot2 (plotting), dplyr (transformating/summarizing dataframe content), tidyr (tidying dataframes), purr, tibble
+##    - Founded by Hadley Wickham and many others at RStudio
+
+# ## Pipe operator: f(x) can be rewritten as x %>% f
+data(iris)
+head(iris)
+iris %>% head()
+
+mean.sepal <- mean(iris$Sepal.Length)
+mean.sepal <- iris$Sepal.Length %>% mean()
+
+
+x <- c(0.109, 0.359, 0.63, 0.996, 0.515, 0.142, 0.017, 0.829, 0.907)
+round(exp(diff(log(x))), 1)
+x %>% log() %>%
+  diff() %>%
+  exp() %>%
+  round(1)
+
+# ##########################################################
+# ####  dplyr, pipe operator
+# ##########################################################
+# 
+data(starwars)
+#
+## Look at data: what do rows represent? how about columns?
+starwars
+# 
+# ## filter(): filter data frame on row
+filter(starwars, species=="Droid")
+starwars[which(starwars$species=="Droid"),] ## base R equivalent
+starwars %>% filter(species=="Droid")     ## equivalent with a pipe
+starwars %>% filter(., species=="Droid")     ## equivalent with a pipe
+
+
+starwars %>% filter(species=="Droid" & eye_color=="red")
+new_df <- starwars %>% 
+  filter(species=="Droid", eye_color=="red") ## 'and' conditions can be separated with comma
+
+# ## select(): filter data frame on column
+starwars %>% select(mass, homeworld)
+starwars %>% select(-hair_color)   ## We can remove rows using a '-'
+
+starwars %>%
+  filter(species=="Droid") %>%
+  select(name, mass)   ## Filter and select can be combined using a pipe %>%
+
+# ## mutate(): add new column to data frame
+# ## Note: we generally avoid overwriting data in a data frame, better to create a new variable
+starwars %>%
+  mutate(height_in_inches=0.393701 * height) %>%
+  View()
+
+# ## group_by(): establish a grouping for downstream operations, remove with ungroup()
+# ## tally(): count number of observations per grouping
+starwars %>%
+  group_by(species) %>%
+  tally()
+
+# ## summarize(): perform summary statistic on a column. Fun fact: this also exists as summarise()
+starwars %>% summarize(mean_mass = mean(mass, na.rm=TRUE))
+
+starwars %>%
+  group_by(species) %>%
+  summarize(mean_mass = mean(mass, na.rm=TRUE))
+
+# ## arrange(): arrange a column
+
+starwars %>% arrange(desc(mass))
+starwars %>% arrange(mass)
+
+# ## unique, na.omit()
+starwars %>% unique()
+starwars %>% na.omit()
+
+# #-------------------------------------------------------------------------
+# # An in-class example:
+# 
+# 
+# ##########################################################
+# ####  If there's time: a quick start on ggplot2
+# ##########################################################
+# 
+# ## ggplot2: graphics package that implements a Grammar of Graphics (operates on dataframes)
+# ## Explicit differentiation between data and a representation of the data
+# 
+# ## ggplot2 grammar:
+# ## data = dataframe being plotted
+# ## geometrics = the geometric shape that represents the data (point, boxplot, histogram, violin, bar, etc)
+# ## aesthetics = aesthetics of the geometric object (color, size, shape, etc)
+# 
+# ## What are the differences between the ggplot2 and base R versions of this scatterplot?
+ggplot(starwars, aes(x=mass, y=height)) +
+  geom_point()
+plot(starwars$mass, starwars$height) ## base R version
+
+# ## NOTE: did you see that we are using '+' here for ggplot2 and not the pipe '%>%'?
+
+## These are all the same
+ggplot() +
+  geom_point(data=starwars, color="red", 
+             aes(x=mass, y=height))
+
+ggplot() +
+  geom_point(data=starwars, color="red",
+             aes(x=mass, y=height))
+
+ggplot(data=starwars) +
+  geom_point(color="red", aes(x=mass, y=height))
+
+ggplot(starwars, aes(x=mass, y=height)) +
+  geom_point(color="red")
+
+## If we place color inside of the aesthetics, it maps it to the data
+ggplot(starwars, aes(x=mass, y=height, color=gender)) +
+  geom_point()
+
+new_df <- starwars %>% filter(mass < 500)
+ggplot(new_df, 
+       aes(x=mass, y=height, color=gender)) +
+  geom_point()
+
+
+# ## We can change shape aesthetics too
+ggplot(starwars, aes(x=mass, y=height, color=gender, shape=gender)) +
+  geom_point()
+
+# ## Aesthetics can be place inside the relevant geom: the following two are equivalent
+ggplot(starwars, aes(x=mass, y=height, color=gender, shape=gender)) +
+  geom_point()
+ggplot(starwars) +
+  geom_point(aes(x=mass, y=height, color=gender, shape=gender))
+
+# ## Aesthetics are only for mapping:
+ggplot(starwars) +
+  geom_point(aes(x=mass, y=height, color="blue"))  ## This doesn't work
+ggplot(starwars) +
+  geom_point(aes(x=mass, y=height), color="blue")  ## This does work
+
+# ## Can use multiple geoms, combine with dplyr functions
+ggplot(filter(starwars, mass < 500), aes(x=mass, y=height)) +
+  geom_point()  +
+  geom_line()
+
+# ## Other geoms: histograms, boxplots, density plots, violin plots, barplots
+ggplot(starwars) +
+  geom_histogram(aes(x=height), fill="orange", color="brown")
+
+ggplot(starwars) +
+  geom_boxplot(aes(x="", y=log(mass)))
+
+ggplot(starwars) +
+  geom_boxplot(aes(x=gender, y=log(mass), fill=gender))
+
+ggplot(starwars) +
+  geom_violin(aes(x=gender, y=log(mass), fill=gender))
+
+ggplot(starwars) +
+  geom_bar(aes(x=gender, fill=gender))
+
+ggplot(starwars) +
+  geom_density(aes(x=log(mass), fill=gender))
+ggplot(starwars) +
+  geom_density(aes(x=log(mass), fill=gender), alpha=0.9)  ## Can add transparency to object
+
+ggplot(starwars) +
+  geom_density(aes(x=log(mass), 
+      fill=factor(gender, levels=c("hermaphrodite", "none",
+           "NA", "male", "female"))), alpha=0.9)  
+
+
+
+# ## Some additional options
+ggplot(starwars) +
+  geom_histogram(aes(x=height), fill="orange", color="brown") +
+  xlab("Height") +
+  ylab("Count") +
+  ggtitle("Histogram of Star Wars character heights")
+
+g1 <- ggplot(starwars) +
+  geom_histogram(aes(x=height), fill="orange", color="brown") 
+
+# ## Change gray background theme: 
+# ## http://ggplot2.tidyverse.org/reference/ggtheme.html
+# ## https://cran.r-project.org/web/packages/ggthemes/vignettes/ggthemes.html
+ggplot(starwars) +
+  geom_histogram(aes(x=height), fill="orange", color="brown") +
+  xlab("Height") +
+  ylab("Count") +
+  ggtitle("Histogram of Star Wars character heights") +
+  theme_minimal()
+
+
+
+
+## Next time: changing the order of plots, changing colors: scale_FILLCOLOR_brewer, 
+## scale_color_gradient(), geom_smooth, more advanced dplyr
+## http://ggplot2.tidyverse.org/reference/#scales
+
+```
