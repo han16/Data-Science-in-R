@@ -32,7 +32,7 @@ for(i in 1:length(natural_numbers)) {
   ## Is natural numbers divisible by 3?
   ## Is natural numbers divisible by 5?
   if(!natural_numbers[i] %% 3 | !natural_numbers[i] %% 5) {
-    print(natural_numbers[i])
+   # print(natural_numbers[i])
     sum_value <- sum_value + natural_numbers[i]
   }
 }
@@ -233,6 +233,11 @@ starwars %>% arrange(mass)
 # ## unique, na.omit()
 starwars %>% unique()
 starwars %>% na.omit()
+```
+
+## ggplot 
+
+```{r, echo=T}
 
 # #-------------------------------------------------------------------------
 # # An in-class example:
@@ -254,6 +259,11 @@ starwars %>% na.omit()
 ggplot(starwars, aes(x=mass, y=height)) +
   geom_point()
 plot(starwars$mass, starwars$height) ## base R version
+```
+
+
+```{r, echo=T}
+
 
 # ## NOTE: did you see that we are using '+' here for ggplot2 and not the pipe '%>%'?
 
@@ -271,6 +281,9 @@ ggplot(data=starwars) +
 
 ggplot(starwars, aes(x=mass, y=height)) +
   geom_point(color="red")
+```
+
+```{r, echo=T}
 
 ## If we place color inside of the aesthetics, it maps it to the data
 ggplot(starwars, aes(x=mass, y=height, color=gender)) +
