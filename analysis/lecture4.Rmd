@@ -5,32 +5,27 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(devtools)
+library(edgeR)
+
 ```
 
 
-```{r, echo=T, eval=F}
+Read Chapters 3 and 5: http://r4ds.had.co.nz/transform.html
 
-########################################################
-#### Read Chapters 3 and 5: http://r4ds.had.co.nz/transform.html
-####
-#### We will go over HW2 and talk through each problem.
-####
-### Any questions from last week? {Loops, vectorization in R}
-######################################################
 
-## First some review about vectorization
+##  review about vectorization
 
-#----------------------------------------------------------------
-#### In class example  (from the Euler Project)
-#### If we list all the natural numbers below 10 that are multiples 
-#### of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
-#### Find the sum of all the multiples of 3 or 5 below 1000.
-####
-#### First write this in a loop.
-#### Second, write this in vectorized form.
-#----------------------------------------------------------------
+ In class example  (from the Euler Project)
+ If we list all the natural numbers below 10 that are multiples 
+ of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
+ Find the sum of all the multiples of 3 or 5 below 1000.
+ First write this in a loop.
 
-## Loop form
+*  Loop form
+```{r, echo=T}
+
 natural_numbers <- 1:1000
 sum_value <- 0
 for(i in 1:length(natural_numbers)) {
@@ -41,7 +36,10 @@ for(i in 1:length(natural_numbers)) {
     sum_value <- sum_value + natural_numbers[i]
   }
 }
+sum_value
+```
 
+```{r, echo=T}
 ## Vectorized form
 new_vector <- sum(ifelse(!natural_numbers %% 3 | !natural_numbers %% 5,
                      natural_numbers, 0))
@@ -49,6 +47,11 @@ new_vector <- sum(ifelse(!natural_numbers %% 3 | !natural_numbers %% 5,
 new_indices <- ifelse(!natural_numbers %% 3 | !natural_numbers %% 5,
        TRUE, FALSE)
 natural_numbers[which(new_indices == TRUE)]
+```
+
+# Logic and control
+
+```{r, echo=T}
 
 ##########################################################
 #### Chapter 7: Logic and control
@@ -90,6 +93,11 @@ for(i in 1:10){
 
 # What does this evaluate to, and why?
 (TRUE + TRUE) * FALSE
+```
+
+## Install R Packages 
+
+```{r, echo=T, eval=F}
 
 ##########################################################
 #### Installing packages in R
@@ -127,7 +135,9 @@ vignette("edgeR")
 # ## This is just an example, we won't actually be using HTSFilter today
 install_github("andreamrau/HTSFilter")  ## You only need to do this once per package
 library(HTSFilter)
+```
 
+```{r, echo=T}
 
 
 ##########################################################
@@ -139,7 +149,7 @@ library(HTSFilter)
 ##    - Includes ggplot2 (plotting), dplyr (transformating/summarizing dataframe content), tidyr (tidying dataframes), purr, tibble
 ##    - Founded by Hadley Wickham and many others at RStudio
 
-# ## Pipe operator: f(x) can be rewritten as x %>% f
+# ## Pipe operator: f(x) can be rewritten as x %>% f 
 data(iris)
 head(iris)
 iris %>% head()
@@ -154,6 +164,13 @@ x %>% log() %>%
   diff() %>%
   exp() %>%
   round(1)
+```
+
+## dplyr, pipe operator
+
+``````{r, echo=T}
+
+
 
 # ##########################################################
 # ####  dplyr, pipe operator
@@ -174,6 +191,12 @@ starwars %>% filter(., species=="Droid")     ## equivalent with a pipe
 starwars %>% filter(species=="Droid" & eye_color=="red")
 new_df <- starwars %>% 
   filter(species=="Droid", eye_color=="red") ## 'and' conditions can be separated with comma
+
+```
+
+
+```{r, echo=T, eval=F}
+
 
 # ## select(): filter data frame on column
 starwars %>% select(mass, homeworld)
