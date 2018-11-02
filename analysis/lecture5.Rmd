@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-```{r, echo=T, eval=F}
+```{r, echo=T}
 
 ########################################################
 #### Read Chapter 12: http://r4ds.had.co.nz/transform.html
@@ -19,9 +19,15 @@ knitr::opts_chunk$set(echo = TRUE)
 #### Any questions from last week? 
 #### {Boolean logic, start of tidyverse, pipes, package install}
 ######################################################
+```
+
 
 ## First some review about the tidyverse:
 
+* dplyr
+
+```{r, echo=T}
+library(tidyverse)  # first load the package
 ## dplyr
 ## => filter, select, mutate, group_by, tally, summarize, arrange, unique, na.omit
 data(iris)
@@ -36,7 +42,12 @@ iris %>%
 
 iris %>% arrange(Sepal.Length, Sepal.Width)
 iris %>% arrange(desc(Sepal.Length))
+```
 
+
+* ggplot2
+
+```{r, echo=T}
 
 ## ggplot2
 ## => data + geom + aesthetics
@@ -62,6 +73,9 @@ filter <- dplyr::filter
 ##   <COORDINATE_FUNCTION> +
 ##   <FACET_FUNCTION>
 
+```
+
+```{r, echo=T}
 #=============================================================
 ## ggplot2: Statistical transformations
 #=============================================================
@@ -73,13 +87,24 @@ data(diamonds)
 ## Histograms, barplots, frequency polygons, smoothers, boxplots, ...
 ggplot(diamonds) +
   geom_bar(aes(x = cut))
+```
+
+```{r, echo=T}
 
 ggplot(diamonds) +
   stat_count(aes(x = cut))
 
+```
+
+```{r, echo=T}
+
 ## We can override default stat for a given geom
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, y = ..prop.., group = 1))
+
+```
+
+```{r, echo=T}
 
 ## What happens if we don't set group = 1 above?
 ## What is wrong with the following two graphs?
@@ -89,6 +114,9 @@ ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, fill = color, y = ..prop..))
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, y = ..prop..))
+```
+
+```{r, echo=T}
 
 ## We can even explicitly use stat_## instead of the geom
 ## By default, each stat is associated with a geom and vice versa
@@ -105,6 +133,9 @@ ggplot(data = diamonds) +
     fun.y = median
   )
 
+```
+
+```{r, echo=T}
 ## Stacked versus side-by-side barplots
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, fill = clarity))
@@ -112,6 +143,10 @@ ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, fill = clarity), position="fill")
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, fill = clarity), position="dodge")
+```
+
+```{r, echo=T}
+
 
 ## geom_smooth: What variables does stat_smooth compute? 
 ## What parameters control its behavior?
@@ -126,6 +161,11 @@ ggplot(diamonds, aes(x=carat, y=price, color=cut)) +
 
   # ?geom_smooth
 
+```
+
+* other tricks
+
+```{r, echo=T}
 #=============================================================
 ## ggplot2: Some other tricks
 #=============================================================
@@ -143,6 +183,9 @@ ggplot(data = mpg) +
   geom_count(mapping = aes(x = displ, y = hwy))
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy), alpha=0.25)
+```
+
+```{r, echo=T}
 
 ## Facets: smaller plots that display a subset of the data
 ## Useful for exploring conditional relationships and large data
@@ -150,18 +193,26 @@ ggplot(data = mpg) +
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_grid(~trans)
+```
 
+
+```{r, echo=T}
 ## What is the difference between facet_wrap and facet_grid?
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_wrap(~trans)
+```
+
+```{r, echo=T}
 
 ## What happens if you facet on a continuous variable?
 
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_wrap(~cty)
+```
 
+```{r, echo=T}
 
 ## coordinates in ggplot: can flip axes with coord_flip
 ggplot(data = mpg) +
@@ -169,7 +220,9 @@ ggplot(data = mpg) +
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   coord_flip()
+```
 
+```{r, echo=T}
 ## Saving figures: ggsave
 g <- ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
@@ -177,11 +230,22 @@ g <- ggplot(data = mpg) +
 ggsave(g, filename="first_ggplot.pdf")
 ggsave(filename="first_ggplot.pdf")  ## Save last plot
 
+```
+
+```{r, echo=T}
 ## Combining ggplot2 figures
 # install.packages("cowplot")  ## Only do this once!
 library(cowplot)
 plot_grid(g, g, labels=c("A","B"))
 
+
+```
+
+
+## In class
+
+
+```{r, echo=T}
 #-------------------------------------------------------------
 ## In class: 
 ## Reproduce plots from example1_ggplot2.pdf, example2_ggplot2.pdf
@@ -206,6 +270,9 @@ class(colors)
 # alphabetically to the integer: b = 1, g = 2, r = 3.
 colors <- factor(colors, levels = c("red","blue", "green"))
 print(colors)
+```
+
+```{r, echo=T}
 
 data(airquality)
 airquality$Month <- factor(airquality$Month)
@@ -214,25 +281,37 @@ ggplot(airquality, aes(Month, Temp)) +
   geom_boxplot(aes(fill = Month)) +
   ggtitle(label = "Daily Temperatures Aggregated by Month")
 
+```
+
+```{r, echo=T}
+
 # ## Renaming factor levels: fct_recode
 airquality$Month <- fct_recode(airquality$Month,
                                May='5', June='6', July='7', Aug='8', Sept='9')
 ggplot(airquality, aes(Month, Temp)) +
   geom_boxplot(aes(fill = Month)) +
   ggtitle(label = "Daily Temperatures Aggregated by Month")
+```
 
+
+```{r, echo=T}
 # ## Reverse factor order: fct_reverse
 ggplot(airquality, aes(fct_rev(Month), Temp)) +
   geom_boxplot(aes(fill = Month)) +
   labs(x = "Month") +
   ggtitle(label = "Our plot now has the x-axis in reverse order")
+```
 
+```{r, echo=T}
 # ## Factor relevel
 airquality$Month <- fct_relevel(airquality$Month, 'Sept', 'July', 'May', 'Aug', 'June')
 levels(airquality$Month)
 ggplot(airquality, aes(Month, Temp)) +
   geom_boxplot(aes(fill = Month)) +
   ggtitle(label = "Notice how the order of the level 'Month' has changed")
+```
+
+```{r, echo=T, eval=F}
 
 # ## And we can also order factors according to another variable
 data(mtcars)
@@ -246,7 +325,9 @@ ggplot(mtcars, aes(mpg, fct_reorder(f = model, x = mpg))) +
   labs(y = "model") +
   ggtitle(label = "Better comparison by reordering levels based on mpg values!") +
   theme(plot.title = element_text(size = 10, face = 'bold'))
+```
 
+```{r, echo=F, eval=F}
 ## !!! This is where we stopped for the day!
 
 #-------------------------------------------------------------
