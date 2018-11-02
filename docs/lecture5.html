@@ -323,7 +323,7 @@ div.section {
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
-<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </details>
 </li>
 <li>
@@ -342,32 +342,477 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/d491653b36681a42e542605c72e2c4e7171b4927" target="_blank">d491653</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/ea9da3291afb9765e57df115257b1e866a769897" target="_blank">ea9da32</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
-Untracked files:
-    Untracked:  analysis/lecture5.Rmd
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.Rapp.history
+    Ignored:    analysis/.Rhistory
+
+Unstaged changes:
+    Modified:   analysis/lecture5.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
 </li>
 </ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/1f8454e4288bbd4a8fb07dad9930cd68ef4f5c0d/analysis/lecture5.Rmd" target="_blank">1f8454e</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-02
+</td>
+<td style="text-align:left;">
+Nov22018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/han16/Data-Science-in-R/1f8454e4288bbd4a8fb07dad9930cd68ef4f5c0d/docs/lecture5.html" target="_blank">1f8454e</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-02
+</td>
+<td style="text-align:left;">
+Nov22018
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
 <hr />
+<pre class="r"><code>########################################################
+#### Read Chapter 12: http://r4ds.had.co.nz/transform.html
+#### Read http://stat545.com/block015_graph-dos-donts.html
+####
+#### We will go over HW3 and talk through each problem.
+####
+#### Any questions from last week? 
+#### {Boolean logic, start of tidyverse, pipes, package install}
+######################################################
+
+## First some review about the tidyverse:
+
+## dplyr
+## =&gt; filter, select, mutate, group_by, tally, summarize, arrange, unique, na.omit
+data(iris)
+iris %&gt;% select(Sepal.Length) %&gt;% unlist() %&gt;% mean()
+mean(iris$Sepal.Length)
+iris %&gt;% summarize(mean.SL = mean(Sepal.Length))
+## Mean Sepal.Length per species
+iris %&gt;% 
+  group_by(Species) %&gt;% 
+  summarize(mean(Sepal.Length),
+            median.SL = median(Sepal.Length))
+
+iris %&gt;% arrange(Sepal.Length, Sepal.Width)
+iris %&gt;% arrange(desc(Sepal.Length))
+
+
+## ggplot2
+## =&gt; data + geom + aesthetics
+## geom_point, geom_histogram, geom_line, geom_boxplot, geom_violin
+
+## Name conflicts in package functions (e.g. filter and lag in tidyverse)
+?filter
+dplyr::filter
+stats::filter
+my_filter &lt;- dplyr::filter
+filter &lt;- dplyr::filter
+
+#=============================================================
+## Back to ggplot2!
+#=============================================================
+
+## ggplot(data = &lt;DATA&gt;) +
+##   &lt;GEOM_FUNCTION&gt;(
+##     mapping = aes(&lt;MAPPINGS&gt;),
+##     stat = &lt;STAT&gt;,
+##     position = &lt;POSITION&gt;
+##   ) +
+##   &lt;COORDINATE_FUNCTION&gt; +
+##   &lt;FACET_FUNCTION&gt;
+
+#=============================================================
+## ggplot2: Statistical transformations
+#=============================================================
+
+library(tidyverse)
+data(diamonds)
+
+## What is plotted here? Where does count come from?
+## Histograms, barplots, frequency polygons, smoothers, boxplots, ...
+ggplot(diamonds) +
+  geom_bar(aes(x = cut))
+
+ggplot(diamonds) +
+  stat_count(aes(x = cut))
+
+## We can override default stat for a given geom
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, y = ..prop.., group = 1))
+
+## What happens if we don&#39;t set group = 1 above?
+## What is wrong with the following two graphs?
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, y = ..prop..))
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = color, y = ..prop..))
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, y = ..prop..))
+
+## We can even explicitly use stat_## instead of the geom
+## By default, each stat is associated with a geom and vice versa
+ggplot(data = diamonds) +
+  stat_count(mapping = aes(x = cut))
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut))
+
+ggplot(data = diamonds) +
+  stat_summary(
+    mapping = aes(x = cut, y = depth),
+    fun.ymin = min,
+    fun.ymax = max,
+    fun.y = median
+  )
+
+## Stacked versus side-by-side barplots
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = clarity))
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = clarity), position=&quot;fill&quot;)
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = clarity), position=&quot;dodge&quot;)
+
+## geom_smooth: What variables does stat_smooth compute? 
+## What parameters control its behavior?
+
+ggplot(diamonds, aes(x=carat, y=price, color=cut)) +
+  geom_point() +
+  geom_smooth(aes(fill=cut), alpha=0.5)
+
+ggplot(diamonds, aes(x=carat, y=price, color=cut)) +
+  geom_point() +
+  geom_smooth(aes(fill=cut), alpha=0.5, method=&quot;lm&quot;)
+
+  # ?geom_smooth
+
+#=============================================================
+## ggplot2: Some other tricks
+#=============================================================
+
+## What to do about overplotting?
+## Look at the parameters to control the amount of jittering
+data(mpg)
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy))
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy), position = &quot;jitter&quot;)
+ggplot(data = mpg) +
+  geom_jitter(mapping = aes(x = displ, y = hwy))
+ggplot(data = mpg) +
+  geom_count(mapping = aes(x = displ, y = hwy))
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy), alpha=0.25)
+
+## Facets: smaller plots that display a subset of the data
+## Useful for exploring conditional relationships and large data
+## facet_wrap
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(~trans)
+
+## What is the difference between facet_wrap and facet_grid?
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_wrap(~trans)
+
+## What happens if you facet on a continuous variable?
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_wrap(~cty)
+
+
+## coordinates in ggplot: can flip axes with coord_flip
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy))
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  coord_flip()
+
+## Saving figures: ggsave
+g &lt;- ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  coord_flip()
+ggsave(g, filename=&quot;first_ggplot.pdf&quot;)
+ggsave(filename=&quot;first_ggplot.pdf&quot;)  ## Save last plot
+
+## Combining ggplot2 figures
+# install.packages(&quot;cowplot&quot;)  ## Only do this once!
+library(cowplot)
+plot_grid(g, g, labels=c(&quot;A&quot;,&quot;B&quot;))
+
+#-------------------------------------------------------------
+## In class: 
+## Reproduce plots from example1_ggplot2.pdf, example2_ggplot2.pdf
+#-------------------------------------------------------------
+
+
+#=============================================================
+## ggplot2 + forcats: Factors and group ordering
+#=============================================================
+
+## Working with factors and group order in ggplot: forcats
+# install.packages(&quot;forcats&quot;)  ## not explicitly part of the tidyverse
+library(forcats)
+
+colors &lt;- c(&quot;red&quot;,&quot;blue&quot;,&quot;green&quot;,&quot;green&quot;,&quot;red&quot;,&quot;blue&quot;,&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;)
+class(colors)
+colors &lt;- factor(colors)
+print(colors)
+class(colors)
+# Each color is a level, and underlying each level is an integer associated with that
+# level; red = 3, green = 2, blue = 1. The order of the levels is assigned
+# alphabetically to the integer: b = 1, g = 2, r = 3.
+colors &lt;- factor(colors, levels = c(&quot;red&quot;,&quot;blue&quot;, &quot;green&quot;))
+print(colors)
+
+data(airquality)
+airquality$Month &lt;- factor(airquality$Month)
+levels(airquality$Month)
+ggplot(airquality, aes(Month, Temp)) +
+  geom_boxplot(aes(fill = Month)) +
+  ggtitle(label = &quot;Daily Temperatures Aggregated by Month&quot;)
+
+# ## Renaming factor levels: fct_recode
+airquality$Month &lt;- fct_recode(airquality$Month,
+                               May=&#39;5&#39;, June=&#39;6&#39;, July=&#39;7&#39;, Aug=&#39;8&#39;, Sept=&#39;9&#39;)
+ggplot(airquality, aes(Month, Temp)) +
+  geom_boxplot(aes(fill = Month)) +
+  ggtitle(label = &quot;Daily Temperatures Aggregated by Month&quot;)
+
+# ## Reverse factor order: fct_reverse
+ggplot(airquality, aes(fct_rev(Month), Temp)) +
+  geom_boxplot(aes(fill = Month)) +
+  labs(x = &quot;Month&quot;) +
+  ggtitle(label = &quot;Our plot now has the x-axis in reverse order&quot;)
+
+# ## Factor relevel
+airquality$Month &lt;- fct_relevel(airquality$Month, &#39;Sept&#39;, &#39;July&#39;, &#39;May&#39;, &#39;Aug&#39;, &#39;June&#39;)
+levels(airquality$Month)
+ggplot(airquality, aes(Month, Temp)) +
+  geom_boxplot(aes(fill = Month)) +
+  ggtitle(label = &quot;Notice how the order of the level &#39;Month&#39; has changed&quot;)
+
+# ## And we can also order factors according to another variable
+data(mtcars)
+mtcars$model &lt;- factor(row.names(mtcars))
+class(mtcars$model)
+ggplot(mtcars, aes(mpg, model)) +
+  geom_point() +
+  ggtitle(label = &quot;MPG vs. Car Model&quot;)
+ggplot(mtcars, aes(mpg, fct_reorder(f = model, x = mpg))) +
+  geom_point() +
+  labs(y = &quot;model&quot;) +
+  ggtitle(label = &quot;Better comparison by reordering levels based on mpg values!&quot;) +
+  theme(plot.title = element_text(size = 10, face = &#39;bold&#39;))
+
+## !!! This is where we stopped for the day!
+
+#-------------------------------------------------------------
+## In class:
+## Let&#39;s try to fix that starwars density plot from last time
+## Plot gender in the following order (front to back):
+## female, male, hermaphrodite, none, NA 
+## Hint: use addNA()
+#-------------------------------------------------------------
+# data(starwars)
+# ggplot(starwars) +
+#   geom_density(aes(x=log(mass), fill=gender), alpha=0.8)
+
+
+#=============================================================
+## ggplot2: Color schemes
+#=============================================================
+
+# colors()
+## http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
+
+# ## Color choices in R: great palette selections from RColorBrewer 
+# ## Note: works in ggplot as well as base R
+# install.packages(&quot;RColorBrewer&quot;)  ## Only have to do this once
+# library(RColorBrewer)
+# display.brewer.all()
+# 
+# ## 3 classes of colors: sequential, qualitative, diverging
+# ## When would each type of color class be appropriate?
+# 
+# ## Another great color palette: viridis
+# ## Designed to be perfectly perceptually-uniform, both in color and black-and-white
+# ## Also designed to be perceived by people with the most common form of color blindness
+# install.packages(&quot;viridis&quot;)  ## Only have to do this once
+# library(viridis)
+# vignette(&quot;intro-to-viridis&quot;)
+# 
+# ## Using color palettes with ggplot:
+# ## Think about what you&#39;re trying to color (discrete vs continuous) and why!
+# ## Color schemes: scale_color_brewer(), scale_fill_brewer(), scale_color_gradient(), ...
+# 
+# ggplot(data = mpg) + 
+#   geom_point(mapping = aes(x = displ, y = hwy, color=hwy)) +
+#   scale_color_viridis()
+# 
+# ## Why does this throw an error?
+# ggplot(data = mpg) + 
+#   geom_point(mapping = aes(x = displ, y = hwy, color=drv)) +
+#   scale_color_viridis()
+# 
+# ggplot(data = mpg) + 
+#   geom_point(mapping = aes(x = displ, y = hwy, color=drv)) +
+#   scale_color_brewer(palette = &quot;Accent&quot;) +
+#   theme_bw()
+# 
+# ggplot(data = mpg) + 
+#   geom_point(mapping = aes(x = displ, y = hwy, color=drv)) +
+#   scale_color_viridis(discrete=TRUE) +
+#   theme_bw()
+# 
+# ggplot(data = mpg) + 
+#   geom_point(mapping = aes(x = displ, y = hwy, color=hwy)) +
+#   scale_color_gradient() +
+#   theme_bw()
+# 
+# ## Choosing colors by hand
+# 
+# ## Ewww, this plot looks terrible, don&#39;t do red and green together!
+# ggplot(data = mpg) + 
+#   geom_point(mapping = aes(x = displ, y = hwy, color=hwy)) +
+#   scale_color_gradient(low=&quot;green&quot;, high=&quot;red&quot;) +
+#   theme_bw()
+# 
+# ggplot(data = mpg) + 
+#   geom_point(mapping = aes(x = displ, y = hwy, color=drv)) +
+#   scale_color_manual(values=c(&quot;darkblue&quot;, &quot;seagreen1&quot;, &quot;deeppink2&quot;)) +
+#   theme_bw()
+# 
+
+#=============================================================
+## Some final dplyr things
+#=============================================================
+
+## dplyr: between() is a replacement for x &gt;= left &amp; x &lt;= right,
+# x &lt;- rnorm(1e2)
+# x[between(x, -1, 1)]
+# 
+# diamonds %&gt;% filter(between(depth, 60, 61))
+# 
+# ## Other select verbs: starts_with, ends_with, contains, everything, rename, ...
+# 
+# starwars %&gt;% select(ends_with(&quot;color&quot;))
+# starwars %&gt;% select(contains(&quot;_&quot;))
+# starwars %&gt;% select(everything())
+# starwars %&gt;% select(gender, everything())
+# starwars %&gt;% rename(Name = name)
+# 
+# ## Multiple groupings 
+# grp &lt;- diamonds %&gt;% group_by(cut, color)
+# summarize(grp, avg_price = mean(price),
+#           median_carat = median(carat),
+#           count = n())
+# 
+# ## And we can ungroup
+# grp %&gt;% 
+#   ungroup() %&gt;%
+#   summarize(n())
+
+#-------------------------------------------------------------
+## Let&#39;s play with the gapminder data for the rest of class
+#-------------------------------------------------------------
+# install.packages(&quot;gapminder&quot;)  ## Only have to do this one time
+# library(gapminder)
+# my_gap &lt;- data(gapminder)
+
+
+# Answer the following questions:
+# - How many observations are there in the data? How many observations per continent? How
+# many observations are there per country within each continent? How many variables?
+# What data type is each variable?
+# - Calculate the average life expectancy per continent. Now calculate the median life
+# expectancy per continent in 1952 and 2007.
+# - Make a simple scatterplot of GDP per capita versus life expectancy for 2007, where the
+# size of the points reflects the size of the population.
+# - Now make the plot as ugly and uninformative as possible -- think bad color choices,
+# truncated axes, overlapping points, ...
+# - Now let&#39;s make it as informative as possible -- think x-axis on log10 scale, informative
+# color/shape, etc....
+# - Taking your nice looking plot, facet by continent. Using the country_colors object in
+# gapminder, color the points by country.
+# - Explore some other plots! Don&#39;t hesitate to use filter or select to focus on a subset.
+#
+# - Identify the countries with worst and best life expectancy in Asia for each year. 
+# Hint: use min_rank().
+# - Identify which country had the sharpest 5-year drop in life expectancy in each continent.
+# Hint: use lag() in a mutate() to create a new variable representing the lag.
+
+  
+#=============================================================
+## Next time: data types, tidy data &amp; data wrangling, reading/writing output files
+#=============================================================</code></pre>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 3.5.1 (2018-07-02)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 17134)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS High Sierra 10.13.6
 
 Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
 
 locale:
-[1] LC_COLLATE=English_United States.1252 
-[2] LC_CTYPE=English_United States.1252   
-[3] LC_MONETARY=English_United States.1252
-[4] LC_NUMERIC=C                          
-[5] LC_TIME=English_United States.1252    
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     

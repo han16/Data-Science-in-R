@@ -7,3 +7,386 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+```{r, echo=T, eval=F}
+
+########################################################
+#### Read Chapter 12: http://r4ds.had.co.nz/transform.html
+#### Read http://stat545.com/block015_graph-dos-donts.html
+####
+#### We will go over HW3 and talk through each problem.
+####
+#### Any questions from last week? 
+#### {Boolean logic, start of tidyverse, pipes, package install}
+######################################################
+
+## First some review about the tidyverse:
+
+## dplyr
+## => filter, select, mutate, group_by, tally, summarize, arrange, unique, na.omit
+data(iris)
+iris %>% select(Sepal.Length) %>% unlist() %>% mean()
+mean(iris$Sepal.Length)
+iris %>% summarize(mean.SL = mean(Sepal.Length))
+## Mean Sepal.Length per species
+iris %>% 
+  group_by(Species) %>% 
+  summarize(mean(Sepal.Length),
+            median.SL = median(Sepal.Length))
+
+iris %>% arrange(Sepal.Length, Sepal.Width)
+iris %>% arrange(desc(Sepal.Length))
+
+
+## ggplot2
+## => data + geom + aesthetics
+## geom_point, geom_histogram, geom_line, geom_boxplot, geom_violin
+
+## Name conflicts in package functions (e.g. filter and lag in tidyverse)
+?filter
+dplyr::filter
+stats::filter
+my_filter <- dplyr::filter
+filter <- dplyr::filter
+
+#=============================================================
+## Back to ggplot2!
+#=============================================================
+
+## ggplot(data = <DATA>) +
+##   <GEOM_FUNCTION>(
+##     mapping = aes(<MAPPINGS>),
+##     stat = <STAT>,
+##     position = <POSITION>
+##   ) +
+##   <COORDINATE_FUNCTION> +
+##   <FACET_FUNCTION>
+
+#=============================================================
+## ggplot2: Statistical transformations
+#=============================================================
+
+library(tidyverse)
+data(diamonds)
+
+## What is plotted here? Where does count come from?
+## Histograms, barplots, frequency polygons, smoothers, boxplots, ...
+ggplot(diamonds) +
+  geom_bar(aes(x = cut))
+
+ggplot(diamonds) +
+  stat_count(aes(x = cut))
+
+## We can override default stat for a given geom
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, y = ..prop.., group = 1))
+
+## What happens if we don't set group = 1 above?
+## What is wrong with the following two graphs?
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, y = ..prop..))
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = color, y = ..prop..))
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, y = ..prop..))
+
+## We can even explicitly use stat_## instead of the geom
+## By default, each stat is associated with a geom and vice versa
+ggplot(data = diamonds) +
+  stat_count(mapping = aes(x = cut))
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut))
+
+ggplot(data = diamonds) +
+  stat_summary(
+    mapping = aes(x = cut, y = depth),
+    fun.ymin = min,
+    fun.ymax = max,
+    fun.y = median
+  )
+
+## Stacked versus side-by-side barplots
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = clarity))
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = clarity), position="fill")
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = clarity), position="dodge")
+
+## geom_smooth: What variables does stat_smooth compute? 
+## What parameters control its behavior?
+
+ggplot(diamonds, aes(x=carat, y=price, color=cut)) +
+  geom_point() +
+  geom_smooth(aes(fill=cut), alpha=0.5)
+
+ggplot(diamonds, aes(x=carat, y=price, color=cut)) +
+  geom_point() +
+  geom_smooth(aes(fill=cut), alpha=0.5, method="lm")
+
+  # ?geom_smooth
+
+#=============================================================
+## ggplot2: Some other tricks
+#=============================================================
+
+## What to do about overplotting?
+## Look at the parameters to control the amount of jittering
+data(mpg)
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy))
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
+ggplot(data = mpg) +
+  geom_jitter(mapping = aes(x = displ, y = hwy))
+ggplot(data = mpg) +
+  geom_count(mapping = aes(x = displ, y = hwy))
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy), alpha=0.25)
+
+## Facets: smaller plots that display a subset of the data
+## Useful for exploring conditional relationships and large data
+## facet_wrap
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(~trans)
+
+## What is the difference between facet_wrap and facet_grid?
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_wrap(~trans)
+
+## What happens if you facet on a continuous variable?
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_wrap(~cty)
+
+
+## coordinates in ggplot: can flip axes with coord_flip
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy))
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  coord_flip()
+
+## Saving figures: ggsave
+g <- ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  coord_flip()
+ggsave(g, filename="first_ggplot.pdf")
+ggsave(filename="first_ggplot.pdf")  ## Save last plot
+
+## Combining ggplot2 figures
+# install.packages("cowplot")  ## Only do this once!
+library(cowplot)
+plot_grid(g, g, labels=c("A","B"))
+
+#-------------------------------------------------------------
+## In class: 
+## Reproduce plots from example1_ggplot2.pdf, example2_ggplot2.pdf
+#-------------------------------------------------------------
+
+
+#=============================================================
+## ggplot2 + forcats: Factors and group ordering
+#=============================================================
+
+## Working with factors and group order in ggplot: forcats
+# install.packages("forcats")  ## not explicitly part of the tidyverse
+library(forcats)
+
+colors <- c("red","blue","green","green","red","blue","red","green","blue")
+class(colors)
+colors <- factor(colors)
+print(colors)
+class(colors)
+# Each color is a level, and underlying each level is an integer associated with that
+# level; red = 3, green = 2, blue = 1. The order of the levels is assigned
+# alphabetically to the integer: b = 1, g = 2, r = 3.
+colors <- factor(colors, levels = c("red","blue", "green"))
+print(colors)
+
+data(airquality)
+airquality$Month <- factor(airquality$Month)
+levels(airquality$Month)
+ggplot(airquality, aes(Month, Temp)) +
+  geom_boxplot(aes(fill = Month)) +
+  ggtitle(label = "Daily Temperatures Aggregated by Month")
+
+# ## Renaming factor levels: fct_recode
+airquality$Month <- fct_recode(airquality$Month,
+                               May='5', June='6', July='7', Aug='8', Sept='9')
+ggplot(airquality, aes(Month, Temp)) +
+  geom_boxplot(aes(fill = Month)) +
+  ggtitle(label = "Daily Temperatures Aggregated by Month")
+
+# ## Reverse factor order: fct_reverse
+ggplot(airquality, aes(fct_rev(Month), Temp)) +
+  geom_boxplot(aes(fill = Month)) +
+  labs(x = "Month") +
+  ggtitle(label = "Our plot now has the x-axis in reverse order")
+
+# ## Factor relevel
+airquality$Month <- fct_relevel(airquality$Month, 'Sept', 'July', 'May', 'Aug', 'June')
+levels(airquality$Month)
+ggplot(airquality, aes(Month, Temp)) +
+  geom_boxplot(aes(fill = Month)) +
+  ggtitle(label = "Notice how the order of the level 'Month' has changed")
+
+# ## And we can also order factors according to another variable
+data(mtcars)
+mtcars$model <- factor(row.names(mtcars))
+class(mtcars$model)
+ggplot(mtcars, aes(mpg, model)) +
+  geom_point() +
+  ggtitle(label = "MPG vs. Car Model")
+ggplot(mtcars, aes(mpg, fct_reorder(f = model, x = mpg))) +
+  geom_point() +
+  labs(y = "model") +
+  ggtitle(label = "Better comparison by reordering levels based on mpg values!") +
+  theme(plot.title = element_text(size = 10, face = 'bold'))
+
+## !!! This is where we stopped for the day!
+
+#-------------------------------------------------------------
+## In class:
+## Let's try to fix that starwars density plot from last time
+## Plot gender in the following order (front to back):
+## female, male, hermaphrodite, none, NA 
+## Hint: use addNA()
+#-------------------------------------------------------------
+# data(starwars)
+# ggplot(starwars) +
+#   geom_density(aes(x=log(mass), fill=gender), alpha=0.8)
+
+
+#=============================================================
+## ggplot2: Color schemes
+#=============================================================
+
+# colors()
+## http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
+
+# ## Color choices in R: great palette selections from RColorBrewer 
+# ## Note: works in ggplot as well as base R
+# install.packages("RColorBrewer")  ## Only have to do this once
+# library(RColorBrewer)
+# display.brewer.all()
+# 
+# ## 3 classes of colors: sequential, qualitative, diverging
+# ## When would each type of color class be appropriate?
+# 
+# ## Another great color palette: viridis
+# ## Designed to be perfectly perceptually-uniform, both in color and black-and-white
+# ## Also designed to be perceived by people with the most common form of color blindness
+# install.packages("viridis")  ## Only have to do this once
+# library(viridis)
+# vignette("intro-to-viridis")
+# 
+# ## Using color palettes with ggplot:
+# ## Think about what you're trying to color (discrete vs continuous) and why!
+# ## Color schemes: scale_color_brewer(), scale_fill_brewer(), scale_color_gradient(), ...
+# 
+# ggplot(data = mpg) + 
+#   geom_point(mapping = aes(x = displ, y = hwy, color=hwy)) +
+#   scale_color_viridis()
+# 
+# ## Why does this throw an error?
+# ggplot(data = mpg) + 
+#   geom_point(mapping = aes(x = displ, y = hwy, color=drv)) +
+#   scale_color_viridis()
+# 
+# ggplot(data = mpg) + 
+#   geom_point(mapping = aes(x = displ, y = hwy, color=drv)) +
+#   scale_color_brewer(palette = "Accent") +
+#   theme_bw()
+# 
+# ggplot(data = mpg) + 
+#   geom_point(mapping = aes(x = displ, y = hwy, color=drv)) +
+#   scale_color_viridis(discrete=TRUE) +
+#   theme_bw()
+# 
+# ggplot(data = mpg) + 
+#   geom_point(mapping = aes(x = displ, y = hwy, color=hwy)) +
+#   scale_color_gradient() +
+#   theme_bw()
+# 
+# ## Choosing colors by hand
+# 
+# ## Ewww, this plot looks terrible, don't do red and green together!
+# ggplot(data = mpg) + 
+#   geom_point(mapping = aes(x = displ, y = hwy, color=hwy)) +
+#   scale_color_gradient(low="green", high="red") +
+#   theme_bw()
+# 
+# ggplot(data = mpg) + 
+#   geom_point(mapping = aes(x = displ, y = hwy, color=drv)) +
+#   scale_color_manual(values=c("darkblue", "seagreen1", "deeppink2")) +
+#   theme_bw()
+# 
+
+#=============================================================
+## Some final dplyr things
+#=============================================================
+
+## dplyr: between() is a replacement for x >= left & x <= right,
+# x <- rnorm(1e2)
+# x[between(x, -1, 1)]
+# 
+# diamonds %>% filter(between(depth, 60, 61))
+# 
+# ## Other select verbs: starts_with, ends_with, contains, everything, rename, ...
+# 
+# starwars %>% select(ends_with("color"))
+# starwars %>% select(contains("_"))
+# starwars %>% select(everything())
+# starwars %>% select(gender, everything())
+# starwars %>% rename(Name = name)
+# 
+# ## Multiple groupings 
+# grp <- diamonds %>% group_by(cut, color)
+# summarize(grp, avg_price = mean(price),
+#           median_carat = median(carat),
+#           count = n())
+# 
+# ## And we can ungroup
+# grp %>% 
+#   ungroup() %>%
+#   summarize(n())
+
+#-------------------------------------------------------------
+## Let's play with the gapminder data for the rest of class
+#-------------------------------------------------------------
+# install.packages("gapminder")  ## Only have to do this one time
+# library(gapminder)
+# my_gap <- data(gapminder)
+
+
+# Answer the following questions:
+# - How many observations are there in the data? How many observations per continent? How
+# many observations are there per country within each continent? How many variables?
+# What data type is each variable?
+# - Calculate the average life expectancy per continent. Now calculate the median life
+# expectancy per continent in 1952 and 2007.
+# - Make a simple scatterplot of GDP per capita versus life expectancy for 2007, where the
+# size of the points reflects the size of the population.
+# - Now make the plot as ugly and uninformative as possible -- think bad color choices,
+# truncated axes, overlapping points, ...
+# - Now let's make it as informative as possible -- think x-axis on log10 scale, informative
+# color/shape, etc....
+# - Taking your nice looking plot, facet by continent. Using the country_colors object in
+# gapminder, color the points by country.
+# - Explore some other plots! Don't hesitate to use filter or select to focus on a subset.
+#
+# - Identify the countries with worst and best life expectancy in Asia for each year. 
+# Hint: use min_rank().
+# - Identify which country had the sharpest 5-year drop in life expectancy in each continent.
+# Hint: use lag() in a mutate() to create a new variable representing the lag.
+
+  
+#=============================================================
+## Next time: data types, tidy data & data wrangling, reading/writing output files
+#=============================================================
+
+```
