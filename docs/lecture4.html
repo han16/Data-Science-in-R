@@ -319,7 +319,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-10-31</p>
+<p><strong>Last updated:</strong> 2018-11-01</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -342,7 +342,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/091f9066c074c4892ed259aac7469a7db2125f96" target="_blank">091f906</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/c10338d2ee16b83e91768d42b8ae9db17bdaa298" target="_blank">c10338d</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Unstaged changes:
@@ -375,6 +375,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/c10338d2ee16b83e91768d42b8ae9db17bdaa298/analysis/lecture4.Rmd" target="_blank">c10338d</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+<td style="text-align:left;">
+Oct312018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/han16/Data-Science-in-R/c10338d2ee16b83e91768d42b8ae9db17bdaa298/docs/lecture4.html" target="_blank">c10338d</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+<td style="text-align:left;">
+Oct312018
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -594,13 +628,16 @@ vignette(&quot;edgeR&quot;)
 # ## This is just an example, we won&#39;t actually be using HTSFilter today
 install_github(&quot;andreamrau/HTSFilter&quot;)  ## You only need to do this once per package
 library(HTSFilter)</code></pre>
+</div>
+<div id="data.frame-and-tibble" class="section level2">
+<h2>data.frame and tibble</h2>
 <pre class="r"><code>##########################################################
 ####  Core structures for analysis: data.frames and tibbles
 ##########################################################
 
 ## First of all: What is the tidyverse? https://www.tidyverse.org/
 ##    - A &quot;meta-package&quot; that is an optionated collection of several R packages for data science
-##    - Includes ggplot2 (plotting), dplyr (transformating/summarizing dataframe content), tidyr (tidying dataframes), purr, tibble
+##    - Includes ggplot2 (plotting), dplyr (transformating/summarizing dataframe content), tidyr (tidying dataframes), purr, tibble (https://r4ds.had.co.nz/tibbles.html)
 ##    - Founded by Hadley Wickham and many others at RStudio
 
 # ## Pipe operator: f(x) can be rewritten as x %&gt;% f 
@@ -635,7 +672,8 @@ round(exp(diff(log(x))), 1)</code></pre>
 <pre><code>[1]  3.3  1.8  1.6  0.5  0.3  0.1 48.8  1.1</code></pre>
 </div>
 <div id="dplyr-pipe-operator" class="section level2">
-<h2>dplyr, pipe operator</h2>
+<h2>dplyr, pipe operator %&gt;%</h2>
+<p>%&gt;%: take the result of the left-hand side and put it as the first argument of the function on the right-hand side</p>
 <pre class="r"><code># ##########################################################
 # ####  dplyr, pipe operator
 # ##########################################################
@@ -715,16 +753,60 @@ filter(starwars, species==&quot;Droid&quot;)</code></pre>
 # ... with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 #   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
 <pre class="r"><code>new_df &lt;- starwars %&gt;% 
-  filter(species==&quot;Droid&quot;, eye_color==&quot;red&quot;) ## &#39;and&#39; conditions can be separated with comma</code></pre>
+  filter(species==&quot;Droid&quot;, eye_color==&quot;red&quot;) ## &#39;and&#39; conditions can be separated with comma
+new_df</code></pre>
+<pre><code># A tibble: 3 x 13
+  name  height  mass hair_color skin_color eye_color birth_year gender
+  &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
+1 R2-D2     96    32 &lt;NA&gt;       white, bl~ red               33 &lt;NA&gt;  
+2 R5-D4     97    32 &lt;NA&gt;       white, red red               NA &lt;NA&gt;  
+3 IG-88    200   140 none       metal      red               15 none  
+# ... with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+#   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
 <pre class="r"><code># ## select(): filter data frame on column
-starwars %&gt;% select(mass, homeworld)
-starwars %&gt;% select(-hair_color)   ## We can remove rows using a &#39;-&#39;
-
-starwars %&gt;%
+starwars %&gt;% select(mass, homeworld)  # select columns of mass and homeworld</code></pre>
+<pre><code># A tibble: 87 x 2
+    mass homeworld
+   &lt;dbl&gt; &lt;chr&gt;    
+ 1    77 Tatooine 
+ 2    75 Tatooine 
+ 3    32 Naboo    
+ 4   136 Tatooine 
+ 5    49 Alderaan 
+ 6   120 Tatooine 
+ 7    75 Tatooine 
+ 8    32 Tatooine 
+ 9    84 Tatooine 
+10    77 Stewjon  
+# ... with 77 more rows</code></pre>
+<pre class="r"><code>starwars %&gt;% select(-hair_color, -mass)   ## We can remove rows using a &#39;-&#39;</code></pre>
+<pre><code># A tibble: 87 x 11
+   name  height skin_color eye_color birth_year gender homeworld species
+   &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;  
+ 1 Luke~    172 fair       blue            19   male   Tatooine  Human  
+ 2 C-3PO    167 gold       yellow         112   &lt;NA&gt;   Tatooine  Droid  
+ 3 R2-D2     96 white, bl~ red             33   &lt;NA&gt;   Naboo     Droid  
+ 4 Dart~    202 white      yellow          41.9 male   Tatooine  Human  
+ 5 Leia~    150 light      brown           19   female Alderaan  Human  
+ 6 Owen~    178 light      blue            52   male   Tatooine  Human  
+ 7 Beru~    165 light      blue            47   female Tatooine  Human  
+ 8 R5-D4     97 white, red red             NA   &lt;NA&gt;   Tatooine  Droid  
+ 9 Bigg~    183 light      brown           24   male   Tatooine  Human  
+10 Obi-~    182 fair       blue-gray       57   male   Stewjon   Human  
+# ... with 77 more rows, and 3 more variables: films &lt;list&gt;,
+#   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
+<pre class="r"><code>starwars %&gt;%
   filter(species==&quot;Droid&quot;) %&gt;%
-  select(name, mass)   ## Filter and select can be combined using a pipe %&gt;%
-
-# ## mutate(): add new column to data frame
+  select(name, mass)   ## Filter and select can be combined using a pipe %&gt;%</code></pre>
+<pre><code># A tibble: 5 x 2
+  name   mass
+  &lt;chr&gt; &lt;dbl&gt;
+1 C-3PO    75
+2 R2-D2    32
+3 R5-D4    32
+4 IG-88   140
+5 BB8      NA</code></pre>
+<pre class="r"><code># ## mutate(): add new column to data frame
 # ## Note: we generally avoid overwriting data in a data frame, better to create a new variable
 starwars %&gt;%
   mutate(height_in_inches=0.393701 * height) %&gt;%
@@ -734,23 +816,111 @@ starwars %&gt;%
 # ## tally(): count number of observations per grouping
 starwars %&gt;%
   group_by(species) %&gt;%
-  tally()
-
-# ## summarize(): perform summary statistic on a column. Fun fact: this also exists as summarise()
-starwars %&gt;% summarize(mean_mass = mean(mass, na.rm=TRUE))
-
-starwars %&gt;%
+  tally()</code></pre>
+<pre><code># A tibble: 38 x 2
+   species       n
+   &lt;chr&gt;     &lt;int&gt;
+ 1 Aleena        1
+ 2 Besalisk      1
+ 3 Cerean        1
+ 4 Chagrian      1
+ 5 Clawdite      1
+ 6 Droid         5
+ 7 Dug           1
+ 8 Ewok          1
+ 9 Geonosian     1
+10 Gungan        3
+# ... with 28 more rows</code></pre>
+<pre class="r"><code># ## summarize(): perform summary statistic on a column. Fun fact: this also exists as summarise()
+starwars %&gt;% summarize(mean_mass = mean(mass, na.rm=TRUE))</code></pre>
+<pre><code># A tibble: 1 x 1
+  mean_mass
+      &lt;dbl&gt;
+1      97.3</code></pre>
+<pre class="r"><code>starwars %&gt;%
   group_by(species) %&gt;%
-  summarize(mean_mass = mean(mass, na.rm=TRUE))
+  summarize(mean_mass = mean(mass, na.rm=TRUE))</code></pre>
+<pre><code># A tibble: 38 x 2
+   species   mean_mass
+   &lt;chr&gt;         &lt;dbl&gt;
+ 1 Aleena         15  
+ 2 Besalisk      102  
+ 3 Cerean         82  
+ 4 Chagrian      NaN  
+ 5 Clawdite       55  
+ 6 Droid          69.8
+ 7 Dug            40  
+ 8 Ewok           20  
+ 9 Geonosian      80  
+10 Gungan         74  
+# ... with 28 more rows</code></pre>
+<pre class="r"><code># ## arrange(): arrange a column
 
-# ## arrange(): arrange a column
-
-starwars %&gt;% arrange(desc(mass))
-starwars %&gt;% arrange(mass)
-
-# ## unique, na.omit()
-starwars %&gt;% unique()
-starwars %&gt;% na.omit()</code></pre>
+starwars %&gt;% arrange(desc(mass))</code></pre>
+<pre><code># A tibble: 87 x 13
+   name  height  mass hair_color skin_color eye_color birth_year gender
+   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
+ 1 Jabb~    175  1358 &lt;NA&gt;       green-tan~ orange         600   herma~
+ 2 Grie~    216   159 none       brown, wh~ green, y~       NA   male  
+ 3 IG-88    200   140 none       metal      red             15   none  
+ 4 Dart~    202   136 none       white      yellow          41.9 male  
+ 5 Tarf~    234   136 brown      brown      blue            NA   male  
+ 6 Owen~    178   120 brown, gr~ light      blue            52   male  
+ 7 Bossk    190   113 none       green      red             53   male  
+ 8 Chew~    228   112 brown      unknown    blue           200   male  
+ 9 Jek ~    180   110 brown      fair       blue            NA   male  
+10 Dext~    198   102 none       brown      yellow          NA   male  
+# ... with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;,
+#   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
+<pre class="r"><code>starwars %&gt;% arrange(mass) # asc by default</code></pre>
+<pre><code># A tibble: 87 x 13
+   name  height  mass hair_color skin_color eye_color birth_year gender
+   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
+ 1 Ratt~     79    15 none       grey, blue unknown           NA male  
+ 2 Yoda      66    17 white      green      brown            896 male  
+ 3 Wick~     88    20 brown      brown      brown              8 male  
+ 4 R2-D2     96    32 &lt;NA&gt;       white, bl~ red               33 &lt;NA&gt;  
+ 5 R5-D4     97    32 &lt;NA&gt;       white, red red               NA &lt;NA&gt;  
+ 6 Sebu~    112    40 none       grey, red  orange            NA male  
+ 7 Dud ~     94    45 none       blue, grey yellow            NA male  
+ 8 Padm~    165    45 brown      light      brown             46 female
+ 9 Wat ~    193    48 none       green, gr~ unknown           NA male  
+10 Sly ~    178    48 none       pale       white             NA female
+# ... with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;,
+#   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
+<pre class="r"><code># ## unique, na.omit()
+starwars %&gt;% unique()</code></pre>
+<pre><code># A tibble: 87 x 13
+   name  height  mass hair_color skin_color eye_color birth_year gender
+   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
+ 1 Luke~    172    77 blond      fair       blue            19   male  
+ 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   &lt;NA&gt;  
+ 3 R2-D2     96    32 &lt;NA&gt;       white, bl~ red             33   &lt;NA&gt;  
+ 4 Dart~    202   136 none       white      yellow          41.9 male  
+ 5 Leia~    150    49 brown      light      brown           19   female
+ 6 Owen~    178   120 brown, gr~ light      blue            52   male  
+ 7 Beru~    165    75 brown      light      blue            47   female
+ 8 R5-D4     97    32 &lt;NA&gt;       white, red red             NA   &lt;NA&gt;  
+ 9 Bigg~    183    84 black      light      brown           24   male  
+10 Obi-~    182    77 auburn, w~ fair       blue-gray       57   male  
+# ... with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;,
+#   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
+<pre class="r"><code>starwars %&gt;% na.omit()</code></pre>
+<pre><code># A tibble: 29 x 13
+   name  height  mass hair_color skin_color eye_color birth_year gender
+   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
+ 1 Luke~    172    77 blond      fair       blue            19   male  
+ 2 Dart~    202   136 none       white      yellow          41.9 male  
+ 3 Leia~    150    49 brown      light      brown           19   female
+ 4 Owen~    178   120 brown, gr~ light      blue            52   male  
+ 5 Beru~    165    75 brown      light      blue            47   female
+ 6 Bigg~    183    84 black      light      brown           24   male  
+ 7 Obi-~    182    77 auburn, w~ fair       blue-gray       57   male  
+ 8 Anak~    188    84 blond      fair       blue            41.9 male  
+ 9 Chew~    228   112 brown      unknown    blue           200   male  
+10 Han ~    180    80 brown      fair       brown           29   male  
+# ... with 19 more rows, and 5 more variables: homeworld &lt;chr&gt;,
+#   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
 </div>
 <div id="ggplot" class="section level2">
 <h2>ggplot</h2>
@@ -773,115 +943,326 @@ starwars %&gt;% na.omit()</code></pre>
 # ## What are the differences between the ggplot2 and base R versions of this scatterplot?
 ggplot(starwars, aes(x=mass, y=height)) +
   geom_point()</code></pre>
-<pre><code>Warning: Removed 28 rows containing missing values (geom_point).</code></pre>
 <p><img src="figure/lecture4.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-8-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/c10338d2ee16b83e91768d42b8ae9db17bdaa298/docs/figure/lecture4.Rmd/unnamed-chunk-8-1.png" target="_blank">c10338d</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>plot(starwars$mass, starwars$height) ## base R version</code></pre>
 <p><img src="figure/lecture4.Rmd/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-8-2.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/c10338d2ee16b83e91768d42b8ae9db17bdaa298/docs/figure/lecture4.Rmd/unnamed-chunk-8-2.png" target="_blank">c10338d</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code># ## NOTE: did you see that we are using &#39;+&#39; here for ggplot2 and not the pipe &#39;%&gt;%&#39;?
 
 ## These are all the same
 ggplot() +
   geom_point(data=starwars, color=&quot;red&quot;, 
              aes(x=mass, y=height))</code></pre>
-<pre><code>Warning: Removed 28 rows containing missing values (geom_point).</code></pre>
 <p><img src="figure/lecture4.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-9-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/c10338d2ee16b83e91768d42b8ae9db17bdaa298/docs/figure/lecture4.Rmd/unnamed-chunk-9-1.png" target="_blank">c10338d</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>ggplot() +
   geom_point(data=starwars, color=&quot;red&quot;,
              aes(x=mass, y=height))</code></pre>
-<pre><code>Warning: Removed 28 rows containing missing values (geom_point).</code></pre>
 <p><img src="figure/lecture4.Rmd/unnamed-chunk-9-2.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-9-2.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/c10338d2ee16b83e91768d42b8ae9db17bdaa298/docs/figure/lecture4.Rmd/unnamed-chunk-9-2.png" target="_blank">c10338d</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>ggplot(data=starwars) +
   geom_point(color=&quot;red&quot;, aes(x=mass, y=height))</code></pre>
-<pre><code>Warning: Removed 28 rows containing missing values (geom_point).</code></pre>
 <p><img src="figure/lecture4.Rmd/unnamed-chunk-9-3.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-9-3.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/c10338d2ee16b83e91768d42b8ae9db17bdaa298/docs/figure/lecture4.Rmd/unnamed-chunk-9-3.png" target="_blank">c10338d</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>ggplot(starwars, aes(x=mass, y=height)) +
   geom_point(color=&quot;red&quot;)</code></pre>
-<pre><code>Warning: Removed 28 rows containing missing values (geom_point).</code></pre>
 <p><img src="figure/lecture4.Rmd/unnamed-chunk-9-4.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-9-4.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/c10338d2ee16b83e91768d42b8ae9db17bdaa298/docs/figure/lecture4.Rmd/unnamed-chunk-9-4.png" target="_blank">c10338d</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>## If we place color inside of the aesthetics, it maps it to the data
 ggplot(starwars, aes(x=mass, y=height, color=gender)) +
   geom_point()</code></pre>
-<pre><code>Warning: Removed 28 rows containing missing values (geom_point).</code></pre>
 <p><img src="figure/lecture4.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-10-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/c10338d2ee16b83e91768d42b8ae9db17bdaa298/docs/figure/lecture4.Rmd/unnamed-chunk-10-1.png" target="_blank">c10338d</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>new_df &lt;- starwars %&gt;% filter(mass &lt; 500)
 ggplot(new_df, 
        aes(x=mass, y=height, color=gender)) +
   geom_point()</code></pre>
 <p><img src="figure/lecture4.Rmd/unnamed-chunk-10-2.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-10-2.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/c10338d2ee16b83e91768d42b8ae9db17bdaa298/docs/figure/lecture4.Rmd/unnamed-chunk-10-2.png" target="_blank">c10338d</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code># ## We can change shape aesthetics too
 ggplot(starwars, aes(x=mass, y=height, color=gender, shape=gender)) +
   geom_point()</code></pre>
-<pre><code>Warning: Removed 31 rows containing missing values (geom_point).</code></pre>
-<p><img src="figure/lecture4.Rmd/unnamed-chunk-10-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/lecture4.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># ## Aesthetics can be place inside the relevant geom: the following two are equivalent
 ggplot(starwars, aes(x=mass, y=height, color=gender, shape=gender)) +
   geom_point()</code></pre>
-<pre><code>Warning: Removed 31 rows containing missing values (geom_point).</code></pre>
-<p><img src="figure/lecture4.Rmd/unnamed-chunk-10-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/lecture4.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggplot(starwars) +
   geom_point(aes(x=mass, y=height, color=gender, shape=gender))</code></pre>
-<pre><code>Warning: Removed 31 rows containing missing values (geom_point).</code></pre>
-<p><img src="figure/lecture4.Rmd/unnamed-chunk-10-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/lecture4.Rmd/unnamed-chunk-12-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># ## Aesthetics are only for mapping:
 ggplot(starwars) +
   geom_point(aes(x=mass, y=height, color=&quot;blue&quot;))  ## This doesn&#39;t work</code></pre>
-<pre><code>Warning: Removed 28 rows containing missing values (geom_point).</code></pre>
-<p><img src="figure/lecture4.Rmd/unnamed-chunk-10-6.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/lecture4.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggplot(starwars) +
   geom_point(aes(x=mass, y=height), color=&quot;blue&quot;)  ## This does work</code></pre>
-<pre><code>Warning: Removed 28 rows containing missing values (geom_point).</code></pre>
-<p><img src="figure/lecture4.Rmd/unnamed-chunk-10-7.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/lecture4.Rmd/unnamed-chunk-13-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># ## Can use multiple geoms, combine with dplyr functions
 ggplot(filter(starwars, mass &lt; 500), aes(x=mass, y=height)) +
   geom_point()  +
   geom_line()</code></pre>
-<p><img src="figure/lecture4.Rmd/unnamed-chunk-10-8.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/lecture4.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># ## Other geoms: histograms, boxplots, density plots, violin plots, barplots
 ggplot(starwars) +
-  geom_histogram(aes(x=height), fill=&quot;orange&quot;, color=&quot;brown&quot;)</code></pre>
+  geom_histogram(aes(x=height), fill=&quot;orange&quot;, color=&quot;brown&quot;)  # histogram</code></pre>
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<pre><code>Warning: Removed 6 rows containing non-finite values (stat_bin).</code></pre>
-<p><img src="figure/lecture4.Rmd/unnamed-chunk-10-9.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/lecture4.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggplot(starwars) +
-  geom_boxplot(aes(x=&quot;&quot;, y=log(mass)))</code></pre>
-<pre><code>Warning: Removed 28 rows containing non-finite values (stat_boxplot).</code></pre>
-<p><img src="figure/lecture4.Rmd/unnamed-chunk-10-10.png" width="672" style="display: block; margin: auto;" /></p>
+  geom_boxplot(aes(x=&quot;&quot;, y=log(mass)))  # boxplot</code></pre>
+<p><img src="figure/lecture4.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggplot(starwars) +
   geom_boxplot(aes(x=gender, y=log(mass), fill=gender))</code></pre>
-<pre><code>Warning: Removed 28 rows containing non-finite values (stat_boxplot).</code></pre>
-<p><img src="figure/lecture4.Rmd/unnamed-chunk-10-11.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/lecture4.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggplot(starwars) +
   geom_violin(aes(x=gender, y=log(mass), fill=gender))</code></pre>
-<pre><code>Warning: Removed 28 rows containing non-finite values (stat_ydensity).</code></pre>
-<p><img src="figure/lecture4.Rmd/unnamed-chunk-10-12.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/lecture4.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggplot(starwars) +
   geom_bar(aes(x=gender, fill=gender))</code></pre>
-<p><img src="figure/lecture4.Rmd/unnamed-chunk-10-13.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/lecture4.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggplot(starwars) +
   geom_density(aes(x=log(mass), fill=gender))</code></pre>
-<pre><code>Warning: Removed 28 rows containing non-finite values (stat_density).</code></pre>
-<pre><code>Warning: Groups with fewer than two data points have been dropped.
-
-Warning: Groups with fewer than two data points have been dropped.</code></pre>
-<p><img src="figure/lecture4.Rmd/unnamed-chunk-10-14.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/lecture4.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggplot(starwars) +
   geom_density(aes(x=log(mass), fill=gender), alpha=0.9)  ## Can add transparency to object</code></pre>
-<pre><code>Warning: Removed 28 rows containing non-finite values (stat_density).
-
-Warning: Groups with fewer than two data points have been dropped.
-
-Warning: Groups with fewer than two data points have been dropped.</code></pre>
-<p><img src="figure/lecture4.Rmd/unnamed-chunk-10-15.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/lecture4.Rmd/unnamed-chunk-20-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggplot(starwars) +
   geom_density(aes(x=log(mass), 
       fill=factor(gender, levels=c(&quot;hermaphrodite&quot;, &quot;none&quot;,
            &quot;NA&quot;, &quot;male&quot;, &quot;female&quot;))), alpha=0.9)  </code></pre>
-<pre><code>Warning: Removed 28 rows containing non-finite values (stat_density).
-
-Warning: Groups with fewer than two data points have been dropped.
-
-Warning: Groups with fewer than two data points have been dropped.</code></pre>
-<p><img src="figure/lecture4.Rmd/unnamed-chunk-10-16.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/lecture4.Rmd/unnamed-chunk-20-3.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># ## Some additional options
 ggplot(starwars) +
   geom_histogram(aes(x=height), fill=&quot;orange&quot;, color=&quot;brown&quot;) +
@@ -889,8 +1270,7 @@ ggplot(starwars) +
   ylab(&quot;Count&quot;) +
   ggtitle(&quot;Histogram of Star Wars character heights&quot;)</code></pre>
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<pre><code>Warning: Removed 6 rows containing non-finite values (stat_bin).</code></pre>
-<p><img src="figure/lecture4.Rmd/unnamed-chunk-10-17.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/lecture4.Rmd/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>g1 &lt;- ggplot(starwars) +
   geom_histogram(aes(x=height), fill=&quot;orange&quot;, color=&quot;brown&quot;) 
 
@@ -904,8 +1284,7 @@ ggplot(starwars) +
   ggtitle(&quot;Histogram of Star Wars character heights&quot;) +
   theme_minimal()</code></pre>
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<pre><code>Warning: Removed 6 rows containing non-finite values (stat_bin).</code></pre>
-<p><img src="figure/lecture4.Rmd/unnamed-chunk-10-18.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/lecture4.Rmd/unnamed-chunk-21-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>## Next time: changing the order of plots, changing colors: scale_FILLCOLOR_brewer, 
 ## scale_color_gradient(), geom_smooth, more advanced dplyr
 ## http://ggplot2.tidyverse.org/reference/#scales</code></pre>

@@ -137,6 +137,9 @@ install_github("andreamrau/HTSFilter")  ## You only need to do this once per pac
 library(HTSFilter)
 ```
 
+
+## data.frame and tibble
+
 ```{r, echo=T}
 
 
@@ -146,7 +149,7 @@ library(HTSFilter)
 
 ## First of all: What is the tidyverse? https://www.tidyverse.org/
 ##    - A "meta-package" that is an optionated collection of several R packages for data science
-##    - Includes ggplot2 (plotting), dplyr (transformating/summarizing dataframe content), tidyr (tidying dataframes), purr, tibble
+##    - Includes ggplot2 (plotting), dplyr (transformating/summarizing dataframe content), tidyr (tidying dataframes), purr, tibble (https://r4ds.had.co.nz/tibbles.html)
 ##    - Founded by Hadley Wickham and many others at RStudio
 
 # ## Pipe operator: f(x) can be rewritten as x %>% f 
@@ -166,7 +169,11 @@ x %>% log() %>%
   round(1)
 ```
 
-## dplyr, pipe operator
+## dplyr, pipe operator %>%
+
+
+%>%:  take the result of the left-hand side and put it as the first argument of the function on the right-hand side
+
 
 ``````{r, echo=T}
 
@@ -191,16 +198,16 @@ starwars %>% filter(., species=="Droid")     ## equivalent with a pipe
 starwars %>% filter(species=="Droid" & eye_color=="red")
 new_df <- starwars %>% 
   filter(species=="Droid", eye_color=="red") ## 'and' conditions can be separated with comma
-
+new_df
 ```
 
 
-```{r, echo=T, eval=F}
+```{r, echo=T, warning=F}
 
 
 # ## select(): filter data frame on column
-starwars %>% select(mass, homeworld)
-starwars %>% select(-hair_color)   ## We can remove rows using a '-'
+starwars %>% select(mass, homeworld)  # select columns of mass and homeworld
+starwars %>% select(-hair_color, -mass)   ## We can remove rows using a '-'
 
 starwars %>%
   filter(species=="Droid") %>%
@@ -228,7 +235,7 @@ starwars %>%
 # ## arrange(): arrange a column
 
 starwars %>% arrange(desc(mass))
-starwars %>% arrange(mass)
+starwars %>% arrange(mass) # asc by default
 
 # ## unique, na.omit()
 starwars %>% unique()
@@ -237,7 +244,7 @@ starwars %>% na.omit()
 
 ## ggplot 
 
-```{r, echo=T}
+```{r, echo=T, warning=F}
 
 # #-------------------------------------------------------------------------
 # # An in-class example:
@@ -262,7 +269,7 @@ plot(starwars$mass, starwars$height) ## base R version
 ```
 
 
-```{r, echo=T}
+```{r, echo=T, warning=F}
 
 
 # ## NOTE: did you see that we are using '+' here for ggplot2 and not the pipe '%>%'?
@@ -283,7 +290,7 @@ ggplot(starwars, aes(x=mass, y=height)) +
   geom_point(color="red")
 ```
 
-```{r, echo=T}
+```{r, echo=T, warning=F}
 
 ## If we place color inside of the aesthetics, it maps it to the data
 ggplot(starwars, aes(x=mass, y=height, color=gender)) +
@@ -293,45 +300,73 @@ new_df <- starwars %>% filter(mass < 500)
 ggplot(new_df, 
        aes(x=mass, y=height, color=gender)) +
   geom_point()
+```
 
+
+```{r, echo=T, warning=F}
 
 # ## We can change shape aesthetics too
 ggplot(starwars, aes(x=mass, y=height, color=gender, shape=gender)) +
   geom_point()
+```
+
+```{r, echo=T, warning=F}
 
 # ## Aesthetics can be place inside the relevant geom: the following two are equivalent
 ggplot(starwars, aes(x=mass, y=height, color=gender, shape=gender)) +
   geom_point()
 ggplot(starwars) +
   geom_point(aes(x=mass, y=height, color=gender, shape=gender))
+```
 
+```{r, echo=T, warning=F}
 # ## Aesthetics are only for mapping:
 ggplot(starwars) +
   geom_point(aes(x=mass, y=height, color="blue"))  ## This doesn't work
 ggplot(starwars) +
   geom_point(aes(x=mass, y=height), color="blue")  ## This does work
+```
 
+
+```{r, echo=T, warning=F}
 # ## Can use multiple geoms, combine with dplyr functions
 ggplot(filter(starwars, mass < 500), aes(x=mass, y=height)) +
   geom_point()  +
   geom_line()
+```
 
+```{r, echo=T, warning=F}
 # ## Other geoms: histograms, boxplots, density plots, violin plots, barplots
 ggplot(starwars) +
-  geom_histogram(aes(x=height), fill="orange", color="brown")
+  geom_histogram(aes(x=height), fill="orange", color="brown")  # histogram
+```
 
+```{r, echo=T, warning=F}
 ggplot(starwars) +
-  geom_boxplot(aes(x="", y=log(mass)))
+  geom_boxplot(aes(x="", y=log(mass)))  # boxplot
 
+```
+
+```{r, echo=T, warning=F}
 ggplot(starwars) +
   geom_boxplot(aes(x=gender, y=log(mass), fill=gender))
+```
+
+
+```{r, echo=T, warning=F}
 
 ggplot(starwars) +
   geom_violin(aes(x=gender, y=log(mass), fill=gender))
+```
+
+```{r, echo=T, warning=F}
+
 
 ggplot(starwars) +
   geom_bar(aes(x=gender, fill=gender))
+```
 
+```{r, echo=T, warning=F}
 ggplot(starwars) +
   geom_density(aes(x=log(mass), fill=gender))
 ggplot(starwars) +
@@ -342,7 +377,9 @@ ggplot(starwars) +
       fill=factor(gender, levels=c("hermaphrodite", "none",
            "NA", "male", "female"))), alpha=0.9)  
 
+```
 
+```{r, echo=T, warning=F}
 
 # ## Some additional options
 ggplot(starwars) +
