@@ -70,7 +70,7 @@ colors()
 # ## Note: works in ggplot as well as base R
 # install.packages("RColorBrewer")  ## Only have to do this once
 library(RColorBrewer)
-display.brewer.all()
+#display.brewer.all()
 ```
 
 ```{r, echo=T}
@@ -84,7 +84,7 @@ display.brewer.all()
 # ## Also designed to be perceived by people with the most common form of color blindness
 # install.packages("viridis")  ## Only have to do this once
 library(viridis)
-vignette("intro-to-viridis")
+#vignette("intro-to-viridis")
 ```
 
 
@@ -296,7 +296,7 @@ table5 %>% unite(col="year", century, year, sep="") %>%
            split="/")
 ```
 
-```{r, echo=T}
+```{r, echo=T, eval=F}
 #=============================================================
 ## Relational data
 #=============================================================

@@ -1,11 +1,10 @@
 ---
 title: "Home"
-site: workflowr::wflow_site
 output:
-  workflowr::wflow_html:
+  html_document:
     toc: false
-    
 ---
+
 
 
 * [lecture 1](lecture1.html)

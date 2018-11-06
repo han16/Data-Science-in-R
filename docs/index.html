@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -169,6 +172,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -179,7 +277,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Code</a>
+      <a class="navbar-brand" href="index.html">R</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -221,7 +319,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-11-05</p>
+<p><strong>Last updated:</strong> 2018-11-06</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -229,14 +327,28 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08" target="_blank">ce16c70</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/6dcf86a9d20b478879a3944301a1e51fec69a8cf" target="_blank">6dcf86a</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
+Ignored files:
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/figure/
+
 Untracked files:
-    Untracked:  analysis/lecture6.Rmd
+    Untracked:  analysis/_site.yml
+    Untracked:  analysis/lecture7_files/
+    Untracked:  docs/figure/lecture7.Rmd/
+    Untracked:  docs/first_ggplot.pdf
+    Untracked:  docs/lecture6_files/
+    Untracked:  docs/lecture7_files/
+    Untracked:  docs/publishers.csv
+    Untracked:  docs/superheroes.csv
 
 Unstaged changes:
+    Modified:   analysis/first_ggplot.pdf
     Modified:   analysis/index.Rmd
+    Modified:   analysis/lecture6.Rmd
+    Modified:   analysis/lecture7.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -265,6 +377,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/6dcf86a9d20b478879a3944301a1e51fec69a8cf/analysis/index.Rmd" target="_blank">6dcf86a</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+<td style="text-align:left;">
+Nov62018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/8f2dad3568e36155da5b20e3101fc09ac7bffa92/analysis/index.Rmd" target="_blank">8f2dad3</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-05
+</td>
+<td style="text-align:left;">
+Nov52018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/han16/Data-Science-in-R/8f2dad3568e36155da5b20e3101fc09ac7bffa92/docs/index.html" target="_blank">8f2dad3</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-05
+</td>
+<td style="text-align:left;">
+Nov52018
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 html
@@ -413,6 +576,7 @@ Start workflowr project.
 <li><a href="lecture4.html">lecture 4</a></li>
 <li><a href="lecture5.html">lecture 5</a></li>
 <li><a href="lecture6.html">lecture 6</a></li>
+<li><a href="lecture7.html">lecture 7</a></li>
 </ul>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
@@ -436,6 +600,8 @@ footer is added to webpages before the MathJax javascript. -->
 <hr>
 
 
+</div>
+</div>
 
 </div>
 

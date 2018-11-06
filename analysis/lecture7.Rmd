@@ -1,11 +1,18 @@
 ---
 title: "lecture7"
-output: html_document
+author: "Shengtong"
+date: "2018-11-06"
+output: workflowr::wflow_html
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+
+
+```{r, echo=T}
+#knitr::opts_chunk$set(echo = TRUE)
+#knitr::read_chunk("chunks.R")
+library(tidyverse)
 ```
+
 
 
 ```{r, echo=T, eval=F}
@@ -26,8 +33,8 @@ knitr::opts_chunk$set(echo = TRUE)
 #-------------------------------------------------------------
 
 library(tidyverse)
-library(rcfss)
-data(dadmom) ## Note: this does not work for R 3.3.1
+#library(rcfss)
+#data(dadmom) ## Note: this does not work for R 3.3.1
 dadmom %>% 
   gather(key=parent, value=income, -famid, -named, -namem) %>%
   mutate(new_parent = ifelse(parent == "incd", "dad", "mom")) %>%
@@ -41,7 +48,13 @@ table2 %>% spread(key=type, value=count) %>%
 
 ## Tidy this dataframe (each variable should have its own column,
 ## each observation its own row, and each value its own cell)
+```
 
+
+## Correlation
+
+
+```{r, echo=T}
 #=============================================================
 ## Correlation
 #=============================================================
@@ -56,11 +69,14 @@ setosa <- iris %>% filter(Species == "setosa")
 ## in the setosa species, using both base R and dplyr.
 ## Plot the relationship between the two.
 #-------------------------------------------------------------
-?cor
+#?cor
 cor(setosa$Sepal.Length, setosa$Sepal.Width)
 setosa %>% summarize(correlation = cor(Sepal.Length, Sepal.Width))
 ggplot(setosa) + geom_point(aes(x=Sepal.Length, y=Sepal.Width))
+```
 
+
+```{r, echo=T, eval=F}
 ## It is VERY important to visualize data!
 ## Correlations (and summary statistics in general) can be
 ## the same for VERY different distributions
@@ -83,19 +99,27 @@ ggplot(datasaurus_dozen, aes(x = x, y = y, colour = dataset)) +
   theme_void() +
   theme(legend.position = "none") +
   facet_wrap( ~ dataset, ncol = 3)
+```
 
+
+```{r, echo=T}
 ## Perfect positive correlation
 x <- rnorm(100)
 y <- x + 3
 cor(x,y)
 ggplot(data.frame(x=x,y=y), aes(x,y)) + geom_point()
+```
 
+
+```{r, echo=T}
 ## Perfect negative correlation
 x <- rnorm(100)
 y <- -2*x
 cor(x,y)
 ggplot(data.frame(x=x,y=y), aes(x,y)) + geom_point()
+```
 
+```{r, echo=T}
 ## Variability (error) has substantial influence
 library(forcats)
 x <- rnorm(100)
@@ -111,14 +135,20 @@ ggplot(df, aes(x,y)) +
 
 df %>% group_by(variability) %>%
   summarize(cor = cor(x,y))
+```
 
+```{r, echo=T}
 ## Can perform hypothesis testing with correlations
 cor.test(setosa$Sepal.Length, setosa$Sepal.Width)
 ## How do we interpret this output?
+```
 
+```{r, echo=T}
 cor.test(setosa$Petal.Length, setosa$Sepal.Width)
 ## How about this?
+```
  
+```{r, echo=T} 
 ## What about nonlinear data? => Spearman rank nonparametric correlation!
 ## Assumes monotonic data
 x <- seq(from=0.001, to=10, length=100)
@@ -129,7 +159,9 @@ ggplot(data.frame(x,y), aes(x=x,y=y)) +
 cor(x,y)
 cor(x,y, method="spearman")
 cor(order(x), order(y)) ## Same as Pearson correlation on ranks 
+```
 
+```{r,echo=T}
 #-------------------------------------------------------------
 ## Calculate the Pearson and Spearman correlation between
 ## carat and price in the diamonds data for cut = "Ideal" diamonds.
@@ -142,6 +174,11 @@ diamonds %>% filter(cut == "Ideal") %>%
             spearman = cor(carat, price, method="spearman"))
 ggplot(filter(diamonds, cut == "Ideal")) + 
   geom_point(aes(y=price, x=carat))
+```
+
+## Linear regression
+
+```{r, echo=T}
 
 #=============================================================
 ## Linear regression
@@ -176,35 +213,49 @@ summary(mod)
 ## Multiple R-squared, adjusted R-squared:
 ## F-statistic:
 
+```
+
+```{r, echo=T}
 ## broom is a package that tidies results from a linear model / hypothesis tests
 ## 3 functions: tidy(), glance(), augment()
 library(broom)
 tidy(mod)    ## Coefficients and p-values
 glance(mod)  ## Concise one row summary
 augment(mod) ## Add columns from fit to original data that were modeled
+```
 
+```{r, echo=T}
 ## Visualizing the regression
 ggplot(setosa, aes(x=Sepal.Width, y=Sepal.Length)) +
   geom_point() + 
   geom_smooth(method="lm") +
   geom_text(x = 2.75, y = 5.5, label = "y = 2.639 + 0.69x", color="red")  +
   theme_bw()
+```
 
+```{r, echo=T}
 ## Predicting responses using the model
 ## What is the Sepal.Length when Sepal.Width = 2.6?
 new_setosa <- data.frame(Sepal.Width = c(2.6, 4, 3.5))
 predict(mod, new_setosa)
+```
 
+```{r, echo=T}
 ## Predicting a new response with confidence or prediction interval
 ## Confidence interval: range likely to contain the mean response
 predict(mod, new_setosa, interval = "confidence")
+```
+
+```{r, echo=T}
 ## Prediction interval: range likely to contain the response value of
 ##   a single new observation (wider than CI due to added uncertainty
 ##   for predicting a single point)
 predict(mod, new_setosa, interval = "predict")
 predict(mod, new_setosa, interval = "confidence", level=0.90)
+```
 
 ## Checking model assumptions
+```{r, echo=T}
 ## 1. Residuals are normally distributed
 ## 2. Variance is the same for all predictors
 ## 3. Predictors are independent of one another
@@ -224,15 +275,21 @@ fitted <- fitted(mod)
 ggplot(aug) + geom_histogram(aes(x=.resid),
                              bins=15)
 ggplot(aug) + geom_qq(aes(sample=.resid))
+```
 
+```{r, echo=T}
 ## Assumption 2
 ggplot(aug) + geom_point(aes(x=.fitted, y=.resid)) +
   geom_hline(yintercept=0, lty=2)
+```
 
+```{r, echo=T}
 ## Assumption 4
 ggplot(aug) + geom_point(aes(x=Sepal.Width, y=Sepal.Length))
+```
+## Matrix algebra 
 
-
+```{r, echo=T}
 #=============================================================
 ## A quick break: Matrix algebra in R
 #=============================================================
@@ -250,23 +307,34 @@ A[,1]   ## pulls first column
 A[1,]
 A[2,2:3]
 A[2, c(1,3)]
+```
 
+```{r, echo=T, eval=F}
 ## Recall how multiplication/addition in R are done element-wise
-A * B
+A * B # not working 
 A + B
+```
 
+```{r, echo=T}
 ## If we are after "classic" matrix multiplication, we have to do as follows:
 A %*% B
 B %*% A
+```
 
+```{r, echo=T}
 ## What is the difference between the two following operations?
 x1*x2
 x1 %*% x2
+```
 
+
+```{r, echo=T}
 ## What happens when we transpose a matrix?
 t(A) + B
 A - t(B)
+```
 
+```{r, echo=T}
 ## We can take the inverse of a square matrix
 A = rbind(c(-1,4), c(3,6))
 c = c(8,30)
@@ -275,7 +343,9 @@ x = solve(A,c)
 #### This basically finds x, such that Ax=c
 #### Let's doubl check
 A %*% x
+```
 
+```{r, echo=T}
 #### We can also use the solve function to find the inverse of a matrix
 A.inv = solve(A)
 
@@ -284,7 +354,8 @@ A.inv %*% A
 A %*% A.inv
 
 ### Note the rounding errors!
-
+```
+```{r, echo=T}
 ### Recall linear regression
 ### If our model is Y = XB + e, then beta.hat = inverse(X'X)X'Y
 x1 <- rep(1, times=10)
@@ -296,11 +367,16 @@ beta.hat = solve(t(X) %*% X) %*% t(X) %*% y
 ## Double-check this is the same with lm!
 summary(lm(y ~ x2))
 beta.hat
+```
 
+```{r, echo=T}
 ## And double-check with a plot
 plot(x2, y, pch=20, cex=3)
 abline(beta.hat[1], beta.hat[2])
+```
 
+
+```{r, echo=T}
 #### Do you remeber the form of var(beta.hat)?
 #### The diagonal elements of sigma^2 * inverse(X'X) 
 #### How do we estimate sigma^2? (Y-y.hat)'(Y-y.hat)/n-p
@@ -330,10 +406,10 @@ X.sim <- cbind(rep(1, times=1000), c(rep(0, times=500), rep(1, times=500)))
 my_linear_regression(y.sim, X.sim)
 lm(y.sim ~ 0 + X.sim)
 lm(y.sim ~ X.sim[,2])
+```
 
 
-
-
+```{r, echo=T}
 #=============================================================
 ## Linear models: lm(Numeric response ~ <predictors>)
 ## 
@@ -348,18 +424,25 @@ lm(y.sim ~ X.sim[,2])
 ## What happens with a categorical predictor?
 mod_species <- lm(Sepal.Length ~ Species, data=iris)
 summary(mod_species) ## Where is the Speciessetosa coefficient?
+```
 
+
+```{r, echo=T}
 augment_species <- augment(mod_species)
 ggplot(augment_species, aes(x=Species, y=Sepal.Length)) +
          geom_point() +
   geom_point(aes(x=Species, y=.fitted), color="red", size=4)
+```
 
+```{r, echo=T}
 ## Interactions: continuous and categorical
 ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width)) +
   geom_point(aes(color=Species))
 mod1 <- lm(Sepal.Width ~ Sepal.Length + Species, data=iris)
 mod2 <- lm(Sepal.Width ~ Sepal.Length * Species, data=iris)
+```
 
+```{r, echo=T}
 ## Use commands from modelr
 library(modelr)
 grid <- data_grid(iris, Sepal.Length, Sepal.Width, Species) %>%
@@ -384,7 +467,5 @@ model_matrix(iris, Sepal.Length ~ Species)
 ## Next time: Midterm! Class cancelled
 ## Following that: logistic regression, model selection, multiple testing
 #=============================================================
-
-
 
 ```
