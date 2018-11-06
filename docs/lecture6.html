@@ -323,7 +323,7 @@ div.section {
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
-<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </details>
 </li>
 <li>
@@ -342,17 +342,886 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08" target="_blank">ce16c70</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/8f2dad3568e36155da5b20e3101fc09ac7bffa92" target="_blank">8f2dad3</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Untracked files:
-    Untracked:  analysis/lecture6.Rmd
+    Untracked:  docs/figure/lecture6.Rmd/
+
+Unstaged changes:
+    Modified:   analysis/lecture6.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
 </li>
 </ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/8f2dad3568e36155da5b20e3101fc09ac7bffa92/analysis/lecture6.Rmd" target="_blank">8f2dad3</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-05
+</td>
+<td style="text-align:left;">
+Nov52018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/han16/Data-Science-in-R/8f2dad3568e36155da5b20e3101fc09ac7bffa92/docs/lecture6.html" target="_blank">8f2dad3</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-05
+</td>
+<td style="text-align:left;">
+Nov52018
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
 <hr />
+<pre class="r"><code>########################################################
+#### Read Chapter 11 from book
+####
+#### Any questions from last week? 
+#### {ggplot2 transformations (barplots, smoothers, facets, factors)}
+######################################################
+
+## Reminder: factors in R
+library(tidyverse)</code></pre>
+<pre><code>-- Attaching packages ------------------------------------------------------------------------------ tidyverse 1.2.1 --</code></pre>
+<pre><code>v ggplot2 3.1.0     v purrr   0.2.5
+v tibble  1.4.2     v dplyr   0.7.7
+v tidyr   0.8.2     v stringr 1.3.1
+v readr   1.1.1     v forcats 0.3.0</code></pre>
+<pre><code>-- Conflicts --------------------------------------------------------------------------------- tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(forcats)
+colors &lt;- c(&quot;red&quot;,&quot;blue&quot;,&quot;green&quot;,&quot;green&quot;,&quot;red&quot;,&quot;blue&quot;,&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;)
+fcolors &lt;- factor(colors)
+levels(fcolors) ## alphabetical order</code></pre>
+<pre><code>[1] &quot;blue&quot;  &quot;green&quot; &quot;red&quot;  </code></pre>
+<pre class="r"><code>## Rename levels of a factor
+fct_recode(colors, R=&quot;red&quot;, B=&quot;blue&quot;, G=&quot;green&quot;)</code></pre>
+<pre><code>[1] R B G G R B R G B
+Levels: B G R</code></pre>
+<pre class="r"><code>## Reverse levels of a factor
+fct_rev(colors)</code></pre>
+<pre><code>[1] red   blue  green green red   blue  red   green blue 
+Levels: red green blue</code></pre>
+<pre class="r"><code>## Change order of a ractor
+fct_relevel(colors, &quot;green&quot;, &quot;red&quot;, &quot;blue&quot;)</code></pre>
+<pre><code>[1] red   blue  green green red   blue  red   green blue 
+Levels: green red blue</code></pre>
+<pre class="r"><code>#-------------------------------------------------------------
+## In class:
+## Let&#39;s try to fix that starwars density plot from 2 weeks ago
+## Plot gender in the following order (front to back):
+## female, male, hermaphrodite, none, NA 
+## Hint: let&#39;s use addNA() to add NA as one of the levels
+#-------------------------------------------------------------
+data(starwars)
+starwars$gender &lt;- factor(starwars$gender)
+levels(starwars$gender)   ## NA does not appear as a level!</code></pre>
+<pre><code>[1] &quot;female&quot;        &quot;hermaphrodite&quot; &quot;male&quot;          &quot;none&quot;         </code></pre>
+<pre class="r"><code>starwars$gender  &lt;- addNA(starwars$gender)
+
+levels(starwars$gender)</code></pre>
+<pre><code>[1] &quot;female&quot;        &quot;hermaphrodite&quot; &quot;male&quot;          &quot;none&quot;         
+[5] NA             </code></pre>
+<pre class="r"><code>levels(starwars$gender) &lt;- c(&quot;hi&quot;, &quot;hermaprhodite&quot;, &quot;male&quot;,
+                             &quot;hi&quot;, &quot;hi&quot;)
+  
+ggplot(starwars) +
+  geom_density(aes(x=log(mass), fill=gender), alpha=0.8)</code></pre>
+<pre><code>Warning: Removed 28 rows containing non-finite values (stat_density).</code></pre>
+<pre><code>Warning: Groups with fewer than two data points have been dropped.</code></pre>
+<p><img src="figure/lecture6.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Error: cannot convert a logical vector to a character vector</code></pre>
+<div id="ggplot-color-schemes" class="section level2">
+<h2>ggplot color schemes</h2>
+<pre class="r"><code>#=============================================================
+## ggplot2: Color schemes
+#=============================================================
+
+colors()</code></pre>
+<pre><code>  [1] &quot;white&quot;                &quot;aliceblue&quot;            &quot;antiquewhite&quot;        
+  [4] &quot;antiquewhite1&quot;        &quot;antiquewhite2&quot;        &quot;antiquewhite3&quot;       
+  [7] &quot;antiquewhite4&quot;        &quot;aquamarine&quot;           &quot;aquamarine1&quot;         
+ [10] &quot;aquamarine2&quot;          &quot;aquamarine3&quot;          &quot;aquamarine4&quot;         
+ [13] &quot;azure&quot;                &quot;azure1&quot;               &quot;azure2&quot;              
+ [16] &quot;azure3&quot;               &quot;azure4&quot;               &quot;beige&quot;               
+ [19] &quot;bisque&quot;               &quot;bisque1&quot;              &quot;bisque2&quot;             
+ [22] &quot;bisque3&quot;              &quot;bisque4&quot;              &quot;black&quot;               
+ [25] &quot;blanchedalmond&quot;       &quot;blue&quot;                 &quot;blue1&quot;               
+ [28] &quot;blue2&quot;                &quot;blue3&quot;                &quot;blue4&quot;               
+ [31] &quot;blueviolet&quot;           &quot;brown&quot;                &quot;brown1&quot;              
+ [34] &quot;brown2&quot;               &quot;brown3&quot;               &quot;brown4&quot;              
+ [37] &quot;burlywood&quot;            &quot;burlywood1&quot;           &quot;burlywood2&quot;          
+ [40] &quot;burlywood3&quot;           &quot;burlywood4&quot;           &quot;cadetblue&quot;           
+ [43] &quot;cadetblue1&quot;           &quot;cadetblue2&quot;           &quot;cadetblue3&quot;          
+ [46] &quot;cadetblue4&quot;           &quot;chartreuse&quot;           &quot;chartreuse1&quot;         
+ [49] &quot;chartreuse2&quot;          &quot;chartreuse3&quot;          &quot;chartreuse4&quot;         
+ [52] &quot;chocolate&quot;            &quot;chocolate1&quot;           &quot;chocolate2&quot;          
+ [55] &quot;chocolate3&quot;           &quot;chocolate4&quot;           &quot;coral&quot;               
+ [58] &quot;coral1&quot;               &quot;coral2&quot;               &quot;coral3&quot;              
+ [61] &quot;coral4&quot;               &quot;cornflowerblue&quot;       &quot;cornsilk&quot;            
+ [64] &quot;cornsilk1&quot;            &quot;cornsilk2&quot;            &quot;cornsilk3&quot;           
+ [67] &quot;cornsilk4&quot;            &quot;cyan&quot;                 &quot;cyan1&quot;               
+ [70] &quot;cyan2&quot;                &quot;cyan3&quot;                &quot;cyan4&quot;               
+ [73] &quot;darkblue&quot;             &quot;darkcyan&quot;             &quot;darkgoldenrod&quot;       
+ [76] &quot;darkgoldenrod1&quot;       &quot;darkgoldenrod2&quot;       &quot;darkgoldenrod3&quot;      
+ [79] &quot;darkgoldenrod4&quot;       &quot;darkgray&quot;             &quot;darkgreen&quot;           
+ [82] &quot;darkgrey&quot;             &quot;darkkhaki&quot;            &quot;darkmagenta&quot;         
+ [85] &quot;darkolivegreen&quot;       &quot;darkolivegreen1&quot;      &quot;darkolivegreen2&quot;     
+ [88] &quot;darkolivegreen3&quot;      &quot;darkolivegreen4&quot;      &quot;darkorange&quot;          
+ [91] &quot;darkorange1&quot;          &quot;darkorange2&quot;          &quot;darkorange3&quot;         
+ [94] &quot;darkorange4&quot;          &quot;darkorchid&quot;           &quot;darkorchid1&quot;         
+ [97] &quot;darkorchid2&quot;          &quot;darkorchid3&quot;          &quot;darkorchid4&quot;         
+[100] &quot;darkred&quot;              &quot;darksalmon&quot;           &quot;darkseagreen&quot;        
+[103] &quot;darkseagreen1&quot;        &quot;darkseagreen2&quot;        &quot;darkseagreen3&quot;       
+[106] &quot;darkseagreen4&quot;        &quot;darkslateblue&quot;        &quot;darkslategray&quot;       
+[109] &quot;darkslategray1&quot;       &quot;darkslategray2&quot;       &quot;darkslategray3&quot;      
+[112] &quot;darkslategray4&quot;       &quot;darkslategrey&quot;        &quot;darkturquoise&quot;       
+[115] &quot;darkviolet&quot;           &quot;deeppink&quot;             &quot;deeppink1&quot;           
+[118] &quot;deeppink2&quot;            &quot;deeppink3&quot;            &quot;deeppink4&quot;           
+[121] &quot;deepskyblue&quot;          &quot;deepskyblue1&quot;         &quot;deepskyblue2&quot;        
+[124] &quot;deepskyblue3&quot;         &quot;deepskyblue4&quot;         &quot;dimgray&quot;             
+[127] &quot;dimgrey&quot;              &quot;dodgerblue&quot;           &quot;dodgerblue1&quot;         
+[130] &quot;dodgerblue2&quot;          &quot;dodgerblue3&quot;          &quot;dodgerblue4&quot;         
+[133] &quot;firebrick&quot;            &quot;firebrick1&quot;           &quot;firebrick2&quot;          
+[136] &quot;firebrick3&quot;           &quot;firebrick4&quot;           &quot;floralwhite&quot;         
+[139] &quot;forestgreen&quot;          &quot;gainsboro&quot;            &quot;ghostwhite&quot;          
+[142] &quot;gold&quot;                 &quot;gold1&quot;                &quot;gold2&quot;               
+[145] &quot;gold3&quot;                &quot;gold4&quot;                &quot;goldenrod&quot;           
+[148] &quot;goldenrod1&quot;           &quot;goldenrod2&quot;           &quot;goldenrod3&quot;          
+[151] &quot;goldenrod4&quot;           &quot;gray&quot;                 &quot;gray0&quot;               
+[154] &quot;gray1&quot;                &quot;gray2&quot;                &quot;gray3&quot;               
+[157] &quot;gray4&quot;                &quot;gray5&quot;                &quot;gray6&quot;               
+[160] &quot;gray7&quot;                &quot;gray8&quot;                &quot;gray9&quot;               
+[163] &quot;gray10&quot;               &quot;gray11&quot;               &quot;gray12&quot;              
+[166] &quot;gray13&quot;               &quot;gray14&quot;               &quot;gray15&quot;              
+[169] &quot;gray16&quot;               &quot;gray17&quot;               &quot;gray18&quot;              
+[172] &quot;gray19&quot;               &quot;gray20&quot;               &quot;gray21&quot;              
+[175] &quot;gray22&quot;               &quot;gray23&quot;               &quot;gray24&quot;              
+[178] &quot;gray25&quot;               &quot;gray26&quot;               &quot;gray27&quot;              
+[181] &quot;gray28&quot;               &quot;gray29&quot;               &quot;gray30&quot;              
+[184] &quot;gray31&quot;               &quot;gray32&quot;               &quot;gray33&quot;              
+[187] &quot;gray34&quot;               &quot;gray35&quot;               &quot;gray36&quot;              
+[190] &quot;gray37&quot;               &quot;gray38&quot;               &quot;gray39&quot;              
+[193] &quot;gray40&quot;               &quot;gray41&quot;               &quot;gray42&quot;              
+[196] &quot;gray43&quot;               &quot;gray44&quot;               &quot;gray45&quot;              
+[199] &quot;gray46&quot;               &quot;gray47&quot;               &quot;gray48&quot;              
+[202] &quot;gray49&quot;               &quot;gray50&quot;               &quot;gray51&quot;              
+[205] &quot;gray52&quot;               &quot;gray53&quot;               &quot;gray54&quot;              
+[208] &quot;gray55&quot;               &quot;gray56&quot;               &quot;gray57&quot;              
+[211] &quot;gray58&quot;               &quot;gray59&quot;               &quot;gray60&quot;              
+[214] &quot;gray61&quot;               &quot;gray62&quot;               &quot;gray63&quot;              
+[217] &quot;gray64&quot;               &quot;gray65&quot;               &quot;gray66&quot;              
+[220] &quot;gray67&quot;               &quot;gray68&quot;               &quot;gray69&quot;              
+[223] &quot;gray70&quot;               &quot;gray71&quot;               &quot;gray72&quot;              
+[226] &quot;gray73&quot;               &quot;gray74&quot;               &quot;gray75&quot;              
+[229] &quot;gray76&quot;               &quot;gray77&quot;               &quot;gray78&quot;              
+[232] &quot;gray79&quot;               &quot;gray80&quot;               &quot;gray81&quot;              
+[235] &quot;gray82&quot;               &quot;gray83&quot;               &quot;gray84&quot;              
+[238] &quot;gray85&quot;               &quot;gray86&quot;               &quot;gray87&quot;              
+[241] &quot;gray88&quot;               &quot;gray89&quot;               &quot;gray90&quot;              
+[244] &quot;gray91&quot;               &quot;gray92&quot;               &quot;gray93&quot;              
+[247] &quot;gray94&quot;               &quot;gray95&quot;               &quot;gray96&quot;              
+[250] &quot;gray97&quot;               &quot;gray98&quot;               &quot;gray99&quot;              
+[253] &quot;gray100&quot;              &quot;green&quot;                &quot;green1&quot;              
+[256] &quot;green2&quot;               &quot;green3&quot;               &quot;green4&quot;              
+[259] &quot;greenyellow&quot;          &quot;grey&quot;                 &quot;grey0&quot;               
+[262] &quot;grey1&quot;                &quot;grey2&quot;                &quot;grey3&quot;               
+[265] &quot;grey4&quot;                &quot;grey5&quot;                &quot;grey6&quot;               
+[268] &quot;grey7&quot;                &quot;grey8&quot;                &quot;grey9&quot;               
+[271] &quot;grey10&quot;               &quot;grey11&quot;               &quot;grey12&quot;              
+[274] &quot;grey13&quot;               &quot;grey14&quot;               &quot;grey15&quot;              
+[277] &quot;grey16&quot;               &quot;grey17&quot;               &quot;grey18&quot;              
+[280] &quot;grey19&quot;               &quot;grey20&quot;               &quot;grey21&quot;              
+[283] &quot;grey22&quot;               &quot;grey23&quot;               &quot;grey24&quot;              
+[286] &quot;grey25&quot;               &quot;grey26&quot;               &quot;grey27&quot;              
+[289] &quot;grey28&quot;               &quot;grey29&quot;               &quot;grey30&quot;              
+[292] &quot;grey31&quot;               &quot;grey32&quot;               &quot;grey33&quot;              
+[295] &quot;grey34&quot;               &quot;grey35&quot;               &quot;grey36&quot;              
+[298] &quot;grey37&quot;               &quot;grey38&quot;               &quot;grey39&quot;              
+[301] &quot;grey40&quot;               &quot;grey41&quot;               &quot;grey42&quot;              
+[304] &quot;grey43&quot;               &quot;grey44&quot;               &quot;grey45&quot;              
+[307] &quot;grey46&quot;               &quot;grey47&quot;               &quot;grey48&quot;              
+[310] &quot;grey49&quot;               &quot;grey50&quot;               &quot;grey51&quot;              
+[313] &quot;grey52&quot;               &quot;grey53&quot;               &quot;grey54&quot;              
+[316] &quot;grey55&quot;               &quot;grey56&quot;               &quot;grey57&quot;              
+[319] &quot;grey58&quot;               &quot;grey59&quot;               &quot;grey60&quot;              
+[322] &quot;grey61&quot;               &quot;grey62&quot;               &quot;grey63&quot;              
+[325] &quot;grey64&quot;               &quot;grey65&quot;               &quot;grey66&quot;              
+[328] &quot;grey67&quot;               &quot;grey68&quot;               &quot;grey69&quot;              
+[331] &quot;grey70&quot;               &quot;grey71&quot;               &quot;grey72&quot;              
+[334] &quot;grey73&quot;               &quot;grey74&quot;               &quot;grey75&quot;              
+[337] &quot;grey76&quot;               &quot;grey77&quot;               &quot;grey78&quot;              
+[340] &quot;grey79&quot;               &quot;grey80&quot;               &quot;grey81&quot;              
+[343] &quot;grey82&quot;               &quot;grey83&quot;               &quot;grey84&quot;              
+[346] &quot;grey85&quot;               &quot;grey86&quot;               &quot;grey87&quot;              
+[349] &quot;grey88&quot;               &quot;grey89&quot;               &quot;grey90&quot;              
+[352] &quot;grey91&quot;               &quot;grey92&quot;               &quot;grey93&quot;              
+[355] &quot;grey94&quot;               &quot;grey95&quot;               &quot;grey96&quot;              
+[358] &quot;grey97&quot;               &quot;grey98&quot;               &quot;grey99&quot;              
+[361] &quot;grey100&quot;              &quot;honeydew&quot;             &quot;honeydew1&quot;           
+[364] &quot;honeydew2&quot;            &quot;honeydew3&quot;            &quot;honeydew4&quot;           
+[367] &quot;hotpink&quot;              &quot;hotpink1&quot;             &quot;hotpink2&quot;            
+[370] &quot;hotpink3&quot;             &quot;hotpink4&quot;             &quot;indianred&quot;           
+[373] &quot;indianred1&quot;           &quot;indianred2&quot;           &quot;indianred3&quot;          
+[376] &quot;indianred4&quot;           &quot;ivory&quot;                &quot;ivory1&quot;              
+[379] &quot;ivory2&quot;               &quot;ivory3&quot;               &quot;ivory4&quot;              
+[382] &quot;khaki&quot;                &quot;khaki1&quot;               &quot;khaki2&quot;              
+[385] &quot;khaki3&quot;               &quot;khaki4&quot;               &quot;lavender&quot;            
+[388] &quot;lavenderblush&quot;        &quot;lavenderblush1&quot;       &quot;lavenderblush2&quot;      
+[391] &quot;lavenderblush3&quot;       &quot;lavenderblush4&quot;       &quot;lawngreen&quot;           
+[394] &quot;lemonchiffon&quot;         &quot;lemonchiffon1&quot;        &quot;lemonchiffon2&quot;       
+[397] &quot;lemonchiffon3&quot;        &quot;lemonchiffon4&quot;        &quot;lightblue&quot;           
+[400] &quot;lightblue1&quot;           &quot;lightblue2&quot;           &quot;lightblue3&quot;          
+[403] &quot;lightblue4&quot;           &quot;lightcoral&quot;           &quot;lightcyan&quot;           
+[406] &quot;lightcyan1&quot;           &quot;lightcyan2&quot;           &quot;lightcyan3&quot;          
+[409] &quot;lightcyan4&quot;           &quot;lightgoldenrod&quot;       &quot;lightgoldenrod1&quot;     
+[412] &quot;lightgoldenrod2&quot;      &quot;lightgoldenrod3&quot;      &quot;lightgoldenrod4&quot;     
+[415] &quot;lightgoldenrodyellow&quot; &quot;lightgray&quot;            &quot;lightgreen&quot;          
+[418] &quot;lightgrey&quot;            &quot;lightpink&quot;            &quot;lightpink1&quot;          
+[421] &quot;lightpink2&quot;           &quot;lightpink3&quot;           &quot;lightpink4&quot;          
+[424] &quot;lightsalmon&quot;          &quot;lightsalmon1&quot;         &quot;lightsalmon2&quot;        
+[427] &quot;lightsalmon3&quot;         &quot;lightsalmon4&quot;         &quot;lightseagreen&quot;       
+[430] &quot;lightskyblue&quot;         &quot;lightskyblue1&quot;        &quot;lightskyblue2&quot;       
+[433] &quot;lightskyblue3&quot;        &quot;lightskyblue4&quot;        &quot;lightslateblue&quot;      
+[436] &quot;lightslategray&quot;       &quot;lightslategrey&quot;       &quot;lightsteelblue&quot;      
+[439] &quot;lightsteelblue1&quot;      &quot;lightsteelblue2&quot;      &quot;lightsteelblue3&quot;     
+[442] &quot;lightsteelblue4&quot;      &quot;lightyellow&quot;          &quot;lightyellow1&quot;        
+[445] &quot;lightyellow2&quot;         &quot;lightyellow3&quot;         &quot;lightyellow4&quot;        
+[448] &quot;limegreen&quot;            &quot;linen&quot;                &quot;magenta&quot;             
+[451] &quot;magenta1&quot;             &quot;magenta2&quot;             &quot;magenta3&quot;            
+[454] &quot;magenta4&quot;             &quot;maroon&quot;               &quot;maroon1&quot;             
+[457] &quot;maroon2&quot;              &quot;maroon3&quot;              &quot;maroon4&quot;             
+[460] &quot;mediumaquamarine&quot;     &quot;mediumblue&quot;           &quot;mediumorchid&quot;        
+[463] &quot;mediumorchid1&quot;        &quot;mediumorchid2&quot;        &quot;mediumorchid3&quot;       
+[466] &quot;mediumorchid4&quot;        &quot;mediumpurple&quot;         &quot;mediumpurple1&quot;       
+[469] &quot;mediumpurple2&quot;        &quot;mediumpurple3&quot;        &quot;mediumpurple4&quot;       
+[472] &quot;mediumseagreen&quot;       &quot;mediumslateblue&quot;      &quot;mediumspringgreen&quot;   
+[475] &quot;mediumturquoise&quot;      &quot;mediumvioletred&quot;      &quot;midnightblue&quot;        
+[478] &quot;mintcream&quot;            &quot;mistyrose&quot;            &quot;mistyrose1&quot;          
+[481] &quot;mistyrose2&quot;           &quot;mistyrose3&quot;           &quot;mistyrose4&quot;          
+[484] &quot;moccasin&quot;             &quot;navajowhite&quot;          &quot;navajowhite1&quot;        
+[487] &quot;navajowhite2&quot;         &quot;navajowhite3&quot;         &quot;navajowhite4&quot;        
+[490] &quot;navy&quot;                 &quot;navyblue&quot;             &quot;oldlace&quot;             
+[493] &quot;olivedrab&quot;            &quot;olivedrab1&quot;           &quot;olivedrab2&quot;          
+[496] &quot;olivedrab3&quot;           &quot;olivedrab4&quot;           &quot;orange&quot;              
+[499] &quot;orange1&quot;              &quot;orange2&quot;              &quot;orange3&quot;             
+[502] &quot;orange4&quot;              &quot;orangered&quot;            &quot;orangered1&quot;          
+[505] &quot;orangered2&quot;           &quot;orangered3&quot;           &quot;orangered4&quot;          
+[508] &quot;orchid&quot;               &quot;orchid1&quot;              &quot;orchid2&quot;             
+[511] &quot;orchid3&quot;              &quot;orchid4&quot;              &quot;palegoldenrod&quot;       
+[514] &quot;palegreen&quot;            &quot;palegreen1&quot;           &quot;palegreen2&quot;          
+[517] &quot;palegreen3&quot;           &quot;palegreen4&quot;           &quot;paleturquoise&quot;       
+[520] &quot;paleturquoise1&quot;       &quot;paleturquoise2&quot;       &quot;paleturquoise3&quot;      
+[523] &quot;paleturquoise4&quot;       &quot;palevioletred&quot;        &quot;palevioletred1&quot;      
+[526] &quot;palevioletred2&quot;       &quot;palevioletred3&quot;       &quot;palevioletred4&quot;      
+[529] &quot;papayawhip&quot;           &quot;peachpuff&quot;            &quot;peachpuff1&quot;          
+[532] &quot;peachpuff2&quot;           &quot;peachpuff3&quot;           &quot;peachpuff4&quot;          
+[535] &quot;peru&quot;                 &quot;pink&quot;                 &quot;pink1&quot;               
+[538] &quot;pink2&quot;                &quot;pink3&quot;                &quot;pink4&quot;               
+[541] &quot;plum&quot;                 &quot;plum1&quot;                &quot;plum2&quot;               
+[544] &quot;plum3&quot;                &quot;plum4&quot;                &quot;powderblue&quot;          
+[547] &quot;purple&quot;               &quot;purple1&quot;              &quot;purple2&quot;             
+[550] &quot;purple3&quot;              &quot;purple4&quot;              &quot;red&quot;                 
+[553] &quot;red1&quot;                 &quot;red2&quot;                 &quot;red3&quot;                
+[556] &quot;red4&quot;                 &quot;rosybrown&quot;            &quot;rosybrown1&quot;          
+[559] &quot;rosybrown2&quot;           &quot;rosybrown3&quot;           &quot;rosybrown4&quot;          
+[562] &quot;royalblue&quot;            &quot;royalblue1&quot;           &quot;royalblue2&quot;          
+[565] &quot;royalblue3&quot;           &quot;royalblue4&quot;           &quot;saddlebrown&quot;         
+[568] &quot;salmon&quot;               &quot;salmon1&quot;              &quot;salmon2&quot;             
+[571] &quot;salmon3&quot;              &quot;salmon4&quot;              &quot;sandybrown&quot;          
+[574] &quot;seagreen&quot;             &quot;seagreen1&quot;            &quot;seagreen2&quot;           
+[577] &quot;seagreen3&quot;            &quot;seagreen4&quot;            &quot;seashell&quot;            
+[580] &quot;seashell1&quot;            &quot;seashell2&quot;            &quot;seashell3&quot;           
+[583] &quot;seashell4&quot;            &quot;sienna&quot;               &quot;sienna1&quot;             
+[586] &quot;sienna2&quot;              &quot;sienna3&quot;              &quot;sienna4&quot;             
+[589] &quot;skyblue&quot;              &quot;skyblue1&quot;             &quot;skyblue2&quot;            
+[592] &quot;skyblue3&quot;             &quot;skyblue4&quot;             &quot;slateblue&quot;           
+[595] &quot;slateblue1&quot;           &quot;slateblue2&quot;           &quot;slateblue3&quot;          
+[598] &quot;slateblue4&quot;           &quot;slategray&quot;            &quot;slategray1&quot;          
+[601] &quot;slategray2&quot;           &quot;slategray3&quot;           &quot;slategray4&quot;          
+[604] &quot;slategrey&quot;            &quot;snow&quot;                 &quot;snow1&quot;               
+[607] &quot;snow2&quot;                &quot;snow3&quot;                &quot;snow4&quot;               
+[610] &quot;springgreen&quot;          &quot;springgreen1&quot;         &quot;springgreen2&quot;        
+[613] &quot;springgreen3&quot;         &quot;springgreen4&quot;         &quot;steelblue&quot;           
+[616] &quot;steelblue1&quot;           &quot;steelblue2&quot;           &quot;steelblue3&quot;          
+[619] &quot;steelblue4&quot;           &quot;tan&quot;                  &quot;tan1&quot;                
+[622] &quot;tan2&quot;                 &quot;tan3&quot;                 &quot;tan4&quot;                
+[625] &quot;thistle&quot;              &quot;thistle1&quot;             &quot;thistle2&quot;            
+[628] &quot;thistle3&quot;             &quot;thistle4&quot;             &quot;tomato&quot;              
+[631] &quot;tomato1&quot;              &quot;tomato2&quot;              &quot;tomato3&quot;             
+[634] &quot;tomato4&quot;              &quot;turquoise&quot;            &quot;turquoise1&quot;          
+[637] &quot;turquoise2&quot;           &quot;turquoise3&quot;           &quot;turquoise4&quot;          
+[640] &quot;violet&quot;               &quot;violetred&quot;            &quot;violetred1&quot;          
+[643] &quot;violetred2&quot;           &quot;violetred3&quot;           &quot;violetred4&quot;          
+[646] &quot;wheat&quot;                &quot;wheat1&quot;               &quot;wheat2&quot;              
+[649] &quot;wheat3&quot;               &quot;wheat4&quot;               &quot;whitesmoke&quot;          
+[652] &quot;yellow&quot;               &quot;yellow1&quot;              &quot;yellow2&quot;             
+[655] &quot;yellow3&quot;              &quot;yellow4&quot;              &quot;yellowgreen&quot;         </code></pre>
+<pre class="r"><code>## http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
+
+# ## Color choices in R: great palette selections from RColorBrewer 
+# ## Note: works in ggplot as well as base R
+# install.packages(&quot;RColorBrewer&quot;)  ## Only have to do this once
+library(RColorBrewer)
+display.brewer.all()</code></pre>
+<p><img src="figure/lecture6.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># ## 3 classes of colors: sequential, qualitative, diverging
+# ## When would each type of color class be appropriate?
+# 
+# ## Another great color palette: viridis
+# ## Designed to be perfectly perceptually-uniform, both in color and black-and-white
+# ## Also designed to be perceived by people with the most common form of color blindness
+# install.packages(&quot;viridis&quot;)  ## Only have to do this once
+library(viridis)</code></pre>
+<pre><code>Loading required package: viridisLite</code></pre>
+<pre class="r"><code>vignette(&quot;intro-to-viridis&quot;)</code></pre>
+<pre><code>starting httpd help server ...</code></pre>
+<pre><code> done</code></pre>
+<pre class="r"><code># ## Using color palettes with ggplot:
+# ## Think about what you&#39;re trying to color (discrete vs continuous) and why!
+# ## Color schemes: scale_color_brewer(), scale_fill_brewer(), scale_color_gradient(), ...
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color=hwy)) +
+  scale_color_viridis()</code></pre>
+<p><img src="figure/lecture6.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Why does this throw an error?
+#ggplot(data = mpg) +
+#  geom_point(mapping = aes(x = displ, y = hwy, color=drv)) +
+#  scale_color_viridis()
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color=drv)) +
+  scale_color_viridis(discrete=TRUE)</code></pre>
+<p><img src="figure/lecture6.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color=drv)) +
+  scale_color_brewer(palette = &quot;Accent&quot;) +
+  theme_bw()</code></pre>
+<p><img src="figure/lecture6.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color=drv)) +
+  scale_color_viridis(discrete=TRUE) +
+  theme_bw()</code></pre>
+<p><img src="figure/lecture6.Rmd/unnamed-chunk-6-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color=hwy)) +
+  scale_color_gradient() +
+  theme_bw()</code></pre>
+<p><img src="figure/lecture6.Rmd/unnamed-chunk-6-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## This doesn&#39;t behave as expected: note the aesthetic is fill and not color!
+ggplot(data = mpg) +
+  geom_boxplot(mapping = aes(x=drv, y = hwy, fill=drv)) +
+  scale_color_viridis(discrete=TRUE) +
+  theme_bw()</code></pre>
+<p><img src="figure/lecture6.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## This works!
+ggplot(data = mpg) +
+  geom_boxplot(mapping = aes(x=drv, y = hwy, fill=drv)) +
+  scale_fill_viridis(discrete=TRUE) +
+  theme_bw()</code></pre>
+<p><img src="figure/lecture6.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Darek&#39;s question: Can you use several palettes at once?
+
+ggplot(filter(mpg, displ &lt;= 3.5)) + 
+  geom_point(aes(x=displ, y=hwy, color=hwy)) +
+#  scale_color_viridis() +
+  geom_point(data=filter(mpg, displ &gt; 3.5, displ &lt;= 5.5),
+            aes(x=displ, y=hwy, color=hwy)) +
+#  scale_color_viridis() +
+  geom_point(data=filter(mpg, displ &gt; 5.5),
+            aes(x=displ, y=hwy), color=&quot;green&quot;) +
+  theme_bw()</code></pre>
+<p><img src="figure/lecture6.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># ## Choosing colors by hand
+# ## Ewww, this plot looks terrible, don&#39;t do red and green together!
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color=hwy)) +
+  scale_color_gradient(low=&quot;green&quot;, high=&quot;red&quot;) +
+  theme_bw()</code></pre>
+<p><img src="figure/lecture6.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color=drv)) +
+  scale_color_manual(values=c(&quot;darkblue&quot;, &quot;seagreen1&quot;, &quot;deeppink2&quot;)) +
+  theme_bw()</code></pre>
+<p><img src="figure/lecture6.Rmd/unnamed-chunk-10-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="final-dplyr-things" class="section level2">
+<h2>Final dplyr things</h2>
+<pre class="r"><code>#=============================================================
+## Some final dplyr things
+#=============================================================
+
+## dplyr: between() is a replacement for x &gt;= left &amp; x &lt;= right,
+x &lt;- rnorm(1e2)
+x[between(x, -1, 1)]</code></pre>
+<pre><code> [1] -0.7847604120 -0.4131694096 -0.5798840956  0.1834647296  0.7789849487
+ [6] -0.1318200487  0.6965441552  0.7119939397 -0.4012129360 -0.2901701209
+[11] -0.2295589517  0.8270893472 -0.4443644560  0.2125718079 -0.0054784086
+[16] -0.7718909589 -0.5832461507  0.4345987905  0.5223570224  0.1348486919
+[21]  0.6685079770  0.1654308795  0.3467112903  0.1555283770 -0.1543723007
+[26] -0.9425406702  0.7415524761 -0.4586699087  0.1519036358  0.1311753677
+[31]  0.6169200515  0.1481393012 -0.1516286945 -0.2593601914 -0.3439935173
+[36] -0.1411464808  0.3343868028  0.6144679507 -0.6197153447  0.0002111217
+[41] -0.1638040615  0.6302551112  0.5216520487 -0.6786712073 -0.2942612190
+[46]  0.5171862234  0.2144559378 -0.5872575052  0.9049742893  0.9140527213
+[51]  0.2671928869  0.0651716590  0.0830413216 -0.1102201708 -0.1634592926
+[56] -0.5346482502  0.4055601293 -0.3049972653  0.4359805567 -0.1244414637
+[61]  0.3627727855 -0.2582559420  0.1276777787 -0.4719391118  0.1081270454
+[66] -0.8907715886 -0.4876232789  0.6515524531  0.3914233505</code></pre>
+<pre class="r"><code>diamonds %&gt;% filter(between(depth, 60, 61))</code></pre>
+<pre><code># A tibble: 8,451 x 10
+   carat cut       color clarity depth table price     x     y     z
+   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1  0.22 Premium   F     SI1      60.4    61   342  3.88  3.84  2.33
+ 2  0.2  Premium   E     SI2      60.2    62   345  3.79  3.75  2.27
+ 3  0.32 Premium   E     I1       60.9    58   345  4.38  4.42  2.68
+ 4  0.23 Very Good H     VS1      61      57   353  3.94  3.96  2.41
+ 5  0.23 Very Good G     VVS2     60.4    58   354  3.97  4.01  2.41
+ 6  0.23 Very Good D     VS2      60.5    61   357  3.96  3.97  2.4 
+ 7  0.23 Very Good F     VS1      60.9    57   357  3.96  3.99  2.42
+ 8  0.23 Very Good F     VS1      60      57   402  4     4.03  2.41
+ 9  0.23 Very Good E     VS1      60.7    59   402  3.97  4.01  2.42
+10  0.26 Very Good D     VS2      60.8    59   403  4.13  4.16  2.52
+# ... with 8,441 more rows</code></pre>
+<pre class="r"><code>mpg %&gt;% filter(between(displ,3.5,5.4)) %&gt;%
+  summarize(min_displ = min(displ),
+            max_displ = max(displ))</code></pre>
+<pre><code># A tibble: 1 x 2
+  min_displ max_displ
+      &lt;dbl&gt;     &lt;dbl&gt;
+1       3.5       5.4</code></pre>
+<pre class="r"><code>## Other select helpers: starts_with, ends_with, contains, everything, rename, ...
+
+starwars %&gt;% select(ends_with(&quot;color&quot;))</code></pre>
+<pre><code># A tibble: 87 x 3
+   hair_color    skin_color  eye_color
+   &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;    
+ 1 blond         fair        blue     
+ 2 &lt;NA&gt;          gold        yellow   
+ 3 &lt;NA&gt;          white, blue red      
+ 4 none          white       yellow   
+ 5 brown         light       brown    
+ 6 brown, grey   light       blue     
+ 7 brown         light       blue     
+ 8 &lt;NA&gt;          white, red  red      
+ 9 black         light       brown    
+10 auburn, white fair        blue-gray
+# ... with 77 more rows</code></pre>
+<pre class="r"><code>starwars %&gt;% select(contains(&quot;_&quot;))</code></pre>
+<pre><code># A tibble: 87 x 4
+   hair_color    skin_color  eye_color birth_year
+   &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
+ 1 blond         fair        blue            19  
+ 2 &lt;NA&gt;          gold        yellow         112  
+ 3 &lt;NA&gt;          white, blue red             33  
+ 4 none          white       yellow          41.9
+ 5 brown         light       brown           19  
+ 6 brown, grey   light       blue            52  
+ 7 brown         light       blue            47  
+ 8 &lt;NA&gt;          white, red  red             NA  
+ 9 black         light       brown           24  
+10 auburn, white fair        blue-gray       57  
+# ... with 77 more rows</code></pre>
+<pre class="r"><code>starwars %&gt;% select(everything())</code></pre>
+<pre><code># A tibble: 87 x 13
+   name  height  mass hair_color skin_color eye_color birth_year gender
+   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;fct&gt; 
+ 1 Luke~    172    77 blond      fair       blue            19   male  
+ 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   hi    
+ 3 R2-D2     96    32 &lt;NA&gt;       white, bl~ red             33   hi    
+ 4 Dart~    202   136 none       white      yellow          41.9 male  
+ 5 Leia~    150    49 brown      light      brown           19   hi    
+ 6 Owen~    178   120 brown, gr~ light      blue            52   male  
+ 7 Beru~    165    75 brown      light      blue            47   hi    
+ 8 R5-D4     97    32 &lt;NA&gt;       white, red red             NA   hi    
+ 9 Bigg~    183    84 black      light      brown           24   male  
+10 Obi-~    182    77 auburn, w~ fair       blue-gray       57   male  
+# ... with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;,
+#   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
+<pre class="r"><code>starwars %&gt;% select(gender, everything())</code></pre>
+<pre><code># A tibble: 87 x 13
+   gender name  height  mass hair_color skin_color eye_color birth_year
+   &lt;fct&gt;  &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt;
+ 1 male   Luke~    172    77 blond      fair       blue            19  
+ 2 hi     C-3PO    167    75 &lt;NA&gt;       gold       yellow         112  
+ 3 hi     R2-D2     96    32 &lt;NA&gt;       white, bl~ red             33  
+ 4 male   Dart~    202   136 none       white      yellow          41.9
+ 5 hi     Leia~    150    49 brown      light      brown           19  
+ 6 male   Owen~    178   120 brown, gr~ light      blue            52  
+ 7 hi     Beru~    165    75 brown      light      blue            47  
+ 8 hi     R5-D4     97    32 &lt;NA&gt;       white, red red             NA  
+ 9 male   Bigg~    183    84 black      light      brown           24  
+10 male   Obi-~    182    77 auburn, w~ fair       blue-gray       57  
+# ... with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;,
+#   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
+<pre class="r"><code>starwars %&gt;% rename(Name = name)</code></pre>
+<pre><code># A tibble: 87 x 13
+   Name  height  mass hair_color skin_color eye_color birth_year gender
+   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;fct&gt; 
+ 1 Luke~    172    77 blond      fair       blue            19   male  
+ 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   hi    
+ 3 R2-D2     96    32 &lt;NA&gt;       white, bl~ red             33   hi    
+ 4 Dart~    202   136 none       white      yellow          41.9 male  
+ 5 Leia~    150    49 brown      light      brown           19   hi    
+ 6 Owen~    178   120 brown, gr~ light      blue            52   male  
+ 7 Beru~    165    75 brown      light      blue            47   hi    
+ 8 R5-D4     97    32 &lt;NA&gt;       white, red red             NA   hi    
+ 9 Bigg~    183    84 black      light      brown           24   male  
+10 Obi-~    182    77 auburn, w~ fair       blue-gray       57   male  
+# ... with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;,
+#   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
+<pre class="r"><code>## Multiple groupings
+grp &lt;- diamonds %&gt;% group_by(cut, color)
+summarize(grp, avg_price = mean(price),
+          median_carat = median(carat),
+          count = n())</code></pre>
+<pre><code># A tibble: 35 x 5
+# Groups:   cut [?]
+   cut   color avg_price median_carat count
+   &lt;ord&gt; &lt;ord&gt;     &lt;dbl&gt;        &lt;dbl&gt; &lt;int&gt;
+ 1 Fair  D         4291.         0.9    163
+ 2 Fair  E         3682.         0.9    224
+ 3 Fair  F         3827.         0.9    312
+ 4 Fair  G         4239.         0.98   314
+ 5 Fair  H         5136.         1.01   303
+ 6 Fair  I         4685.         1.01   175
+ 7 Fair  J         4976.         1.03   119
+ 8 Good  D         3405.         0.7    662
+ 9 Good  E         3424.         0.7    933
+10 Good  F         3496.         0.71   909
+# ... with 25 more rows</code></pre>
+<pre class="r"><code>## And we can ungroup
+grp %&gt;%
+  ungroup() %&gt;%
+  summarize(n())</code></pre>
+<pre><code># A tibble: 1 x 1
+  `n()`
+  &lt;int&gt;
+1 53940</code></pre>
+<pre class="r"><code>#=============================================================
+## Tidy data
+##
+## 鈥淗appy families are all alike; every unhappy family is unhappy in its own way鈥?  
+##    -Leo Tolstoy
+## 鈥淭idy datasets are all alike but every messy dataset is messy in its own way.鈥?  
+##    -Hadley Wickham
+##
+## ~ 80% of data analysis time is arguably spent cleaning and preparing data
+#=============================================================
+
+## What is tidy data?
+## 1) Each column is a variable, 2) each row is an observation, 3) each value has
+##     it&#39;s own cell
+## !!! If you&#39;re having trouble making a figure, stop and think whether your
+##     data is tidy!
+
+## Look at these three tables, where data is organized differently.
+## Which one is tidy?
+table1</code></pre>
+<pre><code># A tibble: 6 x 4
+  country      year  cases population
+  &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+1 Afghanistan  1999    745   19987071
+2 Afghanistan  2000   2666   20595360
+3 Brazil       1999  37737  172006362
+4 Brazil       2000  80488  174504898
+5 China        1999 212258 1272915272
+6 China        2000 213766 1280428583</code></pre>
+<pre class="r"><code>table2</code></pre>
+<pre><code># A tibble: 12 x 4
+   country      year type            count
+   &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;           &lt;int&gt;
+ 1 Afghanistan  1999 cases             745
+ 2 Afghanistan  1999 population   19987071
+ 3 Afghanistan  2000 cases            2666
+ 4 Afghanistan  2000 population   20595360
+ 5 Brazil       1999 cases           37737
+ 6 Brazil       1999 population  172006362
+ 7 Brazil       2000 cases           80488
+ 8 Brazil       2000 population  174504898
+ 9 China        1999 cases          212258
+10 China        1999 population 1272915272
+11 China        2000 cases          213766
+12 China        2000 population 1280428583</code></pre>
+<pre class="r"><code>table3</code></pre>
+<pre><code># A tibble: 6 x 3
+  country      year rate             
+* &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;            
+1 Afghanistan  1999 745/19987071     
+2 Afghanistan  2000 2666/20595360    
+3 Brazil       1999 37737/172006362  
+4 Brazil       2000 80488/174504898  
+5 China        1999 212258/1272915272
+6 China        2000 213766/1280428583</code></pre>
+<pre class="r"><code>## Wide versus long data
+## Wide is often more intuitive for human eyes, but long is more machine readable
+## Example: ## of enrolled patients in two different treatment groups at 5 sites
+messy &lt;- data.frame(site=c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;), 
+                    trt1=c(56,76,43,25,21), 
+                    trt2=c(123,234,187,198,23))
+messy</code></pre>
+<pre><code>  site trt1 trt2
+1    a   56  123
+2    b   76  234
+3    c   43  187
+4    d   25  198
+5    e   21   23</code></pre>
+<pre class="r"><code>## Why is this messy? Well let&#39;s try to plot a ggplot scatterplot of
+## the number of patients per site/per treatment group
+ggplot(messy) + geom_point(aes(x=site, y=trt1)) +
+  geom_point(aes(x=site, y=trt2))</code></pre>
+<p><img src="figure/lecture6.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Three main functions: gather, separate, spread
+## 1) gather =&gt; move from wide to long format (&quot;gather&quot; columns into rows)
+## Think about key-value pair (two new variable)
+gm &lt;- messy %&gt;% gather(treatment, count, trt1:trt2)
+gm &lt;- messy %&gt;% gather(treatmentblahblh, ct, -site)
+gm &lt;- messy %&gt;% gather(treatment, count, trt1, trt2)
+gm</code></pre>
+<pre><code>   site treatment count
+1     a      trt1    56
+2     b      trt1    76
+3     c      trt1    43
+4     d      trt1    25
+5     e      trt1    21
+6     a      trt2   123
+7     b      trt2   234
+8     c      trt2   187
+9     d      trt2   198
+10    e      trt2    23</code></pre>
+<pre class="r"><code>## 2) spread (opposite of gather!) =&gt; move from long to wide format (spread rows to columns)
+gm %&gt;% spread(key=treatment, value=count)</code></pre>
+<pre><code>  site trt1 trt2
+1    a   56  123
+2    b   76  234
+3    c   43  187
+4    d   25  198
+5    e   21   23</code></pre>
+<pre class="r"><code>## 3) separate: split off one column into two by separating character
+df &lt;- data.frame(x = c(&quot;a/b&quot;, &quot;a/d&quot;, &quot;b/c&quot;))
+df</code></pre>
+<pre><code>    x
+1 a/b
+2 a/d
+3 b/c</code></pre>
+<pre class="r"><code>df %&gt;% separate(x, c(&quot;A&quot;, &quot;B&quot;)) </code></pre>
+<pre><code>  A B
+1 a b
+2 a d
+3 b c</code></pre>
+<pre class="r"><code>separate(df, x, c(&quot;A&quot;, &quot;B&quot;), split=&quot;/&quot;) </code></pre>
+<pre><code>  A B
+1 a b
+2 a d
+3 b c</code></pre>
+<pre class="r"><code>#-----------------------------------------------------------------
+## In class exercises:
+## Why isn&#39;t table2 tidy? Let&#39;s make it tidy.
+## Why isn&#39;t table3 tidy? Let&#39;s make it tidy.
+## `table5` is also not tidy. Why not? Let&#39;s make it tidy.
+#-----------------------------------------------------------------
+
+table2 %&gt;% spread(key=type, value=count)</code></pre>
+<pre><code># A tibble: 6 x 4
+  country      year  cases population
+  &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+1 Afghanistan  1999    745   19987071
+2 Afghanistan  2000   2666   20595360
+3 Brazil       1999  37737  172006362
+4 Brazil       2000  80488  174504898
+5 China        1999 212258 1272915272
+6 China        2000 213766 1280428583</code></pre>
+<pre class="r"><code>table3 %&gt;% separate(rate, into=c(&quot;cases&quot;, &quot;population&quot;),
+                    split=&quot;/&quot;)</code></pre>
+<pre><code># A tibble: 6 x 4
+  country      year cases  population
+* &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;     
+1 Afghanistan  1999 745    19987071  
+2 Afghanistan  2000 2666   20595360  
+3 Brazil       1999 37737  172006362 
+4 Brazil       2000 80488  174504898 
+5 China        1999 212258 1272915272
+6 China        2000 213766 1280428583</code></pre>
+<pre class="r"><code>table5 %&gt;% unite(col=&quot;year&quot;, century, year, sep=&quot;&quot;) %&gt;%
+  separate(rate, into=c(&quot;cases&quot;, &quot;population&quot;),
+           split=&quot;/&quot;)</code></pre>
+<pre><code># A tibble: 6 x 4
+  country     year  cases  population
+  &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     
+1 Afghanistan 1999  745    19987071  
+2 Afghanistan 2000  2666   20595360  
+3 Brazil      1999  37737  172006362 
+4 Brazil      2000  80488  174504898 
+5 China       1999  212258 1272915272
+6 China       2000  213766 1280428583</code></pre>
+<pre class="r"><code>#=============================================================
+## Relational data
+#=============================================================
+
+## Two-table verbs for merge/join operations
+## 1. inner_join(A, B, by= &quot;...&quot;)
+## 2. left_join(A, B, by= &quot;...&quot;)
+## 3. semi_join(A, B, by= &quot;...&quot;)
+## 4. anti_join(A, B, by= &quot;...&quot;)
+
+superheroes &lt;- read.csv(&quot;../../lecture6/superheroes.csv&quot;)
+publishers &lt;- read.csv(&quot;../../lecture6/publishers.csv&quot;)
+
+superheroes
+publishers
+
+## Inner join: 
+## Return all rows of x with matching values of y, and all columns of x &amp; y
+## If multiple matches, return all match combinations.
+inner_join(superheroes, publishers, by=&quot;publisher&quot;)
+## Why doesn&#39;t Hellboy appear?
+## Does the order of x and y matter here?</code></pre>
+<pre class="r"><code>## Left join:
+## Return all rows of x, and all columns of x &amp; y.
+## If multiple matches, return all match combinations
+left_join(superheroes, publishers, by=&quot;publisher&quot;)
+## Why does Hellboy have an NA for yr_founded?
+
+## Right join:
+## Return all rows of y, and all columns of x &amp; y.
+## If multiple matches, return all match combinations
+right_join(superheroes, publishers, by=&quot;publisher&quot;)
+## Where is Hellboy?
+## What is going on with Image?
+
+## Full join:
+## Return all rows of x and y, keeping rows and columns that appear in either.
+full_join(superheroes, publishers, by=&quot;publisher&quot;)
+## Note that we have both Hellboy and Image</code></pre>
+<pre class="r"><code>## Note: it is usually a better idea to use these *_join statements that simply
+## doing a cbind() to bind columns together (e.g., unless you are SURE the rows are in the
+## same order!)
+
+## semi_join: keep all observations in x that have a match in y
+## anti_join: drop all observations in x that have a match in y
+
+anti_join(superheroes, publishers, by=&quot;publisher&quot;)
+anti_join(publishers, superheroes, by=&quot;publisher&quot;)
+semi_join(publishers, superheroes, by=&quot;publisher&quot;)
+semi_join(superheroes, publishers, by=&quot;publisher&quot;)
+
+inner_join(publishers, superheroes, by=&quot;publisher&quot;)</code></pre>
+<pre class="r"><code>#-----------------------------------------------------------------
+## In class exercises:
+## `table4a` + `table4b` together contain all of the information from `table1`. 
+##    Why aren&#39;t these two tables tidy? Let&#39;s make them tidy and combine them
+##    to recreate table1.
+#-----------------------------------------------------------------
+
+tab &lt;- full_join(table4a, table4b, by=&quot;country&quot;) %&gt;%
+  gather(key=year, value=val, -country) %&gt;%
+  separate(year, into=c(&quot;year&quot;, &quot;type&quot;), split=&quot;.&quot;) %&gt;%
+  spread(key=type, value=val) %&gt;%
+  rename(cases=x, population=y)</code></pre>
+<pre class="r"><code>#=============================================================
+## Importing and exporting data: Chapter 11 http://r4ds.had.co.nz/data-import.html
+#=============================================================
+
+## Reading files
+## base R: read.table, read.csv, read.delim
+## readr (tidyverse): read_table, read_csv, read_tsv
+
+superheroes_base &lt;- read.csv(&quot;../../lecture6/superheroes.csv&quot;)
+superheroes_readr &lt;- read_csv(&quot;../../lecture6/superheroes.csv&quot;)
+
+## skip=n to skip the first few lines of a file (if there are metadata)
+## Specify colnames or not
+superheroes_base &lt;- read.csv(&quot;../../lecture6/superheroes.csv&quot;, header=TRUE)
+superheroes_readr &lt;- read_csv(&quot;../../lecture6/superheroes.csv&quot;, col_names=TRUE)
+
+## Writing files
+## base r: write.table, write.csv
+## readr (tidyverse): write_table, write_csv
+
+## For reading from Excel files:
+?readxl</code></pre>
+<pre class="r"><code>#-------------------------------------------------------------
+## Let&#39;s play with the gapminder data for the rest of class
+#-------------------------------------------------------------
+
+# install.packages(&quot;gapminder&quot;)  ## Only have to do this one time
+# library(gapminder)
+# my_gap &lt;- data(gapminder)
+
+
+# Answer the following questions:
+# - How many observations are there in the data? How many observations per continent? How
+# many observations are there per country within each continent? How many variables?
+# What data type is each variable?
+# - Calculate the average life expectancy per continent. Now calculate the median life
+# expectancy per continent in 1952 and 2007.
+# - Make a simple scatterplot of GDP per capita versus life expectancy for 2007, where the
+# size of the points reflects the size of the population.
+# - Now make the plot as ugly and uninformative as possible -- think bad color choices,
+# truncated axes, overlapping points, ...
+# - Now let&#39;s make it as informative as possible -- think x-axis on log10 scale, informative
+# color/shape, etc....
+# - Taking your nice looking plot, facet by continent. Using the country_colors object in
+# gapminder, color the points by country.
+# - Explore some other plots! Don&#39;t hesitate to use filter or select to focus on a subset.
+#
+# - Identify the countries with worst and best life expectancy in Asia for each year. 
+# Hint: use min_rank().
+# - Identify which country had the sharpest 5-year drop in life expectancy in each continent.
+# Hint: use lag() in a mutate() to create a new variable representing the lag.
+
+
+
+#=============================================================
+## Next time: review tidy data, multiple linear regression
+#=============================================================</code></pre>
+</div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
 <pre class="r"><code>sessionInfo()</code></pre>
@@ -363,23 +1232,42 @@ Running under: Windows 10 x64 (build 17134)
 Matrix products: default
 
 locale:
-[1] LC_COLLATE=Chinese (Simplified)_China.936 
-[2] LC_CTYPE=Chinese (Simplified)_China.936   
-[3] LC_MONETARY=Chinese (Simplified)_China.936
-[4] LC_NUMERIC=C                              
-[5] LC_TIME=Chinese (Simplified)_China.936    
+[1] LC_COLLATE=English_United States.1252 
+[2] LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
+other attached packages:
+ [1] bindrcpp_0.2.2     viridis_0.5.1      viridisLite_0.3.0 
+ [4] RColorBrewer_1.1-2 forcats_0.3.0      stringr_1.3.1     
+ [7] dplyr_0.7.7        purrr_0.2.5        readr_1.1.1       
+[10] tidyr_0.8.2        tibble_1.4.2       ggplot2_3.1.0     
+[13] tidyverse_1.2.1   
+
 loaded via a namespace (and not attached):
- [1] workflowr_1.1.1   Rcpp_0.12.19      digest_0.6.18    
- [4] rprojroot_1.3-2   R.methodsS3_1.7.1 backports_1.1.2  
- [7] magrittr_1.5      git2r_0.23.0      evaluate_0.12    
-[10] stringi_1.2.4     whisker_0.3-2     R.oo_1.22.0      
-[13] R.utils_2.7.0     rmarkdown_1.10    tools_3.5.1      
-[16] stringr_1.3.1     yaml_2.2.0        compiler_3.5.1   
-[19] htmltools_0.3.6   knitr_1.20       </code></pre>
+ [1] tidyselect_0.2.5  haven_1.1.2       lattice_0.20-35  
+ [4] colorspace_1.3-2  htmltools_0.3.6   yaml_2.2.0       
+ [7] utf8_1.1.4        rlang_0.3.0.1     R.oo_1.22.0      
+[10] pillar_1.3.0      glue_1.3.0        withr_2.1.2      
+[13] R.utils_2.7.0     modelr_0.1.2      readxl_1.1.0     
+[16] bindr_0.1.1       plyr_1.8.4        munsell_0.5.0    
+[19] gtable_0.2.0      workflowr_1.1.1   cellranger_1.1.0 
+[22] rvest_0.3.2       R.methodsS3_1.7.1 evaluate_0.12    
+[25] labeling_0.3      knitr_1.20        fansi_0.4.0      
+[28] broom_0.5.0       Rcpp_0.12.19      scales_1.0.0     
+[31] backports_1.1.2   jsonlite_1.5      gridExtra_2.3    
+[34] hms_0.4.2         digest_0.6.18     stringi_1.2.4    
+[37] grid_3.5.1        rprojroot_1.3-2   cli_1.0.1        
+[40] tools_3.5.1       magrittr_1.5      lazyeval_0.2.1   
+[43] crayon_1.3.4      whisker_0.3-2     pkgconfig_2.0.2  
+[46] xml2_1.2.0        lubridate_1.7.4   assertthat_0.2.0 
+[49] rmarkdown_1.10    httr_1.3.1        rstudioapi_0.8   
+[52] R6_2.3.0          nlme_3.1-137      git2r_0.23.0     
+[55] compiler_3.5.1   </code></pre>
 </div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using

@@ -8,3 +8,431 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
+```{r, echo=T}
+
+########################################################
+#### Read Chapter 11 from book
+####
+#### Any questions from last week? 
+#### {ggplot2 transformations (barplots, smoothers, facets, factors)}
+######################################################
+
+## Reminder: factors in R
+library(tidyverse)
+library(forcats)
+colors <- c("red","blue","green","green","red","blue","red","green","blue")
+fcolors <- factor(colors)
+levels(fcolors) ## alphabetical order
+## Rename levels of a factor
+fct_recode(colors, R="red", B="blue", G="green")
+## Reverse levels of a factor
+fct_rev(colors)
+## Change order of a ractor
+fct_relevel(colors, "green", "red", "blue")
+```
+
+
+```{r, echo=T}
+#-------------------------------------------------------------
+## In class:
+## Let's try to fix that starwars density plot from 2 weeks ago
+## Plot gender in the following order (front to back):
+## female, male, hermaphrodite, none, NA 
+## Hint: let's use addNA() to add NA as one of the levels
+#-------------------------------------------------------------
+data(starwars)
+starwars$gender <- factor(starwars$gender)
+levels(starwars$gender)   ## NA does not appear as a level!
+starwars$gender  <- addNA(starwars$gender)
+
+levels(starwars$gender)
+levels(starwars$gender) <- c("hi", "hermaprhodite", "male",
+                             "hi", "hi")
+  
+ggplot(starwars) +
+  geom_density(aes(x=log(mass), fill=gender), alpha=0.8)
+
+## Error: cannot convert a logical vector to a character vector
+
+```
+
+## ggplot color schemes
+
+```{r, echo=T}
+#=============================================================
+## ggplot2: Color schemes
+#=============================================================
+
+colors()
+## http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
+
+# ## Color choices in R: great palette selections from RColorBrewer 
+# ## Note: works in ggplot as well as base R
+# install.packages("RColorBrewer")  ## Only have to do this once
+library(RColorBrewer)
+display.brewer.all()
+```
+
+```{r, echo=T}
+
+
+# ## 3 classes of colors: sequential, qualitative, diverging
+# ## When would each type of color class be appropriate?
+# 
+# ## Another great color palette: viridis
+# ## Designed to be perfectly perceptually-uniform, both in color and black-and-white
+# ## Also designed to be perceived by people with the most common form of color blindness
+# install.packages("viridis")  ## Only have to do this once
+library(viridis)
+vignette("intro-to-viridis")
+```
+
+
+
+```{r, echo=T}
+# ## Using color palettes with ggplot:
+# ## Think about what you're trying to color (discrete vs continuous) and why!
+# ## Color schemes: scale_color_brewer(), scale_fill_brewer(), scale_color_gradient(), ...
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color=hwy)) +
+  scale_color_viridis()
+```
+
+```{r, echo=T}
+## Why does this throw an error?
+#ggplot(data = mpg) +
+#  geom_point(mapping = aes(x = displ, y = hwy, color=drv)) +
+#  scale_color_viridis()
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color=drv)) +
+  scale_color_viridis(discrete=TRUE)
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color=drv)) +
+  scale_color_brewer(palette = "Accent") +
+  theme_bw()
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color=drv)) +
+  scale_color_viridis(discrete=TRUE) +
+  theme_bw()
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color=hwy)) +
+  scale_color_gradient() +
+  theme_bw()
+```
+
+```{r, echo=T}
+## This doesn't behave as expected: note the aesthetic is fill and not color!
+ggplot(data = mpg) +
+  geom_boxplot(mapping = aes(x=drv, y = hwy, fill=drv)) +
+  scale_color_viridis(discrete=TRUE) +
+  theme_bw()
+```
+
+```{r, echo=T}
+## This works!
+ggplot(data = mpg) +
+  geom_boxplot(mapping = aes(x=drv, y = hwy, fill=drv)) +
+  scale_fill_viridis(discrete=TRUE) +
+  theme_bw()
+```
+
+```{r, echo=T}
+## Darek's question: Can you use several palettes at once?
+
+ggplot(filter(mpg, displ <= 3.5)) + 
+  geom_point(aes(x=displ, y=hwy, color=hwy)) +
+#  scale_color_viridis() +
+  geom_point(data=filter(mpg, displ > 3.5, displ <= 5.5),
+            aes(x=displ, y=hwy, color=hwy)) +
+#  scale_color_viridis() +
+  geom_point(data=filter(mpg, displ > 5.5),
+            aes(x=displ, y=hwy), color="green") +
+  theme_bw()
+```
+
+```{r, echo=T}
+
+# ## Choosing colors by hand
+# ## Ewww, this plot looks terrible, don't do red and green together!
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color=hwy)) +
+  scale_color_gradient(low="green", high="red") +
+  theme_bw()
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color=drv)) +
+  scale_color_manual(values=c("darkblue", "seagreen1", "deeppink2")) +
+  theme_bw()
+```
+
+## Final dplyr things 
+
+```{r, echo=T}
+#=============================================================
+## Some final dplyr things
+#=============================================================
+
+## dplyr: between() is a replacement for x >= left & x <= right,
+x <- rnorm(1e2)
+x[between(x, -1, 1)]
+
+diamonds %>% filter(between(depth, 60, 61))
+
+mpg %>% filter(between(displ,3.5,5.4)) %>%
+  summarize(min_displ = min(displ),
+            max_displ = max(displ))
+```
+
+```{r, echo=T}
+
+## Other select helpers: starts_with, ends_with, contains, everything, rename, ...
+
+starwars %>% select(ends_with("color"))
+starwars %>% select(contains("_"))
+starwars %>% select(everything())
+starwars %>% select(gender, everything())
+starwars %>% rename(Name = name)
+```
+
+
+```{r, echo=T}
+## Multiple groupings
+grp <- diamonds %>% group_by(cut, color)
+summarize(grp, avg_price = mean(price),
+          median_carat = median(carat),
+          count = n())
+```
+
+```{r, echo=T}
+## And we can ungroup
+grp %>%
+  ungroup() %>%
+  summarize(n())
+```
+
+```{r, echo=T}
+#=============================================================
+## Tidy data
+##
+## â€œHappy families are all alike; every unhappy family is unhappy in its own wayâ€?  
+##    -Leo Tolstoy
+## â€œTidy datasets are all alike but every messy dataset is messy in its own way.â€?  
+##    -Hadley Wickham
+##
+## ~ 80% of data analysis time is arguably spent cleaning and preparing data
+#=============================================================
+
+## What is tidy data?
+## 1) Each column is a variable, 2) each row is an observation, 3) each value has
+##     it's own cell
+## !!! If you're having trouble making a figure, stop and think whether your
+##     data is tidy!
+
+## Look at these three tables, where data is organized differently.
+## Which one is tidy?
+table1
+table2
+table3
+
+## Wide versus long data
+## Wide is often more intuitive for human eyes, but long is more machine readable
+## Example: ## of enrolled patients in two different treatment groups at 5 sites
+messy <- data.frame(site=c("a", "b", "c", "d", "e"), 
+                    trt1=c(56,76,43,25,21), 
+                    trt2=c(123,234,187,198,23))
+messy
+
+```
+
+```{r, echo=T}
+## Why is this messy? Well let's try to plot a ggplot scatterplot of
+## the number of patients per site/per treatment group
+ggplot(messy) + geom_point(aes(x=site, y=trt1)) +
+  geom_point(aes(x=site, y=trt2))
+```
+
+
+```{r, echo=T}
+## Three main functions: gather, separate, spread
+## 1) gather => move from wide to long format ("gather" columns into rows)
+## Think about key-value pair (two new variable)
+gm <- messy %>% gather(treatment, count, trt1:trt2)
+gm <- messy %>% gather(treatmentblahblh, ct, -site)
+gm <- messy %>% gather(treatment, count, trt1, trt2)
+gm
+```
+
+
+```{r, echo=T}
+## 2) spread (opposite of gather!) => move from long to wide format (spread rows to columns)
+gm %>% spread(key=treatment, value=count)
+
+## 3) separate: split off one column into two by separating character
+df <- data.frame(x = c("a/b", "a/d", "b/c"))
+df
+df %>% separate(x, c("A", "B")) 
+separate(df, x, c("A", "B"), split="/") 
+```
+
+```{r, echo=T}
+
+#-----------------------------------------------------------------
+## In class exercises:
+## Why isn't table2 tidy? Let's make it tidy.
+## Why isn't table3 tidy? Let's make it tidy.
+## `table5` is also not tidy. Why not? Let's make it tidy.
+#-----------------------------------------------------------------
+
+table2 %>% spread(key=type, value=count)
+table3 %>% separate(rate, into=c("cases", "population"),
+                    split="/")
+table5 %>% unite(col="year", century, year, sep="") %>%
+  separate(rate, into=c("cases", "population"),
+           split="/")
+```
+
+```{r, echo=T}
+#=============================================================
+## Relational data
+#=============================================================
+
+## Two-table verbs for merge/join operations
+## 1. inner_join(A, B, by= "...")
+## 2. left_join(A, B, by= "...")
+## 3. semi_join(A, B, by= "...")
+## 4. anti_join(A, B, by= "...")
+
+superheroes <- read.csv("superheroes.csv")
+publishers <- read.csv("publishers.csv")
+
+superheroes
+publishers
+
+## Inner join: 
+## Return all rows of x with matching values of y, and all columns of x & y
+## If multiple matches, return all match combinations.
+inner_join(superheroes, publishers, by="publisher")
+## Why doesn't Hellboy appear?
+## Does the order of x and y matter here?
+```
+
+
+```{r, echo=T, eval=F}
+## Left join:
+## Return all rows of x, and all columns of x & y.
+## If multiple matches, return all match combinations
+left_join(superheroes, publishers, by="publisher")
+## Why does Hellboy have an NA for yr_founded?
+
+## Right join:
+## Return all rows of y, and all columns of x & y.
+## If multiple matches, return all match combinations
+right_join(superheroes, publishers, by="publisher")
+## Where is Hellboy?
+## What is going on with Image?
+
+## Full join:
+## Return all rows of x and y, keeping rows and columns that appear in either.
+full_join(superheroes, publishers, by="publisher")
+## Note that we have both Hellboy and Image
+```
+
+```{r, echo=T,eval=F}
+## Note: it is usually a better idea to use these *_join statements that simply
+## doing a cbind() to bind columns together (e.g., unless you are SURE the rows are in the
+## same order!)
+
+## semi_join: keep all observations in x that have a match in y
+## anti_join: drop all observations in x that have a match in y
+
+anti_join(superheroes, publishers, by="publisher")
+anti_join(publishers, superheroes, by="publisher")
+semi_join(publishers, superheroes, by="publisher")
+semi_join(superheroes, publishers, by="publisher")
+
+inner_join(publishers, superheroes, by="publisher")
+```
+
+```{r, echo=T, eval=F}
+#-----------------------------------------------------------------
+## In class exercises:
+## `table4a` + `table4b` together contain all of the information from `table1`. 
+##    Why aren't these two tables tidy? Let's make them tidy and combine them
+##    to recreate table1.
+#-----------------------------------------------------------------
+
+tab <- full_join(table4a, table4b, by="country") %>%
+  gather(key=year, value=val, -country) %>%
+  separate(year, into=c("year", "type"), split=".") %>%
+  spread(key=type, value=val) %>%
+  rename(cases=x, population=y)
+```
+
+```{r, echo=T, eval=F}
+#=============================================================
+## Importing and exporting data: Chapter 11 http://r4ds.had.co.nz/data-import.html
+#=============================================================
+
+## Reading files
+## base R: read.table, read.csv, read.delim
+## readr (tidyverse): read_table, read_csv, read_tsv
+
+superheroes_base <- read.csv("../../lecture6/superheroes.csv")
+superheroes_readr <- read_csv("../../lecture6/superheroes.csv")
+
+## skip=n to skip the first few lines of a file (if there are metadata)
+## Specify colnames or not
+superheroes_base <- read.csv("../../lecture6/superheroes.csv", header=TRUE)
+superheroes_readr <- read_csv("../../lecture6/superheroes.csv", col_names=TRUE)
+
+## Writing files
+## base r: write.table, write.csv
+## readr (tidyverse): write_table, write_csv
+
+## For reading from Excel files:
+?readxl
+```
+
+```{r, echo=T, eval=F}
+#-------------------------------------------------------------
+## Let's play with the gapminder data for the rest of class
+#-------------------------------------------------------------
+
+# install.packages("gapminder")  ## Only have to do this one time
+# library(gapminder)
+# my_gap <- data(gapminder)
+
+
+# Answer the following questions:
+# - How many observations are there in the data? How many observations per continent? How
+# many observations are there per country within each continent? How many variables?
+# What data type is each variable?
+# - Calculate the average life expectancy per continent. Now calculate the median life
+# expectancy per continent in 1952 and 2007.
+# - Make a simple scatterplot of GDP per capita versus life expectancy for 2007, where the
+# size of the points reflects the size of the population.
+# - Now make the plot as ugly and uninformative as possible -- think bad color choices,
+# truncated axes, overlapping points, ...
+# - Now let's make it as informative as possible -- think x-axis on log10 scale, informative
+# color/shape, etc....
+# - Taking your nice looking plot, facet by continent. Using the country_colors object in
+# gapminder, color the points by country.
+# - Explore some other plots! Don't hesitate to use filter or select to focus on a subset.
+#
+# - Identify the countries with worst and best life expectancy in Asia for each year. 
+# Hint: use min_rank().
+# - Identify which country had the sharpest 5-year drop in life expectancy in each continent.
+# Hint: use lag() in a mutate() to create a new variable representing the lag.
+
+
+
+#=============================================================
+## Next time: review tidy data, multiple linear regression
+#=============================================================
+
+```
