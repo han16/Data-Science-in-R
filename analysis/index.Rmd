@@ -4,7 +4,9 @@ site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
     toc: false
+    
 ---
+
 
 * [lecture 1](lecture1.html)
 * [lecture 2](lecture2.html)
@@ -12,3 +14,4 @@ output:
 * [lecture 4](lecture4.html)
 * [lecture 5](lecture5.html)
 * [lecture 6](lecture6.html)
+* [lecture 7](lecture7.html)
