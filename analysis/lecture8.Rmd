@@ -4,3 +4,511 @@ author: "Shengtong"
 date: "2018-11-06"
 output: workflowr::wflow_html
 ---
+
+
+```{r, echo=T, eval=F}
+
+########################################################
+#### Go over midterm
+####
+#### Read Chapter 23 from http://r4ds.had.co.nz/index.html,
+####   Chapter 14 from book
+####
+#### HW 5 due next week
+####
+#### Review correlation, linear models
+######################################################
+
+
+#-------------------------------------------------------------
+## In class warm-up to review linear models:
+#-------------------------------------------------------------
+## What is linear regression?
+## How are coefficients of a linear regression interpreted?
+## Y = B_0 + B_1 * X
+## What is the idea behind ordinary least squares regression?
+
+library(tidyverse)
+library(broom)
+data(iris)
+setosa <- iris %>% filter(Species == "setosa")
+ggplot(setosa, aes(x=Sepal.Width, y=Sepal.Length)) +
+  geom_point() +
+  geom_smooth(method="lm", se=FALSE)
+
+mod  <- lm(Sepal.Length ~ Sepal.Width, 
+           data = setosa)
+summary(mod)
+
+mod2  <- lm(Sepal.Length ~ Sepal.Width + Species, 
+           data = iris)
+summary(mod2)
+
+#=============================================================
+## Linear models: lm(Numeric response ~ <predictors>)
+## 
+## Single numeric predictor = Regression
+## Single categorical predictor = ANOVA
+## Multiple numeric predictors = Multiple regression
+## Multiple categorical predictors = n-way ANOVA
+## Single categorical and n numeric predictors = ANCOVA
+## Multiple categorical and n numeric predictors = linear model
+#=============================================================
+
+## What happens with a categorical predictor?
+mod_species <- lm(Sepal.Length ~ Species, data=iris)
+summary(mod_species) 
+## Where is the Speciessetosa coefficient?
+## How are these coefficients interpreted?
+
+augment_species <- augment(mod_species)
+ggplot(augment_species, aes(x=Species, y=Sepal.Length)) +
+  geom_point() +
+  geom_point(aes(x=Species, y=.fitted), color="red", size=4)
+
+## How to interpret multiple numeric predictors? 
+mod_multiple  <- lm(Sepal.Length ~ Sepal.Width + Petal.Width, 
+           data = setosa)
+summary(mod_multiple)
+
+## How to interpret multiple numeric/categorical predictors? 
+mod_multiple  <- lm(Sepal.Length ~ Sepal.Width + Species, 
+                    data = iris)
+summary(mod_multiple)
+
+## Reminder: we can always check the model matrix to see the equation fit by lm!
+library(modelr)
+model_matrix(iris, Sepal.Length ~ Sepal.Width + Species)
+
+## IMPORTANT: Predictors are assumed to be independent of one another 
+## in a multiple regression!!
+## Don't forget to check model assumptions!
+
+library(GGally)
+ggpairs(iris)
+#=============================================================
+## Interactions
+#=============================================================
+
+## What is an interaction?
+
+## What if the relationship between Sepal.Length and Sepal.Width is different
+##    depending on the species?
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width)) +
+  geom_point(aes(color=Species)) +
+  geom_smooth(se=FALSE, aes(color=Species), method = "lm")
+mod_interaction <- lm(Sepal.Length ~ Sepal.Width * Species,
+                       data = iris)
+summary(mod_interaction)
+
+## Interactions: continuous and categorical predictors
+mod1a <- lm(Sepal.Width ~ Sepal.Length + Species, data=iris)
+mod1b <- lm(Sepal.Width ~ Sepal.Length * Species, data=iris)
+mod1c <- lm(Sepal.Width ~ Sepal.Length + Species + Sepal.Length:Species, 
+            data=iris)
+
+
+## Use commands from modelr to make predictions/calculate residuals
+library(modelr)
+## Let's visualize residuals and evaluate models
+res <- iris %>% gather_residuals(mod1a, mod1b)
+ggplot(res, aes(x=Sepal.Length, y=resid, colour = Species)) + 
+  geom_point() + 
+  facet_grid(model ~ Species)
+
+grid <- data_grid(iris, Sepal.Length, Sepal.Width, Species) %>%
+  gather_predictions(mod1a, mod1b)
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, colour = Species)) + 
+  geom_point() + 
+  geom_line(data = grid, aes(y = pred)) + 
+  facet_wrap(~ model) + theme_bw()
+
+## Interactions: continuous and continuous predictors
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width)) +
+  geom_point(aes(color=Petal.Width))
+mod2a <- lm(Sepal.Width ~ Sepal.Length + Petal.Width, data=iris)
+mod2b <- lm(Sepal.Width ~ Sepal.Length * Petal.Width, data=iris)
+
+grid <- data_grid(iris, Sepal.Length, Petal.Width, Species) %>%
+  gather_predictions(mod2a, mod2b)
+grid$Petal.Width.Quantile <- factor(ntile(grid$Petal.Width, 4))
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width)) + 
+  geom_point(aes(colour = Species)) + 
+  geom_smooth(data = grid, alpha=0.5, color="black",
+              aes(y = pred, lty=Petal.Width.Quantile)) + 
+  facet_wrap(~ model) + theme_bw() 
+  
+## Typically, main effects are always included with interaction effects
+## (but ignore main effect coefficients when interaction is significant)
+
+#=============================================================
+## Logistic regression
+#=============================================================
+
+## Big question:
+## Why did some people survive the sinking of the Titanic while others 
+## did not?
+##
+## Survived is the response variable, remaining variables are predictors
+
+library(titanic)
+
+## First idea could be to fit a linear model to predict survival based on age
+
+ggplot(titanic_train, aes(Age, Survived)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+
+## What do you notice?
+
+ggplot(titanic_train, aes(Age, Survived)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, fullrange = TRUE) +
+  xlim(0, 200)
+
+## => So rather than modeling Survived directly, we could instead model
+## the probability that Survived == 1, given the age:
+## P = Pr(Survived = 1 | age)
+## i.e., model a binary response by fitting a logistic curve to data
+## We could say P > 0.5 => survived, P <= 0.5 => did not survive
+##
+## This is done using a logistic regression:
+survive_age <- glm(Survived ~ Age, data = titanic_train, family = binomial)
+summary(survive_age)
+
+ggplot(titanic_train, aes(Age, Survived)) +
+  geom_point() +
+  geom_smooth(method = "glm",
+              method.args = list(family = "binomial"),
+              se = FALSE)
+
+## Note that the line is not actually perfectly linear!
+## And no more negative predictions of survival probability
+ggplot(titanic_train, aes(Age, Survived)) +
+  geom_point() +
+  geom_smooth(method = "glm", method.args = list(family = "binomial"),
+              se = FALSE, fullrange = TRUE) +
+  xlim(0, 200)
+
+## Interpretation of coefficients
+## For every unit increase of age, the log odds of survival increase
+##    by the coefficient
+## log odds = log((Pr survived) / (Pr did not survive))
+
+## Adding predictions using modelr
+## Make a clean grid of potential values
+titanic_age <- titanic_train %>%
+  data_grid(Age)
+titanic_age
+titanic_age <- titanic_age %>%
+  add_predictions(survive_age)
+
+## So what's going on with these predictions?
+head(titanic_age)
+
+#-------------------------------------------------------------
+## In-class exercises:
+##
+## Write a function called logit2prob to convert log-odds to 
+## the predicted scale
+#-------------------------------------------------------------
+logit2prob <- function(x) {
+  return(exp(x) / (1 + exp(x)))
+}
+
+
+titanic_age <- titanic_age %>%
+  mutate(pred = logit2prob(pred))
+
+ggplot(titanic_age, aes(Age, pred)) +
+  geom_line() +
+  labs(title = "Relationship Between Age and Surviving the Titanic",
+       y = "Predicted Probability of Survival")
+
+## But maybe two (or more!) predictors are important!
+survive_age.sex <- glm(formula = Survived ~ Age + Sex, 
+                       family = binomial, 
+                       data = titanic_train)
+summary(survive_age.sex)
+
+## What do the coefficients in the model mean here?
+titanic_age.sex <- titanic_train %>%
+  data_grid(Age, Sex) %>%
+  add_predictions(survive_age.sex) %>%
+  mutate(pred = logit2prob(pred))
+titanic_age.sex
+
+## So how to interpret this?
+ggplot(titanic_age.sex, aes(Age, pred, color = Sex)) +
+  geom_line() +
+  labs(title = "Probability of Surviving the Titanic",
+       y = "Predicted Probability of Survival",
+       color = "Sex")
+
+## So what about a possible interaction?
+
+survive_ageXsex <- glm(formula = Survived ~ Age * Sex, family = binomial, 
+                       data = titanic_train)
+summary(survive_ageXsex)
+
+## How are these coefficients interpreted?
+titanic_ageXsex <- titanic_train %>%
+  data_grid(Age, Sex) %>%
+  add_predictions(survive_ageXsex) %>%
+  mutate(pred = logit2prob(pred))
+titanic_ageXsex
+
+## So how to interpret this?
+ggplot(titanic_ageXsex, aes(Age, pred, color = Sex)) +
+  geom_line() +
+  labs(title = "Probability of Surviving the Titanic",
+       y = "Predicted Probability of Survival",
+       color = "Sex")
+
+extra_model <- glm(formula = Survived ~ Age + Sex + 
+                     factor(Pclass) +
+                     factor(Pclass):Sex, 
+                   family = binomial, 
+                       data = titanic_train)
+summary(extra_model)
+
+#=============================================================
+## Model selection / comparing models
+#=============================================================
+
+##  So how do you know if a model is good or bad? How do you choose
+##   the best predictors? How can we build models as robustly as possible?
+
+## Model validation strategy:
+# -- Randomly	divide	data	into: 
+#   (1) Training data (~60-80%)
+#   (2) Test data (remainder)
+# -- Build model with training data
+# -- Fit model to test data and evaluate performance
+# * Categorical data: accuracy, PPV, TPR, FNR, AUC, ...
+# * Numeric response: RMSE = sqrt(1/n * sum((pred - obs)^2))
+
+
+model1 <- lm(Sepal.Length ~ Petal.Length, data = iris)
+model2 <- lm(Sepal.Length ~ Petal.Length + Species, data = iris)
+model3 <- lm(Sepal.Length ~ Petal.Length * Species, data = iris)
+model4 <- lm(Sepal.Length ~ Sepal.Width + Petal.Length * Species, data = iris)
+model5 <- lm(Sepal.Length ~ ., data = iris)
+
+
+## 1. R2 versus adjusted R2 for a linear model
+##    => R2 ALWAYS increases with more predictors, beware!
+## 2. What kind of prediction errors does the model make?
+##    => Linear model: calculate RMSE
+##    => Logistic regression: get predicted survival probabilities, convert
+##       to prediction, and see how accurate you were
+## 3. Backwards / forwards / stepwise regression using criteria like
+##    the AIC and BIC
+##    => AIC (Akaike Information Criterion) or BIC (Bayesian Information Criterion)
+##    => Both account for the number of parameters to protect against overfitting
+##    => AIC = 2 * (k - logLikelihood)
+##    => BIC = k * log(n) - (2 * logLikelihood)
+##    => where k = # of parameters, n = # of observations
+##    => Prefer models with lower AICs or BICs
+## 4. Likelihood ratio test (for ***nested*** models)
+## 5. k-fold cross validation
+## 6. ROC curves and AUC (for logistic regression)
+
+
+#-------------------------------------------------------------
+## In-class exercises:
+##
+## a) Which of the above iris models is preferred by R2 and adjusted R2?
+##
+## b) Get predicted Sepal.Length for model1 and model3, and calculate RMSE
+## c) Get predicted survival probabilities for model with age alone and
+##       model with age * sex, convert to a prediction,
+##       and see what percentage of predictions were accurate.
+##
+## d) Perform backwards/forwards/stepwise regression 
+## e) Perform a likelihood ratio test for model3 and model1 above
+## f) Perform 10-fold cross validation to evaluate the best iris model.
+#-------------------------------------------------------------
+
+
+## 
+set.seed(1234)
+iris$subsample <- runif(nrow(iris))
+iris$test <- ifelse(iris$subsample < 0.90, "train", "test")
+iris_train <- filter(iris, test == "train")
+iris_test <- filter(iris, test == "test")
+
+mod <- lm(Sepal.Length ~ Sepal.Width, data = iris_train)
+pred <- predict(mod, iris_test)
+rmse <- sqrt(1/length(pred) * sum((iris_test$Sepal.Length - pred)^2))
+
+mod2 <- lm(Sepal.Length ~ Sepal.Width + Species, data = iris_train)
+pred2 <- predict(mod2, iris_test)
+rmse2 <- sqrt(1/length(pred2) * sum((iris_test$Sepal.Length - pred)^2))
+
+## Hint for part c:
+age_accuracy <- titanic_train %>%
+  add_predictions(survive_age) %>%
+  mutate(pred = logit2prob(pred),
+         pred = as.numeric(pred > .5))
+mean(age_accuracy$Survived == age_accuracy$pred, na.rm = TRUE)
+
+## Hint for part d:
+model <- lm(Sepal.Length ~ ., data = iris)
+## Backwards selection with AIC
+aic.backwards <- step(model, trace=TRUE) 
+glance(aic.backwards)
+tidy(aic.backwards)
+## Stepwise selection with BIC, for example
+bic.step<- step(model, trace=TRUE, criterion = "BIC", direction="both")
+
+## Hint for part e:
+alt_model <- glance(model3)
+null_model <- glance(model1)
+D <- 2 * (alt_model$logLik - null_model$logLik) ### test statistic 
+df <- alt_model$df - null_model$df             ### chisquared degrees of freedom
+1 - pchisq(D,df)
+
+
+## ROC (=receiver operating characteristic) curves and AUC (= area under the curve)
+## Let's talk about a confusion matrix
+##  TPR	=	TP/P	=	TP/(TP+FN) => Sensitivity
+##  TNR	=	TN/N	=	TN/(FP+TN) => Specificiy
+##  FPR	=	FP/N	=	FP/(FP+TN)	=	1	– TNR	=> False positive rate
+##  TP/(TP+FP) => Precision
+##  FP/(FP+TP)	=	1– PPV => False discovery rate
+##  (TP	+	TN)	/	(TP	+	TN	+	FP	+	FN) => Accuracy
+
+## Let's calculate these values for our model, assuming pred > 0.5 => Survived
+library(pROC)
+## Let's use the age x sex titanic logistic regression model
+## create ROC object
+survive_ageXsex <- glm(formula = Survived ~ Age * Sex, family = binomial, 
+                       data = titanic_train)
+roc.object <- roc(titanic_train$Survived[!is.na(titanic_train$Age)], 
+                  survive_ageXsex$linear.predictors)
+roc.object$auc
+
+## Plot ROC curves
+roc.data <- tibble(x = roc.object$specificities,   ### TNR (1-FPR)
+                     y = roc.object$sensitivities) ### TPR
+ggplot(roc.data, aes(x = x, y = y)) +
+  geom_line() + scale_x_reverse() +
+  ylab("Sensitivity") +
+  xlab("Specificity")
+
+
+#=============================================================
+## Quick discussion: What do you do when model diagnostics don't look right?
+#=============================================================
+
+## Model misspecification? (e.g. link, or add another regressor or higher-order
+##   term)
+## Nonlinear relationship between covariate and response
+## (nonlinear) transformation of a covariate and/or response variable? e.g. log
+
+
+
+#=============================================================
+## Multiple testing
+#=============================================================
+
+## What's the issue?
+## Consider the following: We have 1 y-variable and 100 different x-variables
+y <- rnorm(n=50)
+x <- matrix(0, ncol=100, nrow=50)
+for(i in 1:100){
+  x[,i] <- rnorm(n=50)
+}
+
+## Suppose we test for the correlation of y with each of these 100 
+## different x-variables
+p.vector <- NULL
+for(i in 1:100){
+  mod <- lm(y ~ x[,i])
+  p.vector[i] <- summary(mod)$coef[2,4]
+}
+
+## If our criteiron for "rejecting" the null hypothesis is p < 0.05,
+## how many null hypotheses would we reject?
+## Does this control the Family-wise error rate (FWER)?
+
+
+
+## So what criterion would control the FWER at 5%?
+##   => Only if p < 0.05/100 (this is called the Bonferroni correction)
+
+
+
+## Simulations to evaulate both scenarios
+
+uncorrected <- NULL
+bonf.corrected <- NULL
+
+for(j in 1:1000){
+
+  #### Simulate the data	
+  y <- rnorm(n=50)
+  x <- matrix(0, ncol=100, nrow=50)
+  for(i in 1:100){
+    x[,i] <- rnorm(n=50)
+  }
+  
+  #### Run 100 regressions
+  p.vector <- NULL
+  for(i in 1:100){
+    mod <- lm(y ~ x[,i])
+    p.vector[i] <- summary(mod)$coef[2,4]
+  }
+  
+  #### Count the number of false discoveries
+  uncorrected[j] <- sum(p.vector < 0.05)
+  bonf.corrected[j] <- sum(p.vector < 0.05/100)
+}
+
+mean(uncorrected)
+mean(bonf.corrected)
+
+
+## What is the False-Discovery Rate? How do we control the FDR?
+##  => We can use the p.adjust() function.
+
+y <- rnorm(n=50)
+x <- matrix(0, ncol=100, nrow=50)
+for(i in 1:100){
+  x[,i] <- rnorm(n=50)
+}
+
+## Suppose we test for the correlation of y with each of these 100 
+## different x-variables
+p.vector <- NULL
+for(i in 1:100){
+  mod <- lm(y ~ x[,i])
+  p.vector[i] <- summary(mod)$coef[2,4]
+}
+
+p.bh.adjusted <- p.adjust(p.vector, method='BH')
+p.bonf.adjusted <- p.adjust(p.vector, method='bonferroni')
+
+sum(p.bh.adjusted < 0.05)
+sum(p.bonf.adjusted < 0.05)
+
+#-------------------------------------------------------------
+## In-class exercises:
+##
+## Write a simulation to see how well p.bh.adjusted controls FDR.
+## Write a simulation to see how well p.bonf.adjusted controls FWER.
+#-------------------------------------------------------------
+
+#=============================================================
+## Next time: HW 5 due. 
+## Computational statistics, simulation, Monte Carlo, bootstrapping,
+## multiple testing. Maybe Simpson's paradox also.
+#=============================================================
+
+
+
+logit2prob <- function(x) {
+  exp(x) / (1 + exp(x))
+}
+```
