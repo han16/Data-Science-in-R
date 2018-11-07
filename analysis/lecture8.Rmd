@@ -6,7 +6,7 @@ output: workflowr::wflow_html
 ---
 
 
-```{r, echo=T, eval=F}
+```{r, echo=T}
 
 ########################################################
 #### Go over midterm
@@ -43,7 +43,9 @@ summary(mod)
 mod2  <- lm(Sepal.Length ~ Sepal.Width + Species, 
            data = iris)
 summary(mod2)
+```
 
+```{r, echo=T}
 #=============================================================
 ## Linear models: lm(Numeric response ~ <predictors>)
 ## 
@@ -60,22 +62,30 @@ mod_species <- lm(Sepal.Length ~ Species, data=iris)
 summary(mod_species) 
 ## Where is the Speciessetosa coefficient?
 ## How are these coefficients interpreted?
+```
 
+```{r, echo=T}
 augment_species <- augment(mod_species)
 ggplot(augment_species, aes(x=Species, y=Sepal.Length)) +
   geom_point() +
   geom_point(aes(x=Species, y=.fitted), color="red", size=4)
+```
 
+```{r, echo=T}
 ## How to interpret multiple numeric predictors? 
 mod_multiple  <- lm(Sepal.Length ~ Sepal.Width + Petal.Width, 
            data = setosa)
 summary(mod_multiple)
+```
 
+```{r, echo=T}
 ## How to interpret multiple numeric/categorical predictors? 
 mod_multiple  <- lm(Sepal.Length ~ Sepal.Width + Species, 
                     data = iris)
 summary(mod_multiple)
+```
 
+```{r, echo=T}
 ## Reminder: we can always check the model matrix to see the equation fit by lm!
 library(modelr)
 model_matrix(iris, Sepal.Length ~ Sepal.Width + Species)
@@ -83,7 +93,11 @@ model_matrix(iris, Sepal.Length ~ Sepal.Width + Species)
 ## IMPORTANT: Predictors are assumed to be independent of one another 
 ## in a multiple regression!!
 ## Don't forget to check model assumptions!
+```
 
+## Interactions
+
+```{r, echo=T}
 library(GGally)
 ggpairs(iris)
 #=============================================================
@@ -100,14 +114,18 @@ ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width)) +
 mod_interaction <- lm(Sepal.Length ~ Sepal.Width * Species,
                        data = iris)
 summary(mod_interaction)
+```
 
+
+```{r, echo=T}
 ## Interactions: continuous and categorical predictors
 mod1a <- lm(Sepal.Width ~ Sepal.Length + Species, data=iris)
 mod1b <- lm(Sepal.Width ~ Sepal.Length * Species, data=iris)
 mod1c <- lm(Sepal.Width ~ Sepal.Length + Species + Sepal.Length:Species, 
             data=iris)
+```
 
-
+```{r, echo=T}
 ## Use commands from modelr to make predictions/calculate residuals
 library(modelr)
 ## Let's visualize residuals and evaluate models
@@ -122,7 +140,9 @@ ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, colour = Species)) +
   geom_point() + 
   geom_line(data = grid, aes(y = pred)) + 
   facet_wrap(~ model) + theme_bw()
+```
 
+```{r, echo=T}
 ## Interactions: continuous and continuous predictors
 ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width)) +
   geom_point(aes(color=Petal.Width))
@@ -140,6 +160,11 @@ ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width)) +
   
 ## Typically, main effects are always included with interaction effects
 ## (but ignore main effect coefficients when interaction is significant)
+```
+
+## Logistic regression
+
+```{r, echo=T}
 
 #=============================================================
 ## Logistic regression
@@ -160,7 +185,9 @@ ggplot(titanic_train, aes(Age, Survived)) +
   geom_smooth(method = "lm", se = FALSE)
 
 ## What do you notice?
+```
 
+```{r, echo=T}
 ggplot(titanic_train, aes(Age, Survived)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE, fullrange = TRUE) +
@@ -172,6 +199,9 @@ ggplot(titanic_train, aes(Age, Survived)) +
 ## i.e., model a binary response by fitting a logistic curve to data
 ## We could say P > 0.5 => survived, P <= 0.5 => did not survive
 ##
+```
+
+```{r, echo=T}
 ## This is done using a logistic regression:
 survive_age <- glm(Survived ~ Age, data = titanic_train, family = binomial)
 summary(survive_age)
@@ -181,7 +211,9 @@ ggplot(titanic_train, aes(Age, Survived)) +
   geom_smooth(method = "glm",
               method.args = list(family = "binomial"),
               se = FALSE)
+```
 
+```{r, echo=T}
 ## Note that the line is not actually perfectly linear!
 ## And no more negative predictions of survival probability
 ggplot(titanic_train, aes(Age, Survived)) +
@@ -189,7 +221,9 @@ ggplot(titanic_train, aes(Age, Survived)) +
   geom_smooth(method = "glm", method.args = list(family = "binomial"),
               se = FALSE, fullrange = TRUE) +
   xlim(0, 200)
+```
 
+```{r, echo=T}
 ## Interpretation of coefficients
 ## For every unit increase of age, the log odds of survival increase
 ##    by the coefficient
@@ -202,10 +236,13 @@ titanic_age <- titanic_train %>%
 titanic_age
 titanic_age <- titanic_age %>%
   add_predictions(survive_age)
-
+```
+```{r, echo=T}
 ## So what's going on with these predictions?
 head(titanic_age)
+```
 
+```{r, echo=T}
 #-------------------------------------------------------------
 ## In-class exercises:
 ##
@@ -224,40 +261,53 @@ ggplot(titanic_age, aes(Age, pred)) +
   geom_line() +
   labs(title = "Relationship Between Age and Surviving the Titanic",
        y = "Predicted Probability of Survival")
+```
 
+```{r, echo=T}
 ## But maybe two (or more!) predictors are important!
 survive_age.sex <- glm(formula = Survived ~ Age + Sex, 
                        family = binomial, 
                        data = titanic_train)
 summary(survive_age.sex)
+```
 
+```{r, echo=T}
 ## What do the coefficients in the model mean here?
 titanic_age.sex <- titanic_train %>%
   data_grid(Age, Sex) %>%
   add_predictions(survive_age.sex) %>%
   mutate(pred = logit2prob(pred))
 titanic_age.sex
+```
 
+```{r, echo=T}
 ## So how to interpret this?
 ggplot(titanic_age.sex, aes(Age, pred, color = Sex)) +
   geom_line() +
   labs(title = "Probability of Surviving the Titanic",
        y = "Predicted Probability of Survival",
        color = "Sex")
+```
 
+```{r, echo=T}
 ## So what about a possible interaction?
 
 survive_ageXsex <- glm(formula = Survived ~ Age * Sex, family = binomial, 
                        data = titanic_train)
 summary(survive_ageXsex)
+```
 
+
+```{r, echo=T}
 ## How are these coefficients interpreted?
 titanic_ageXsex <- titanic_train %>%
   data_grid(Age, Sex) %>%
   add_predictions(survive_ageXsex) %>%
   mutate(pred = logit2prob(pred))
 titanic_ageXsex
+```
 
+```{r, echo=T}
 ## So how to interpret this?
 ggplot(titanic_ageXsex, aes(Age, pred, color = Sex)) +
   geom_line() +
@@ -271,10 +321,11 @@ extra_model <- glm(formula = Survived ~ Age + Sex +
                    family = binomial, 
                        data = titanic_train)
 summary(extra_model)
+```
 
-#=============================================================
 ## Model selection / comparing models
-#=============================================================
+
+```{r, echo=T}
 
 ##  So how do you know if a model is good or bad? How do you choose
 ##   the best predictors? How can we build models as robustly as possible?
@@ -314,7 +365,6 @@ model5 <- lm(Sepal.Length ~ ., data = iris)
 ## 5. k-fold cross validation
 ## 6. ROC curves and AUC (for logistic regression)
 
-
 #-------------------------------------------------------------
 ## In-class exercises:
 ##
@@ -329,8 +379,9 @@ model5 <- lm(Sepal.Length ~ ., data = iris)
 ## e) Perform a likelihood ratio test for model3 and model1 above
 ## f) Perform 10-fold cross validation to evaluate the best iris model.
 #-------------------------------------------------------------
+```
 
-
+```{r, echo=T}
 ## 
 set.seed(1234)
 iris$subsample <- runif(nrow(iris))
@@ -368,15 +419,16 @@ null_model <- glance(model1)
 D <- 2 * (alt_model$logLik - null_model$logLik) ### test statistic 
 df <- alt_model$df - null_model$df             ### chisquared degrees of freedom
 1 - pchisq(D,df)
+```
 
-
+```{r, echo=T}
 ## ROC (=receiver operating characteristic) curves and AUC (= area under the curve)
 ## Let's talk about a confusion matrix
 ##  TPR	=	TP/P	=	TP/(TP+FN) => Sensitivity
 ##  TNR	=	TN/N	=	TN/(FP+TN) => Specificiy
-##  FPR	=	FP/N	=	FP/(FP+TN)	=	1	– TNR	=> False positive rate
+##  FPR	=	FP/N	=	FP/(FP+TN)	=	1	- TNR	=> False positive rate
 ##  TP/(TP+FP) => Precision
-##  FP/(FP+TP)	=	1– PPV => False discovery rate
+##  FP/(FP+TP)	=	1- PPV => False discovery rate
 ##  (TP	+	TN)	/	(TP	+	TN	+	FP	+	FN) => Accuracy
 
 ## Let's calculate these values for our model, assuming pred > 0.5 => Survived
@@ -396,7 +448,11 @@ ggplot(roc.data, aes(x = x, y = y)) +
   geom_line() + scale_x_reverse() +
   ylab("Sensitivity") +
   xlab("Specificity")
+```
 
+## Mutiple testing 
+
+```{r, echo=T, eval=F}
 
 #=============================================================
 ## Quick discussion: What do you do when model diagnostics don't look right?
@@ -468,8 +524,9 @@ for(j in 1:1000){
 
 mean(uncorrected)
 mean(bonf.corrected)
+```
 
-
+```{r, echo=T}
 ## What is the False-Discovery Rate? How do we control the FDR?
 ##  => We can use the p.adjust() function.
 
@@ -478,7 +535,9 @@ x <- matrix(0, ncol=100, nrow=50)
 for(i in 1:100){
   x[,i] <- rnorm(n=50)
 }
+```
 
+```{r, echo=T}
 ## Suppose we test for the correlation of y with each of these 100 
 ## different x-variables
 p.vector <- NULL
@@ -492,7 +551,8 @@ p.bonf.adjusted <- p.adjust(p.vector, method='bonferroni')
 
 sum(p.bh.adjusted < 0.05)
 sum(p.bonf.adjusted < 0.05)
-
+```
+```{r, echo=T}
 #-------------------------------------------------------------
 ## In-class exercises:
 ##
