@@ -327,7 +327,8 @@ div.section {
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
-<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </details>
 </li>
 <li>
@@ -346,28 +347,16 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/6dcf86a9d20b478879a3944301a1e51fec69a8cf" target="_blank">6dcf86a</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/43c8686867d5fd189a1aac98b3cf93262f8058d9" target="_blank">43c8686</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.Rapp.history
     Ignored:    analysis/.Rhistory
-    Ignored:    analysis/figure/
-
-Untracked files:
-    Untracked:  analysis/_site.yml
-    Untracked:  analysis/lecture7_files/
-    Untracked:  docs/figure/lecture7.Rmd/
-    Untracked:  docs/first_ggplot.pdf
-    Untracked:  docs/lecture6_files/
-    Untracked:  docs/lecture7_files/
-    Untracked:  docs/publishers.csv
-    Untracked:  docs/superheroes.csv
-
-Unstaged changes:
-    Modified:   analysis/first_ggplot.pdf
-    Modified:   analysis/index.Rmd
-    Modified:   analysis/lecture6.Rmd
-    Modified:   analysis/lecture7.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -401,6 +390,40 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/43c8686867d5fd189a1aac98b3cf93262f8058d9/analysis/lecture7.Rmd" target="_blank">43c8686</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+<td style="text-align:left;">
+Nov62018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/han16/Data-Science-in-R/43c8686867d5fd189a1aac98b3cf93262f8058d9/docs/lecture7.html" target="_blank">43c8686</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+<td style="text-align:left;">
+Nov62018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
 <a href="https://github.com/han16/Data-Science-in-R/blob/6dcf86a9d20b478879a3944301a1e51fec69a8cf/analysis/lecture7.Rmd" target="_blank">6dcf86a</a>
 </td>
 <td style="text-align:left;">
@@ -421,14 +444,14 @@ Nov62018
 <pre class="r"><code>#knitr::opts_chunk$set(echo = TRUE)
 #knitr::read_chunk(&quot;chunks.R&quot;)
 library(tidyverse)</code></pre>
-<pre><code>-- Attaching packages ----------------------------------------------------------------------------- tidyverse 1.2.1 --</code></pre>
-<pre><code>v ggplot2 3.1.0     v purrr   0.2.5
-v tibble  1.4.2     v dplyr   0.7.7
-v tidyr   0.8.2     v stringr 1.3.1
-v readr   1.1.1     v forcats 0.3.0</code></pre>
-<pre><code>-- Conflicts -------------------------------------------------------------------------------- tidyverse_conflicts() --
-x dplyr::filter() masks stats::filter()
-x dplyr::lag()    masks stats::lag()</code></pre>
+<pre><code>── Attaching packages ─────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>✔ ggplot2 3.1.0     ✔ purrr   0.2.5
+✔ tibble  1.4.2     ✔ dplyr   0.7.7
+✔ tidyr   0.8.2     ✔ stringr 1.3.1
+✔ readr   1.1.1     ✔ forcats 0.3.0</code></pre>
+<pre><code>── Conflicts ────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>########################################################
 #### Go over HW 4
 ####
@@ -484,6 +507,36 @@ cor(setosa$Sepal.Length, setosa$Sepal.Width)</code></pre>
 1   0.7425467</code></pre>
 <pre class="r"><code>ggplot(setosa) + geom_point(aes(x=Sepal.Length, y=Sepal.Width))</code></pre>
 <p><img src="figure/lecture7.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-3-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/43c8686867d5fd189a1aac98b3cf93262f8058d9/docs/figure/lecture7.Rmd/unnamed-chunk-3-1.png" target="_blank">43c8686</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>## It is VERY important to visualize data!
 ## Correlations (and summary statistics in general) can be
 ## the same for VERY different distributions
@@ -513,6 +566,36 @@ cor(x,y)</code></pre>
 <pre><code>[1] 1</code></pre>
 <pre class="r"><code>ggplot(data.frame(x=x,y=y), aes(x,y)) + geom_point()</code></pre>
 <p><img src="figure/lecture7.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-5-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/43c8686867d5fd189a1aac98b3cf93262f8058d9/docs/figure/lecture7.Rmd/unnamed-chunk-5-1.png" target="_blank">43c8686</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>## Perfect negative correlation
 x &lt;- rnorm(100)
 y &lt;- -2*x
@@ -520,6 +603,36 @@ cor(x,y)</code></pre>
 <pre><code>[1] -1</code></pre>
 <pre class="r"><code>ggplot(data.frame(x=x,y=y), aes(x,y)) + geom_point()</code></pre>
 <p><img src="figure/lecture7.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-6-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/43c8686867d5fd189a1aac98b3cf93262f8058d9/docs/figure/lecture7.Rmd/unnamed-chunk-6-1.png" target="_blank">43c8686</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>## Variability (error) has substantial influence
 library(forcats)
 x &lt;- rnorm(100)
@@ -533,6 +646,36 @@ ggplot(df, aes(x,y)) +
   geom_point() +
   facet_wrap(~variability)</code></pre>
 <p><img src="figure/lecture7.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-7-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/43c8686867d5fd189a1aac98b3cf93262f8058d9/docs/figure/lecture7.Rmd/unnamed-chunk-7-1.png" target="_blank">43c8686</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>df %&gt;% group_by(variability) %&gt;%
   summarize(cor = cor(x,y))</code></pre>
 <pre><code># A tibble: 3 x 2
@@ -576,6 +719,36 @@ ggplot(data.frame(x,y), aes(x=x,y=y)) +
   geom_point() + 
   geom_smooth(method=&quot;lm&quot;, se=FALSE)</code></pre>
 <p><img src="figure/lecture7.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-10-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/43c8686867d5fd189a1aac98b3cf93262f8058d9/docs/figure/lecture7.Rmd/unnamed-chunk-10-1.png" target="_blank">43c8686</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>cor(x,y)</code></pre>
 <pre><code>[1] 0.6898587</code></pre>
 <pre class="r"><code>cor(x,y, method=&quot;spearman&quot;)</code></pre>
@@ -599,6 +772,36 @@ diamonds %&gt;% filter(cut == &quot;Ideal&quot;) %&gt;%
 <pre class="r"><code>ggplot(filter(diamonds, cut == &quot;Ideal&quot;)) + 
   geom_point(aes(y=price, x=carat))</code></pre>
 <p><img src="figure/lecture7.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-11-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/43c8686867d5fd189a1aac98b3cf93262f8058d9/docs/figure/lecture7.Rmd/unnamed-chunk-11-1.png" target="_blank">43c8686</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="linear-regression" class="section level2">
 <h2>Linear regression</h2>
@@ -623,6 +826,36 @@ ggplot(setosa, aes(x=Sepal.Width, y=Sepal.Length)) +
   geom_point() +
   geom_smooth(method=&quot;lm&quot;, se=FALSE)</code></pre>
 <p><img src="figure/lecture7.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-12-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/43c8686867d5fd189a1aac98b3cf93262f8058d9/docs/figure/lecture7.Rmd/unnamed-chunk-12-1.png" target="_blank">43c8686</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>mod  &lt;- lm(Sepal.Length ~ Sepal.Width, 
            data = setosa)
 summary(mod)</code></pre>
@@ -689,6 +922,36 @@ ggplot(setosa, aes(x=Sepal.Width, y=Sepal.Length)) +
   geom_text(x = 2.75, y = 5.5, label = &quot;y = 2.639 + 0.69x&quot;, color=&quot;red&quot;)  +
   theme_bw()</code></pre>
 <p><img src="figure/lecture7.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-14-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/43c8686867d5fd189a1aac98b3cf93262f8058d9/docs/figure/lecture7.Rmd/unnamed-chunk-14-1.png" target="_blank">43c8686</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>## Predicting responses using the model
 ## What is the Sepal.Length when Sepal.Width = 2.6?
 new_setosa &lt;- data.frame(Sepal.Width = c(2.6, 4, 3.5))
@@ -737,15 +1000,138 @@ fitted &lt;- fitted(mod)
 ggplot(aug) + geom_histogram(aes(x=.resid),
                              bins=15)</code></pre>
 <p><img src="figure/lecture7.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-18-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/43c8686867d5fd189a1aac98b3cf93262f8058d9/docs/figure/lecture7.Rmd/unnamed-chunk-18-1.png" target="_blank">43c8686</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>ggplot(aug) + geom_qq(aes(sample=.resid))</code></pre>
 <p><img src="figure/lecture7.Rmd/unnamed-chunk-18-2.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-18-2.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/43c8686867d5fd189a1aac98b3cf93262f8058d9/docs/figure/lecture7.Rmd/unnamed-chunk-18-2.png" target="_blank">43c8686</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>## Assumption 2
 ggplot(aug) + geom_point(aes(x=.fitted, y=.resid)) +
   geom_hline(yintercept=0, lty=2)</code></pre>
 <p><img src="figure/lecture7.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-19-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/43c8686867d5fd189a1aac98b3cf93262f8058d9/docs/figure/lecture7.Rmd/unnamed-chunk-19-1.png" target="_blank">43c8686</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>## Assumption 4
 ggplot(aug) + geom_point(aes(x=Sepal.Width, y=Sepal.Length))</code></pre>
-<p><img src="figure/lecture7.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /> ## Matrix algebra</p>
+<p><img src="figure/lecture7.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-20-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/43c8686867d5fd189a1aac98b3cf93262f8058d9/docs/figure/lecture7.Rmd/unnamed-chunk-20-1.png" target="_blank">43c8686</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+</div>
+<div id="matrix-algebra" class="section level2">
+<h2>Matrix algebra</h2>
 <pre class="r"><code>#=============================================================
 ## A quick break: Matrix algebra in R
 #=============================================================
@@ -865,6 +1251,36 @@ x2  1.206807</code></pre>
 plot(x2, y, pch=20, cex=3)
 abline(beta.hat[1], beta.hat[2])</code></pre>
 <p><img src="figure/lecture7.Rmd/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-29-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/43c8686867d5fd189a1aac98b3cf93262f8058d9/docs/figure/lecture7.Rmd/unnamed-chunk-29-1.png" target="_blank">43c8686</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>#### Do you remeber the form of var(beta.hat)?
 #### The diagonal elements of sigma^2 * inverse(X&#39;X) 
 #### How do we estimate sigma^2? (Y-y.hat)&#39;(Y-y.hat)/n-p
@@ -956,10 +1372,70 @@ ggplot(augment_species, aes(x=Species, y=Sepal.Length)) +
          geom_point() +
   geom_point(aes(x=Species, y=.fitted), color=&quot;red&quot;, size=4)</code></pre>
 <p><img src="figure/lecture7.Rmd/unnamed-chunk-32-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-32-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/43c8686867d5fd189a1aac98b3cf93262f8058d9/docs/figure/lecture7.Rmd/unnamed-chunk-32-1.png" target="_blank">43c8686</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>## Interactions: continuous and categorical
 ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width)) +
   geom_point(aes(color=Species))</code></pre>
 <p><img src="figure/lecture7.Rmd/unnamed-chunk-33-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-33-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/43c8686867d5fd189a1aac98b3cf93262f8058d9/docs/figure/lecture7.Rmd/unnamed-chunk-33-1.png" target="_blank">43c8686</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>mod1 &lt;- lm(Sepal.Width ~ Sepal.Length + Species, data=iris)
 mod2 &lt;- lm(Sepal.Width ~ Sepal.Length * Species, data=iris)</code></pre>
 <pre class="r"><code>## Use commands from modelr
@@ -976,11 +1452,71 @@ ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, colour = Species)) +
   geom_line(data = grid, aes(y = pred)) + 
   facet_wrap(~ model) + theme_bw()</code></pre>
 <p><img src="figure/lecture7.Rmd/unnamed-chunk-34-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-34-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/43c8686867d5fd189a1aac98b3cf93262f8058d9/docs/figure/lecture7.Rmd/unnamed-chunk-34-1.png" target="_blank">43c8686</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>res &lt;- iris %&gt;% gather_residuals(mod1, mod2)
 ggplot(res, aes(x=Sepal.Length, y=resid, colour = Species)) + 
   geom_point() + 
   facet_grid(model ~ Species)</code></pre>
 <p><img src="figure/lecture7.Rmd/unnamed-chunk-34-2.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-34-2.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/43c8686867d5fd189a1aac98b3cf93262f8058d9/docs/figure/lecture7.Rmd/unnamed-chunk-34-2.png" target="_blank">43c8686</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>## Reminder: we can always check the model matrix to see the equation fit by lm!
 model_matrix(iris, Sepal.Length ~ Species)</code></pre>
 <pre><code># A tibble: 150 x 3
@@ -1010,17 +1546,15 @@ model_matrix(iris, Sepal.Length ~ Species)</code></pre>
 <h2>Session information</h2>
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 3.5.1 (2018-07-02)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 17134)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS High Sierra 10.13.6
 
 Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
 
 locale:
-[1] LC_COLLATE=English_United States.1252 
-[2] LC_CTYPE=English_United States.1252   
-[3] LC_MONETARY=English_United States.1252
-[4] LC_NUMERIC=C                          
-[5] LC_TIME=English_United States.1252    
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
