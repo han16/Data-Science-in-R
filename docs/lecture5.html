@@ -15,7 +15,6 @@
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<<<<<<< HEAD
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
@@ -23,21 +22,6 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-=======
-<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
-<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
-<script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
-<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
-<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
->>>>>>> 786ca0cea3cdea769d70b784cb0b34a6306f555e
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -115,58 +99,6 @@ button.code-folding-btn:focus {
 </style>
 
 
-<style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-</style>
-
-<script>
-// manage active state of menu based on current page
-$(document).ready(function () {
-  // active menu anchor
-  href = window.location.pathname
-  href = href.substr(href.lastIndexOf('/') + 1)
-  if (href === "")
-    href = "index.html";
-  var menuAnchor = $('a[href="' + href + '"]');
-
-  // mark it active
-  menuAnchor.parent().addClass('active');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
-});
-</script>
-
 
 <div class="container-fluid main-container">
 
@@ -182,143 +114,7 @@ $(document).ready(function () {
 
 
 
-<script>
-$(document).ready(function ()  {
 
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
-
-
-
-
-<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.html">Code</a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li>
-  <a href="index.html">Home</a>
-</li>
-<li>
-  <a href="about.html">About</a>
-</li>
-<li>
-  <a href="license.html">License</a>
-</li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://han16.github.io/Data-Science-in-R/">
-    <span class="fa fa-github"></span>
-     
-  </a>
-</li>
-      </ul>
-    </div><!--/.nav-collapse -->
-  </div><!--/.container -->
-</div><!--/.navbar -->
-
-<!-- Add a small amount of space between sections. -->
-<style type="text/css">
-div.section {
-  padding-top: 12px;
-}
-</style>
 
 <div class="fluid-row" id="header">
 
@@ -329,191 +125,6 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-11-06</p>
-<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
-<ul>
-<li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
-</details>
-</li>
-<li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
-<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
-</details>
-</li>
-<li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20181026)</code> </summary></p>
-<p>The command <code>set.seed(20181026)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
-</details>
-</li>
-<li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
-<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
-</details>
-</li>
-<li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/43c8686867d5fd189a1aac98b3cf93262f8058d9" target="_blank">43c8686</a> </summary></p>
-Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
-<pre><code>
-Ignored files:
-    Ignored:    analysis/.Rhistory
-    Ignored:    analysis/figure/
-
-Unstaged changes:
-    Modified:   analysis/_site.yml
-
-</code></pre>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
-</li>
-</ul>
-<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
-<ul>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-File
-</th>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-<th style="text-align:left;">
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/han16/Data-Science-in-R/43c8686867d5fd189a1aac98b3cf93262f8058d9/docs/lecture5.html" target="_blank">43c8686</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-06
-</td>
-<td style="text-align:left;">
-Nov62018
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/analysis/lecture5.Rmd" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-<td style="text-align:left;">
-Nov22018
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/han16/Data-Science-in-R/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/lecture5.html" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-<td style="text-align:left;">
-Nov22018
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/99f7f3a6d217ac454aa438c22bceca431afedc39/analysis/lecture5.Rmd" target="_blank">99f7f3a</a>
-</td>
-<td style="text-align:left;">
-han16
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-<td style="text-align:left;">
-Nov22018
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/han16/Data-Science-in-R/99f7f3a6d217ac454aa438c22bceca431afedc39/docs/lecture5.html" target="_blank">99f7f3a</a>
-</td>
-<td style="text-align:left;">
-han16
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-<td style="text-align:left;">
-Nov22018
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/1f8454e4288bbd4a8fb07dad9930cd68ef4f5c0d/analysis/lecture5.Rmd" target="_blank">1f8454e</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-<td style="text-align:left;">
-Nov22018
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/han16/Data-Science-in-R/1f8454e4288bbd4a8fb07dad9930cd68ef4f5c0d/docs/lecture5.html" target="_blank">1f8454e</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-<td style="text-align:left;">
-Nov22018
-</td>
-</tr>
-</tbody>
-</table>
-</ul>
-<p></details></p>
-<hr />
 <pre class="r"><code>########################################################
 #### Read Chapter 12: http://r4ds.had.co.nz/transform.html
 #### Read http://stat545.com/block015_graph-dos-donts.html
@@ -529,7 +140,6 @@ Nov22018
 <li>dplyr</li>
 </ul>
 <pre class="r"><code>library(tidyverse)  # first load the package</code></pre>
-<<<<<<< HEAD
 <pre><code>## ── Attaching packages ─────────────────────────────── tidyverse 1.2.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.1.0     ✔ purrr   0.2.5
 ## ✔ tibble  1.4.2     ✔ dplyr   0.7.7
@@ -538,341 +148,331 @@ Nov22018
 <pre><code>## ── Conflicts ────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-=======
-<pre><code>-- Attaching packages ----------------------------------------------------------------------------- tidyverse 1.2.1 --</code></pre>
-<pre><code>v ggplot2 3.1.0     v purrr   0.2.5
-v tibble  1.4.2     v dplyr   0.7.7
-v tidyr   0.8.2     v stringr 1.3.1
-v readr   1.1.1     v forcats 0.3.0</code></pre>
-<pre><code>-- Conflicts -------------------------------------------------------------------------------- tidyverse_conflicts() --
-x dplyr::filter() masks stats::filter()
-x dplyr::lag()    masks stats::lag()</code></pre>
->>>>>>> 786ca0cea3cdea769d70b784cb0b34a6306f555e
 <pre class="r"><code>## dplyr
 ## =&gt; filter, select, mutate, group_by, tally, summarize, arrange, unique, na.omit
 data(iris)
 iris %&gt;% select(Sepal.Length) %&gt;% unlist() %&gt;% mean()</code></pre>
-<pre><code>[1] 5.843333</code></pre>
+<pre><code>## [1] 5.843333</code></pre>
 <pre class="r"><code>mean(iris$Sepal.Length)</code></pre>
-<pre><code>[1] 5.843333</code></pre>
+<pre><code>## [1] 5.843333</code></pre>
 <pre class="r"><code>iris %&gt;% summarize(mean.SL = mean(Sepal.Length))</code></pre>
-<pre><code>   mean.SL
-1 5.843333</code></pre>
+<pre><code>##    mean.SL
+## 1 5.843333</code></pre>
 <pre class="r"><code>## Mean Sepal.Length per species
 iris %&gt;% 
   group_by(Species) %&gt;% 
   summarize(mean(Sepal.Length),
             median.SL = median(Sepal.Length))</code></pre>
-<pre><code># A tibble: 3 x 3
-  Species    `mean(Sepal.Length)` median.SL
-  &lt;fct&gt;                     &lt;dbl&gt;     &lt;dbl&gt;
-1 setosa                     5.01       5  
-2 versicolor                 5.94       5.9
-3 virginica                  6.59       6.5</code></pre>
+<pre><code>## # A tibble: 3 x 3
+##   Species    `mean(Sepal.Length)` median.SL
+##   &lt;fct&gt;                     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 setosa                     5.01       5  
+## 2 versicolor                 5.94       5.9
+## 3 virginica                  6.59       6.5</code></pre>
 <pre class="r"><code>iris %&gt;% arrange(Sepal.Length, Sepal.Width)</code></pre>
-<pre><code>    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
-1            4.3         3.0          1.1         0.1     setosa
-2            4.4         2.9          1.4         0.2     setosa
-3            4.4         3.0          1.3         0.2     setosa
-4            4.4         3.2          1.3         0.2     setosa
-5            4.5         2.3          1.3         0.3     setosa
-6            4.6         3.1          1.5         0.2     setosa
-7            4.6         3.2          1.4         0.2     setosa
-8            4.6         3.4          1.4         0.3     setosa
-9            4.6         3.6          1.0         0.2     setosa
-10           4.7         3.2          1.3         0.2     setosa
-11           4.7         3.2          1.6         0.2     setosa
-12           4.8         3.0          1.4         0.1     setosa
-13           4.8         3.0          1.4         0.3     setosa
-14           4.8         3.1          1.6         0.2     setosa
-15           4.8         3.4          1.6         0.2     setosa
-16           4.8         3.4          1.9         0.2     setosa
-17           4.9         2.4          3.3         1.0 versicolor
-18           4.9         2.5          4.5         1.7  virginica
-19           4.9         3.0          1.4         0.2     setosa
-20           4.9         3.1          1.5         0.1     setosa
-21           4.9         3.1          1.5         0.2     setosa
-22           4.9         3.6          1.4         0.1     setosa
-23           5.0         2.0          3.5         1.0 versicolor
-24           5.0         2.3          3.3         1.0 versicolor
-25           5.0         3.0          1.6         0.2     setosa
-26           5.0         3.2          1.2         0.2     setosa
-27           5.0         3.3          1.4         0.2     setosa
-28           5.0         3.4          1.5         0.2     setosa
-29           5.0         3.4          1.6         0.4     setosa
-30           5.0         3.5          1.3         0.3     setosa
-31           5.0         3.5          1.6         0.6     setosa
-32           5.0         3.6          1.4         0.2     setosa
-33           5.1         2.5          3.0         1.1 versicolor
-34           5.1         3.3          1.7         0.5     setosa
-35           5.1         3.4          1.5         0.2     setosa
-36           5.1         3.5          1.4         0.2     setosa
-37           5.1         3.5          1.4         0.3     setosa
-38           5.1         3.7          1.5         0.4     setosa
-39           5.1         3.8          1.5         0.3     setosa
-40           5.1         3.8          1.9         0.4     setosa
-41           5.1         3.8          1.6         0.2     setosa
-42           5.2         2.7          3.9         1.4 versicolor
-43           5.2         3.4          1.4         0.2     setosa
-44           5.2         3.5          1.5         0.2     setosa
-45           5.2         4.1          1.5         0.1     setosa
-46           5.3         3.7          1.5         0.2     setosa
-47           5.4         3.0          4.5         1.5 versicolor
-48           5.4         3.4          1.7         0.2     setosa
-49           5.4         3.4          1.5         0.4     setosa
-50           5.4         3.7          1.5         0.2     setosa
-51           5.4         3.9          1.7         0.4     setosa
-52           5.4         3.9          1.3         0.4     setosa
-53           5.5         2.3          4.0         1.3 versicolor
-54           5.5         2.4          3.8         1.1 versicolor
-55           5.5         2.4          3.7         1.0 versicolor
-56           5.5         2.5          4.0         1.3 versicolor
-57           5.5         2.6          4.4         1.2 versicolor
-58           5.5         3.5          1.3         0.2     setosa
-59           5.5         4.2          1.4         0.2     setosa
-60           5.6         2.5          3.9         1.1 versicolor
-61           5.6         2.7          4.2         1.3 versicolor
-62           5.6         2.8          4.9         2.0  virginica
-63           5.6         2.9          3.6         1.3 versicolor
-64           5.6         3.0          4.5         1.5 versicolor
-65           5.6         3.0          4.1         1.3 versicolor
-66           5.7         2.5          5.0         2.0  virginica
-67           5.7         2.6          3.5         1.0 versicolor
-68           5.7         2.8          4.5         1.3 versicolor
-69           5.7         2.8          4.1         1.3 versicolor
-70           5.7         2.9          4.2         1.3 versicolor
-71           5.7         3.0          4.2         1.2 versicolor
-72           5.7         3.8          1.7         0.3     setosa
-73           5.7         4.4          1.5         0.4     setosa
-74           5.8         2.6          4.0         1.2 versicolor
-75           5.8         2.7          4.1         1.0 versicolor
-76           5.8         2.7          3.9         1.2 versicolor
-77           5.8         2.7          5.1         1.9  virginica
-78           5.8         2.7          5.1         1.9  virginica
-79           5.8         2.8          5.1         2.4  virginica
-80           5.8         4.0          1.2         0.2     setosa
-81           5.9         3.0          4.2         1.5 versicolor
-82           5.9         3.0          5.1         1.8  virginica
-83           5.9         3.2          4.8         1.8 versicolor
-84           6.0         2.2          4.0         1.0 versicolor
-85           6.0         2.2          5.0         1.5  virginica
-86           6.0         2.7          5.1         1.6 versicolor
-87           6.0         2.9          4.5         1.5 versicolor
-88           6.0         3.0          4.8         1.8  virginica
-89           6.0         3.4          4.5         1.6 versicolor
-90           6.1         2.6          5.6         1.4  virginica
-91           6.1         2.8          4.0         1.3 versicolor
-92           6.1         2.8          4.7         1.2 versicolor
-93           6.1         2.9          4.7         1.4 versicolor
-94           6.1         3.0          4.6         1.4 versicolor
-95           6.1         3.0          4.9         1.8  virginica
-96           6.2         2.2          4.5         1.5 versicolor
-97           6.2         2.8          4.8         1.8  virginica
-98           6.2         2.9          4.3         1.3 versicolor
-99           6.2         3.4          5.4         2.3  virginica
-100          6.3         2.3          4.4         1.3 versicolor
-101          6.3         2.5          4.9         1.5 versicolor
-102          6.3         2.5          5.0         1.9  virginica
-103          6.3         2.7          4.9         1.8  virginica
-104          6.3         2.8          5.1         1.5  virginica
-105          6.3         2.9          5.6         1.8  virginica
-106          6.3         3.3          4.7         1.6 versicolor
-107          6.3         3.3          6.0         2.5  virginica
-108          6.3         3.4          5.6         2.4  virginica
-109          6.4         2.7          5.3         1.9  virginica
-110          6.4         2.8          5.6         2.1  virginica
-111          6.4         2.8          5.6         2.2  virginica
-112          6.4         2.9          4.3         1.3 versicolor
-113          6.4         3.1          5.5         1.8  virginica
-114          6.4         3.2          4.5         1.5 versicolor
-115          6.4         3.2          5.3         2.3  virginica
-116          6.5         2.8          4.6         1.5 versicolor
-117          6.5         3.0          5.8         2.2  virginica
-118          6.5         3.0          5.5         1.8  virginica
-119          6.5         3.0          5.2         2.0  virginica
-120          6.5         3.2          5.1         2.0  virginica
-121          6.6         2.9          4.6         1.3 versicolor
-122          6.6         3.0          4.4         1.4 versicolor
-123          6.7         2.5          5.8         1.8  virginica
-124          6.7         3.0          5.0         1.7 versicolor
-125          6.7         3.0          5.2         2.3  virginica
-126          6.7         3.1          4.4         1.4 versicolor
-127          6.7         3.1          4.7         1.5 versicolor
-128          6.7         3.1          5.6         2.4  virginica
-129          6.7         3.3          5.7         2.1  virginica
-130          6.7         3.3          5.7         2.5  virginica
-131          6.8         2.8          4.8         1.4 versicolor
-132          6.8         3.0          5.5         2.1  virginica
-133          6.8         3.2          5.9         2.3  virginica
-134          6.9         3.1          4.9         1.5 versicolor
-135          6.9         3.1          5.4         2.1  virginica
-136          6.9         3.1          5.1         2.3  virginica
-137          6.9         3.2          5.7         2.3  virginica
-138          7.0         3.2          4.7         1.4 versicolor
-139          7.1         3.0          5.9         2.1  virginica
-140          7.2         3.0          5.8         1.6  virginica
-141          7.2         3.2          6.0         1.8  virginica
-142          7.2         3.6          6.1         2.5  virginica
-143          7.3         2.9          6.3         1.8  virginica
-144          7.4         2.8          6.1         1.9  virginica
-145          7.6         3.0          6.6         2.1  virginica
-146          7.7         2.6          6.9         2.3  virginica
-147          7.7         2.8          6.7         2.0  virginica
-148          7.7         3.0          6.1         2.3  virginica
-149          7.7         3.8          6.7         2.2  virginica
-150          7.9         3.8          6.4         2.0  virginica</code></pre>
+<pre><code>##     Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
+## 1            4.3         3.0          1.1         0.1     setosa
+## 2            4.4         2.9          1.4         0.2     setosa
+## 3            4.4         3.0          1.3         0.2     setosa
+## 4            4.4         3.2          1.3         0.2     setosa
+## 5            4.5         2.3          1.3         0.3     setosa
+## 6            4.6         3.1          1.5         0.2     setosa
+## 7            4.6         3.2          1.4         0.2     setosa
+## 8            4.6         3.4          1.4         0.3     setosa
+## 9            4.6         3.6          1.0         0.2     setosa
+## 10           4.7         3.2          1.3         0.2     setosa
+## 11           4.7         3.2          1.6         0.2     setosa
+## 12           4.8         3.0          1.4         0.1     setosa
+## 13           4.8         3.0          1.4         0.3     setosa
+## 14           4.8         3.1          1.6         0.2     setosa
+## 15           4.8         3.4          1.6         0.2     setosa
+## 16           4.8         3.4          1.9         0.2     setosa
+## 17           4.9         2.4          3.3         1.0 versicolor
+## 18           4.9         2.5          4.5         1.7  virginica
+## 19           4.9         3.0          1.4         0.2     setosa
+## 20           4.9         3.1          1.5         0.1     setosa
+## 21           4.9         3.1          1.5         0.2     setosa
+## 22           4.9         3.6          1.4         0.1     setosa
+## 23           5.0         2.0          3.5         1.0 versicolor
+## 24           5.0         2.3          3.3         1.0 versicolor
+## 25           5.0         3.0          1.6         0.2     setosa
+## 26           5.0         3.2          1.2         0.2     setosa
+## 27           5.0         3.3          1.4         0.2     setosa
+## 28           5.0         3.4          1.5         0.2     setosa
+## 29           5.0         3.4          1.6         0.4     setosa
+## 30           5.0         3.5          1.3         0.3     setosa
+## 31           5.0         3.5          1.6         0.6     setosa
+## 32           5.0         3.6          1.4         0.2     setosa
+## 33           5.1         2.5          3.0         1.1 versicolor
+## 34           5.1         3.3          1.7         0.5     setosa
+## 35           5.1         3.4          1.5         0.2     setosa
+## 36           5.1         3.5          1.4         0.2     setosa
+## 37           5.1         3.5          1.4         0.3     setosa
+## 38           5.1         3.7          1.5         0.4     setosa
+## 39           5.1         3.8          1.5         0.3     setosa
+## 40           5.1         3.8          1.9         0.4     setosa
+## 41           5.1         3.8          1.6         0.2     setosa
+## 42           5.2         2.7          3.9         1.4 versicolor
+## 43           5.2         3.4          1.4         0.2     setosa
+## 44           5.2         3.5          1.5         0.2     setosa
+## 45           5.2         4.1          1.5         0.1     setosa
+## 46           5.3         3.7          1.5         0.2     setosa
+## 47           5.4         3.0          4.5         1.5 versicolor
+## 48           5.4         3.4          1.7         0.2     setosa
+## 49           5.4         3.4          1.5         0.4     setosa
+## 50           5.4         3.7          1.5         0.2     setosa
+## 51           5.4         3.9          1.7         0.4     setosa
+## 52           5.4         3.9          1.3         0.4     setosa
+## 53           5.5         2.3          4.0         1.3 versicolor
+## 54           5.5         2.4          3.8         1.1 versicolor
+## 55           5.5         2.4          3.7         1.0 versicolor
+## 56           5.5         2.5          4.0         1.3 versicolor
+## 57           5.5         2.6          4.4         1.2 versicolor
+## 58           5.5         3.5          1.3         0.2     setosa
+## 59           5.5         4.2          1.4         0.2     setosa
+## 60           5.6         2.5          3.9         1.1 versicolor
+## 61           5.6         2.7          4.2         1.3 versicolor
+## 62           5.6         2.8          4.9         2.0  virginica
+## 63           5.6         2.9          3.6         1.3 versicolor
+## 64           5.6         3.0          4.5         1.5 versicolor
+## 65           5.6         3.0          4.1         1.3 versicolor
+## 66           5.7         2.5          5.0         2.0  virginica
+## 67           5.7         2.6          3.5         1.0 versicolor
+## 68           5.7         2.8          4.5         1.3 versicolor
+## 69           5.7         2.8          4.1         1.3 versicolor
+## 70           5.7         2.9          4.2         1.3 versicolor
+## 71           5.7         3.0          4.2         1.2 versicolor
+## 72           5.7         3.8          1.7         0.3     setosa
+## 73           5.7         4.4          1.5         0.4     setosa
+## 74           5.8         2.6          4.0         1.2 versicolor
+## 75           5.8         2.7          4.1         1.0 versicolor
+## 76           5.8         2.7          3.9         1.2 versicolor
+## 77           5.8         2.7          5.1         1.9  virginica
+## 78           5.8         2.7          5.1         1.9  virginica
+## 79           5.8         2.8          5.1         2.4  virginica
+## 80           5.8         4.0          1.2         0.2     setosa
+## 81           5.9         3.0          4.2         1.5 versicolor
+## 82           5.9         3.0          5.1         1.8  virginica
+## 83           5.9         3.2          4.8         1.8 versicolor
+## 84           6.0         2.2          4.0         1.0 versicolor
+## 85           6.0         2.2          5.0         1.5  virginica
+## 86           6.0         2.7          5.1         1.6 versicolor
+## 87           6.0         2.9          4.5         1.5 versicolor
+## 88           6.0         3.0          4.8         1.8  virginica
+## 89           6.0         3.4          4.5         1.6 versicolor
+## 90           6.1         2.6          5.6         1.4  virginica
+## 91           6.1         2.8          4.0         1.3 versicolor
+## 92           6.1         2.8          4.7         1.2 versicolor
+## 93           6.1         2.9          4.7         1.4 versicolor
+## 94           6.1         3.0          4.6         1.4 versicolor
+## 95           6.1         3.0          4.9         1.8  virginica
+## 96           6.2         2.2          4.5         1.5 versicolor
+## 97           6.2         2.8          4.8         1.8  virginica
+## 98           6.2         2.9          4.3         1.3 versicolor
+## 99           6.2         3.4          5.4         2.3  virginica
+## 100          6.3         2.3          4.4         1.3 versicolor
+## 101          6.3         2.5          4.9         1.5 versicolor
+## 102          6.3         2.5          5.0         1.9  virginica
+## 103          6.3         2.7          4.9         1.8  virginica
+## 104          6.3         2.8          5.1         1.5  virginica
+## 105          6.3         2.9          5.6         1.8  virginica
+## 106          6.3         3.3          4.7         1.6 versicolor
+## 107          6.3         3.3          6.0         2.5  virginica
+## 108          6.3         3.4          5.6         2.4  virginica
+## 109          6.4         2.7          5.3         1.9  virginica
+## 110          6.4         2.8          5.6         2.1  virginica
+## 111          6.4         2.8          5.6         2.2  virginica
+## 112          6.4         2.9          4.3         1.3 versicolor
+## 113          6.4         3.1          5.5         1.8  virginica
+## 114          6.4         3.2          4.5         1.5 versicolor
+## 115          6.4         3.2          5.3         2.3  virginica
+## 116          6.5         2.8          4.6         1.5 versicolor
+## 117          6.5         3.0          5.8         2.2  virginica
+## 118          6.5         3.0          5.5         1.8  virginica
+## 119          6.5         3.0          5.2         2.0  virginica
+## 120          6.5         3.2          5.1         2.0  virginica
+## 121          6.6         2.9          4.6         1.3 versicolor
+## 122          6.6         3.0          4.4         1.4 versicolor
+## 123          6.7         2.5          5.8         1.8  virginica
+## 124          6.7         3.0          5.0         1.7 versicolor
+## 125          6.7         3.0          5.2         2.3  virginica
+## 126          6.7         3.1          4.4         1.4 versicolor
+## 127          6.7         3.1          4.7         1.5 versicolor
+## 128          6.7         3.1          5.6         2.4  virginica
+## 129          6.7         3.3          5.7         2.1  virginica
+## 130          6.7         3.3          5.7         2.5  virginica
+## 131          6.8         2.8          4.8         1.4 versicolor
+## 132          6.8         3.0          5.5         2.1  virginica
+## 133          6.8         3.2          5.9         2.3  virginica
+## 134          6.9         3.1          4.9         1.5 versicolor
+## 135          6.9         3.1          5.4         2.1  virginica
+## 136          6.9         3.1          5.1         2.3  virginica
+## 137          6.9         3.2          5.7         2.3  virginica
+## 138          7.0         3.2          4.7         1.4 versicolor
+## 139          7.1         3.0          5.9         2.1  virginica
+## 140          7.2         3.0          5.8         1.6  virginica
+## 141          7.2         3.2          6.0         1.8  virginica
+## 142          7.2         3.6          6.1         2.5  virginica
+## 143          7.3         2.9          6.3         1.8  virginica
+## 144          7.4         2.8          6.1         1.9  virginica
+## 145          7.6         3.0          6.6         2.1  virginica
+## 146          7.7         2.6          6.9         2.3  virginica
+## 147          7.7         2.8          6.7         2.0  virginica
+## 148          7.7         3.0          6.1         2.3  virginica
+## 149          7.7         3.8          6.7         2.2  virginica
+## 150          7.9         3.8          6.4         2.0  virginica</code></pre>
 <pre class="r"><code>iris %&gt;% arrange(desc(Sepal.Length))</code></pre>
-<pre><code>    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
-1            7.9         3.8          6.4         2.0  virginica
-2            7.7         3.8          6.7         2.2  virginica
-3            7.7         2.6          6.9         2.3  virginica
-4            7.7         2.8          6.7         2.0  virginica
-5            7.7         3.0          6.1         2.3  virginica
-6            7.6         3.0          6.6         2.1  virginica
-7            7.4         2.8          6.1         1.9  virginica
-8            7.3         2.9          6.3         1.8  virginica
-9            7.2         3.6          6.1         2.5  virginica
-10           7.2         3.2          6.0         1.8  virginica
-11           7.2         3.0          5.8         1.6  virginica
-12           7.1         3.0          5.9         2.1  virginica
-13           7.0         3.2          4.7         1.4 versicolor
-14           6.9         3.1          4.9         1.5 versicolor
-15           6.9         3.2          5.7         2.3  virginica
-16           6.9         3.1          5.4         2.1  virginica
-17           6.9         3.1          5.1         2.3  virginica
-18           6.8         2.8          4.8         1.4 versicolor
-19           6.8         3.0          5.5         2.1  virginica
-20           6.8         3.2          5.9         2.3  virginica
-21           6.7         3.1          4.4         1.4 versicolor
-22           6.7         3.0          5.0         1.7 versicolor
-23           6.7         3.1          4.7         1.5 versicolor
-24           6.7         2.5          5.8         1.8  virginica
-25           6.7         3.3          5.7         2.1  virginica
-26           6.7         3.1          5.6         2.4  virginica
-27           6.7         3.3          5.7         2.5  virginica
-28           6.7         3.0          5.2         2.3  virginica
-29           6.6         2.9          4.6         1.3 versicolor
-30           6.6         3.0          4.4         1.4 versicolor
-31           6.5         2.8          4.6         1.5 versicolor
-32           6.5         3.0          5.8         2.2  virginica
-33           6.5         3.2          5.1         2.0  virginica
-34           6.5         3.0          5.5         1.8  virginica
-35           6.5         3.0          5.2         2.0  virginica
-36           6.4         3.2          4.5         1.5 versicolor
-37           6.4         2.9          4.3         1.3 versicolor
-38           6.4         2.7          5.3         1.9  virginica
-39           6.4         3.2          5.3         2.3  virginica
-40           6.4         2.8          5.6         2.1  virginica
-41           6.4         2.8          5.6         2.2  virginica
-42           6.4         3.1          5.5         1.8  virginica
-43           6.3         3.3          4.7         1.6 versicolor
-44           6.3         2.5          4.9         1.5 versicolor
-45           6.3         2.3          4.4         1.3 versicolor
-46           6.3         3.3          6.0         2.5  virginica
-47           6.3         2.9          5.6         1.8  virginica
-48           6.3         2.7          4.9         1.8  virginica
-49           6.3         2.8          5.1         1.5  virginica
-50           6.3         3.4          5.6         2.4  virginica
-51           6.3         2.5          5.0         1.9  virginica
-52           6.2         2.2          4.5         1.5 versicolor
-53           6.2         2.9          4.3         1.3 versicolor
-54           6.2         2.8          4.8         1.8  virginica
-55           6.2         3.4          5.4         2.3  virginica
-56           6.1         2.9          4.7         1.4 versicolor
-57           6.1         2.8          4.0         1.3 versicolor
-58           6.1         2.8          4.7         1.2 versicolor
-59           6.1         3.0          4.6         1.4 versicolor
-60           6.1         3.0          4.9         1.8  virginica
-61           6.1         2.6          5.6         1.4  virginica
-62           6.0         2.2          4.0         1.0 versicolor
-63           6.0         2.9          4.5         1.5 versicolor
-64           6.0         2.7          5.1         1.6 versicolor
-65           6.0         3.4          4.5         1.6 versicolor
-66           6.0         2.2          5.0         1.5  virginica
-67           6.0         3.0          4.8         1.8  virginica
-68           5.9         3.0          4.2         1.5 versicolor
-69           5.9         3.2          4.8         1.8 versicolor
-70           5.9         3.0          5.1         1.8  virginica
-71           5.8         4.0          1.2         0.2     setosa
-72           5.8         2.7          4.1         1.0 versicolor
-73           5.8         2.7          3.9         1.2 versicolor
-74           5.8         2.6          4.0         1.2 versicolor
-75           5.8         2.7          5.1         1.9  virginica
-76           5.8         2.8          5.1         2.4  virginica
-77           5.8         2.7          5.1         1.9  virginica
-78           5.7         4.4          1.5         0.4     setosa
-79           5.7         3.8          1.7         0.3     setosa
-80           5.7         2.8          4.5         1.3 versicolor
-81           5.7         2.6          3.5         1.0 versicolor
-82           5.7         3.0          4.2         1.2 versicolor
-83           5.7         2.9          4.2         1.3 versicolor
-84           5.7         2.8          4.1         1.3 versicolor
-85           5.7         2.5          5.0         2.0  virginica
-86           5.6         2.9          3.6         1.3 versicolor
-87           5.6         3.0          4.5         1.5 versicolor
-88           5.6         2.5          3.9         1.1 versicolor
-89           5.6         3.0          4.1         1.3 versicolor
-90           5.6         2.7          4.2         1.3 versicolor
-91           5.6         2.8          4.9         2.0  virginica
-92           5.5         4.2          1.4         0.2     setosa
-93           5.5         3.5          1.3         0.2     setosa
-94           5.5         2.3          4.0         1.3 versicolor
-95           5.5         2.4          3.8         1.1 versicolor
-96           5.5         2.4          3.7         1.0 versicolor
-97           5.5         2.5          4.0         1.3 versicolor
-98           5.5         2.6          4.4         1.2 versicolor
-99           5.4         3.9          1.7         0.4     setosa
-100          5.4         3.7          1.5         0.2     setosa
-101          5.4         3.9          1.3         0.4     setosa
-102          5.4         3.4          1.7         0.2     setosa
-103          5.4         3.4          1.5         0.4     setosa
-104          5.4         3.0          4.5         1.5 versicolor
-105          5.3         3.7          1.5         0.2     setosa
-106          5.2         3.5          1.5         0.2     setosa
-107          5.2         3.4          1.4         0.2     setosa
-108          5.2         4.1          1.5         0.1     setosa
-109          5.2         2.7          3.9         1.4 versicolor
-110          5.1         3.5          1.4         0.2     setosa
-111          5.1         3.5          1.4         0.3     setosa
-112          5.1         3.8          1.5         0.3     setosa
-113          5.1         3.7          1.5         0.4     setosa
-114          5.1         3.3          1.7         0.5     setosa
-115          5.1         3.4          1.5         0.2     setosa
-116          5.1         3.8          1.9         0.4     setosa
-117          5.1         3.8          1.6         0.2     setosa
-118          5.1         2.5          3.0         1.1 versicolor
-119          5.0         3.6          1.4         0.2     setosa
-120          5.0         3.4          1.5         0.2     setosa
-121          5.0         3.0          1.6         0.2     setosa
-122          5.0         3.4          1.6         0.4     setosa
-123          5.0         3.2          1.2         0.2     setosa
-124          5.0         3.5          1.3         0.3     setosa
-125          5.0         3.5          1.6         0.6     setosa
-126          5.0         3.3          1.4         0.2     setosa
-127          5.0         2.0          3.5         1.0 versicolor
-128          5.0         2.3          3.3         1.0 versicolor
-129          4.9         3.0          1.4         0.2     setosa
-130          4.9         3.1          1.5         0.1     setosa
-131          4.9         3.1          1.5         0.2     setosa
-132          4.9         3.6          1.4         0.1     setosa
-133          4.9         2.4          3.3         1.0 versicolor
-134          4.9         2.5          4.5         1.7  virginica
-135          4.8         3.4          1.6         0.2     setosa
-136          4.8         3.0          1.4         0.1     setosa
-137          4.8         3.4          1.9         0.2     setosa
-138          4.8         3.1          1.6         0.2     setosa
-139          4.8         3.0          1.4         0.3     setosa
-140          4.7         3.2          1.3         0.2     setosa
-141          4.7         3.2          1.6         0.2     setosa
-142          4.6         3.1          1.5         0.2     setosa
-143          4.6         3.4          1.4         0.3     setosa
-144          4.6         3.6          1.0         0.2     setosa
-145          4.6         3.2          1.4         0.2     setosa
-146          4.5         2.3          1.3         0.3     setosa
-147          4.4         2.9          1.4         0.2     setosa
-148          4.4         3.0          1.3         0.2     setosa
-149          4.4         3.2          1.3         0.2     setosa
-150          4.3         3.0          1.1         0.1     setosa</code></pre>
+<pre><code>##     Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
+## 1            7.9         3.8          6.4         2.0  virginica
+## 2            7.7         3.8          6.7         2.2  virginica
+## 3            7.7         2.6          6.9         2.3  virginica
+## 4            7.7         2.8          6.7         2.0  virginica
+## 5            7.7         3.0          6.1         2.3  virginica
+## 6            7.6         3.0          6.6         2.1  virginica
+## 7            7.4         2.8          6.1         1.9  virginica
+## 8            7.3         2.9          6.3         1.8  virginica
+## 9            7.2         3.6          6.1         2.5  virginica
+## 10           7.2         3.2          6.0         1.8  virginica
+## 11           7.2         3.0          5.8         1.6  virginica
+## 12           7.1         3.0          5.9         2.1  virginica
+## 13           7.0         3.2          4.7         1.4 versicolor
+## 14           6.9         3.1          4.9         1.5 versicolor
+## 15           6.9         3.2          5.7         2.3  virginica
+## 16           6.9         3.1          5.4         2.1  virginica
+## 17           6.9         3.1          5.1         2.3  virginica
+## 18           6.8         2.8          4.8         1.4 versicolor
+## 19           6.8         3.0          5.5         2.1  virginica
+## 20           6.8         3.2          5.9         2.3  virginica
+## 21           6.7         3.1          4.4         1.4 versicolor
+## 22           6.7         3.0          5.0         1.7 versicolor
+## 23           6.7         3.1          4.7         1.5 versicolor
+## 24           6.7         2.5          5.8         1.8  virginica
+## 25           6.7         3.3          5.7         2.1  virginica
+## 26           6.7         3.1          5.6         2.4  virginica
+## 27           6.7         3.3          5.7         2.5  virginica
+## 28           6.7         3.0          5.2         2.3  virginica
+## 29           6.6         2.9          4.6         1.3 versicolor
+## 30           6.6         3.0          4.4         1.4 versicolor
+## 31           6.5         2.8          4.6         1.5 versicolor
+## 32           6.5         3.0          5.8         2.2  virginica
+## 33           6.5         3.2          5.1         2.0  virginica
+## 34           6.5         3.0          5.5         1.8  virginica
+## 35           6.5         3.0          5.2         2.0  virginica
+## 36           6.4         3.2          4.5         1.5 versicolor
+## 37           6.4         2.9          4.3         1.3 versicolor
+## 38           6.4         2.7          5.3         1.9  virginica
+## 39           6.4         3.2          5.3         2.3  virginica
+## 40           6.4         2.8          5.6         2.1  virginica
+## 41           6.4         2.8          5.6         2.2  virginica
+## 42           6.4         3.1          5.5         1.8  virginica
+## 43           6.3         3.3          4.7         1.6 versicolor
+## 44           6.3         2.5          4.9         1.5 versicolor
+## 45           6.3         2.3          4.4         1.3 versicolor
+## 46           6.3         3.3          6.0         2.5  virginica
+## 47           6.3         2.9          5.6         1.8  virginica
+## 48           6.3         2.7          4.9         1.8  virginica
+## 49           6.3         2.8          5.1         1.5  virginica
+## 50           6.3         3.4          5.6         2.4  virginica
+## 51           6.3         2.5          5.0         1.9  virginica
+## 52           6.2         2.2          4.5         1.5 versicolor
+## 53           6.2         2.9          4.3         1.3 versicolor
+## 54           6.2         2.8          4.8         1.8  virginica
+## 55           6.2         3.4          5.4         2.3  virginica
+## 56           6.1         2.9          4.7         1.4 versicolor
+## 57           6.1         2.8          4.0         1.3 versicolor
+## 58           6.1         2.8          4.7         1.2 versicolor
+## 59           6.1         3.0          4.6         1.4 versicolor
+## 60           6.1         3.0          4.9         1.8  virginica
+## 61           6.1         2.6          5.6         1.4  virginica
+## 62           6.0         2.2          4.0         1.0 versicolor
+## 63           6.0         2.9          4.5         1.5 versicolor
+## 64           6.0         2.7          5.1         1.6 versicolor
+## 65           6.0         3.4          4.5         1.6 versicolor
+## 66           6.0         2.2          5.0         1.5  virginica
+## 67           6.0         3.0          4.8         1.8  virginica
+## 68           5.9         3.0          4.2         1.5 versicolor
+## 69           5.9         3.2          4.8         1.8 versicolor
+## 70           5.9         3.0          5.1         1.8  virginica
+## 71           5.8         4.0          1.2         0.2     setosa
+## 72           5.8         2.7          4.1         1.0 versicolor
+## 73           5.8         2.7          3.9         1.2 versicolor
+## 74           5.8         2.6          4.0         1.2 versicolor
+## 75           5.8         2.7          5.1         1.9  virginica
+## 76           5.8         2.8          5.1         2.4  virginica
+## 77           5.8         2.7          5.1         1.9  virginica
+## 78           5.7         4.4          1.5         0.4     setosa
+## 79           5.7         3.8          1.7         0.3     setosa
+## 80           5.7         2.8          4.5         1.3 versicolor
+## 81           5.7         2.6          3.5         1.0 versicolor
+## 82           5.7         3.0          4.2         1.2 versicolor
+## 83           5.7         2.9          4.2         1.3 versicolor
+## 84           5.7         2.8          4.1         1.3 versicolor
+## 85           5.7         2.5          5.0         2.0  virginica
+## 86           5.6         2.9          3.6         1.3 versicolor
+## 87           5.6         3.0          4.5         1.5 versicolor
+## 88           5.6         2.5          3.9         1.1 versicolor
+## 89           5.6         3.0          4.1         1.3 versicolor
+## 90           5.6         2.7          4.2         1.3 versicolor
+## 91           5.6         2.8          4.9         2.0  virginica
+## 92           5.5         4.2          1.4         0.2     setosa
+## 93           5.5         3.5          1.3         0.2     setosa
+## 94           5.5         2.3          4.0         1.3 versicolor
+## 95           5.5         2.4          3.8         1.1 versicolor
+## 96           5.5         2.4          3.7         1.0 versicolor
+## 97           5.5         2.5          4.0         1.3 versicolor
+## 98           5.5         2.6          4.4         1.2 versicolor
+## 99           5.4         3.9          1.7         0.4     setosa
+## 100          5.4         3.7          1.5         0.2     setosa
+## 101          5.4         3.9          1.3         0.4     setosa
+## 102          5.4         3.4          1.7         0.2     setosa
+## 103          5.4         3.4          1.5         0.4     setosa
+## 104          5.4         3.0          4.5         1.5 versicolor
+## 105          5.3         3.7          1.5         0.2     setosa
+## 106          5.2         3.5          1.5         0.2     setosa
+## 107          5.2         3.4          1.4         0.2     setosa
+## 108          5.2         4.1          1.5         0.1     setosa
+## 109          5.2         2.7          3.9         1.4 versicolor
+## 110          5.1         3.5          1.4         0.2     setosa
+## 111          5.1         3.5          1.4         0.3     setosa
+## 112          5.1         3.8          1.5         0.3     setosa
+## 113          5.1         3.7          1.5         0.4     setosa
+## 114          5.1         3.3          1.7         0.5     setosa
+## 115          5.1         3.4          1.5         0.2     setosa
+## 116          5.1         3.8          1.9         0.4     setosa
+## 117          5.1         3.8          1.6         0.2     setosa
+## 118          5.1         2.5          3.0         1.1 versicolor
+## 119          5.0         3.6          1.4         0.2     setosa
+## 120          5.0         3.4          1.5         0.2     setosa
+## 121          5.0         3.0          1.6         0.2     setosa
+## 122          5.0         3.4          1.6         0.4     setosa
+## 123          5.0         3.2          1.2         0.2     setosa
+## 124          5.0         3.5          1.3         0.3     setosa
+## 125          5.0         3.5          1.6         0.6     setosa
+## 126          5.0         3.3          1.4         0.2     setosa
+## 127          5.0         2.0          3.5         1.0 versicolor
+## 128          5.0         2.3          3.3         1.0 versicolor
+## 129          4.9         3.0          1.4         0.2     setosa
+## 130          4.9         3.1          1.5         0.1     setosa
+## 131          4.9         3.1          1.5         0.2     setosa
+## 132          4.9         3.6          1.4         0.1     setosa
+## 133          4.9         2.4          3.3         1.0 versicolor
+## 134          4.9         2.5          4.5         1.7  virginica
+## 135          4.8         3.4          1.6         0.2     setosa
+## 136          4.8         3.0          1.4         0.1     setosa
+## 137          4.8         3.4          1.9         0.2     setosa
+## 138          4.8         3.1          1.6         0.2     setosa
+## 139          4.8         3.0          1.4         0.3     setosa
+## 140          4.7         3.2          1.3         0.2     setosa
+## 141          4.7         3.2          1.6         0.2     setosa
+## 142          4.6         3.1          1.5         0.2     setosa
+## 143          4.6         3.4          1.4         0.3     setosa
+## 144          4.6         3.6          1.0         0.2     setosa
+## 145          4.6         3.2          1.4         0.2     setosa
+## 146          4.5         2.3          1.3         0.3     setosa
+## 147          4.4         2.9          1.4         0.2     setosa
+## 148          4.4         3.0          1.3         0.2     setosa
+## 149          4.4         3.2          1.3         0.2     setosa
+## 150          4.3         3.0          1.1         0.1     setosa</code></pre>
 <ul>
 <li>ggplot2</li>
 </ul>
@@ -882,7 +482,6 @@ iris %&gt;%
 
 ## Name conflicts in package functions (e.g. filter and lag in tidyverse)
 ?filter</code></pre>
-<<<<<<< HEAD
 <pre><code>## Help on topic &#39;filter&#39; was found in the following packages:
 ## 
 ##   Package               Library
@@ -966,84 +565,6 @@ iris %&gt;%
 ## }
 ## &lt;bytecode: 0x7f7fde1b3070&gt;
 ## &lt;environment: namespace:stats&gt;</code></pre>
-=======
-<pre><code>starting httpd help server ... done</code></pre>
-<pre class="r"><code>dplyr::filter</code></pre>
-<pre><code>function (.data, ...) 
-{
-    UseMethod(&quot;filter&quot;)
-}
-&lt;bytecode: 0x0000000019a10060&gt;
-&lt;environment: namespace:dplyr&gt;</code></pre>
-<pre class="r"><code>stats::filter</code></pre>
-<pre><code>function (x, filter, method = c(&quot;convolution&quot;, &quot;recursive&quot;), 
-    sides = 2L, circular = FALSE, init = NULL) 
-{
-    method &lt;- match.arg(method)
-    x &lt;- as.ts(x)
-    storage.mode(x) &lt;- &quot;double&quot;
-    xtsp &lt;- tsp(x)
-    n &lt;- as.integer(NROW(x))
-    if (is.na(n)) 
-        stop(gettextf(&quot;invalid value of %s&quot;, &quot;NROW(x)&quot;), domain = NA)
-    nser &lt;- NCOL(x)
-    filter &lt;- as.double(filter)
-    nfilt &lt;- as.integer(length(filter))
-    if (is.na(nfilt)) 
-        stop(gettextf(&quot;invalid value of %s&quot;, &quot;length(filter)&quot;), 
-            domain = NA)
-    if (anyNA(filter)) 
-        stop(&quot;missing values in &#39;filter&#39;&quot;)
-    if (method == &quot;convolution&quot;) {
-        if (nfilt &gt; n) 
-            stop(&quot;&#39;filter&#39; is longer than time series&quot;)
-        sides &lt;- as.integer(sides)
-        if (is.na(sides) || (sides != 1L &amp;&amp; sides != 2L)) 
-            stop(&quot;argument &#39;sides&#39; must be 1 or 2&quot;)
-        circular &lt;- as.logical(circular)
-        if (is.na(circular)) 
-            stop(&quot;&#39;circular&#39; must be logical and not NA&quot;)
-        if (is.matrix(x)) {
-            y &lt;- matrix(NA, n, nser)
-            for (i in seq_len(nser)) y[, i] &lt;- .Call(C_cfilter, 
-                x[, i], filter, sides, circular)
-        }
-        else y &lt;- .Call(C_cfilter, x, filter, sides, circular)
-    }
-    else {
-        if (missing(init)) {
-            init &lt;- matrix(0, nfilt, nser)
-        }
-        else {
-            ni &lt;- NROW(init)
-            if (ni != nfilt) 
-                stop(&quot;length of &#39;init&#39; must equal length of &#39;filter&#39;&quot;)
-            if (NCOL(init) != 1L &amp;&amp; NCOL(init) != nser) {
-                stop(sprintf(ngettext(nser, &quot;&#39;init&#39; must have %d column&quot;, 
-                  &quot;&#39;init&#39; must have 1 or %d columns&quot;, domain = &quot;R-stats&quot;), 
-                  nser), domain = NA)
-            }
-            if (!is.matrix(init)) 
-                dim(init) &lt;- c(nfilt, nser)
-        }
-        ind &lt;- seq_len(nfilt)
-        if (is.matrix(x)) {
-            y &lt;- matrix(NA, n, nser)
-            for (i in seq_len(nser)) y[, i] &lt;- .Call(C_rfilter, 
-                x[, i], filter, c(rev(init[, i]), double(n)))[-ind]
-        }
-        else y &lt;- .Call(C_rfilter, x, filter, c(rev(init[, 1L]), 
-            double(n)))[-ind]
-    }
-    tsp(y) &lt;- xtsp
-    class(y) &lt;- if (nser &gt; 1L) 
-        c(&quot;mts&quot;, &quot;ts&quot;)
-    else &quot;ts&quot;
-    y
-}
-&lt;bytecode: 0x0000000015704460&gt;
-&lt;environment: namespace:stats&gt;</code></pre>
->>>>>>> 786ca0cea3cdea769d70b784cb0b34a6306f555e
 <pre class="r"><code>my_filter &lt;- dplyr::filter
 filter &lt;- dplyr::filter
 
@@ -1070,7 +591,6 @@ data(diamonds)
 ## Histograms, barplots, frequency polygons, smoothers, boxplots, ...
 ggplot(diamonds) +
   geom_bar(aes(x = cut))</code></pre>
-<<<<<<< HEAD
 <p><img src="lecture5_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(diamonds) +
   stat_count(aes(x = cut))</code></pre>
@@ -1079,111 +599,10 @@ ggplot(diamonds) +
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, y = ..prop.., group = 1))</code></pre>
 <p><img src="lecture5_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-=======
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-4-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-4-1.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
-<pre class="r"><code>ggplot(diamonds) +
-  stat_count(aes(x = cut))</code></pre>
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-5-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-5-1.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
-<pre class="r"><code>## We can override default stat for a given geom
-ggplot(data = diamonds) +
-  geom_bar(mapping = aes(x = cut, y = ..prop.., group = 1))</code></pre>
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-6-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-6-1.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
->>>>>>> 786ca0cea3cdea769d70b784cb0b34a6306f555e
 <pre class="r"><code>## What happens if we don&#39;t set group = 1 above?
 ## What is wrong with the following two graphs?
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, y = ..prop..))</code></pre>
-<<<<<<< HEAD
 <p><img src="lecture5_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, fill = color, y = ..prop..))</code></pre>
@@ -1191,180 +610,14 @@ ggplot(data = diamonds) +
 <pre class="r"><code>ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, y = ..prop..))</code></pre>
 <p><img src="lecture5_files/figure-html/unnamed-chunk-7-3.png" width="672" /></p>
-=======
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-7-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-7-1.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
-<pre class="r"><code>ggplot(data = diamonds) +
-  geom_bar(mapping = aes(x = cut, fill = color, y = ..prop..))</code></pre>
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-7-2.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-7-2.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
-<pre class="r"><code>ggplot(data = diamonds) +
-  geom_bar(mapping = aes(x = cut, y = ..prop..))</code></pre>
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-7-3.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-7-3.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-7-3.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
->>>>>>> 786ca0cea3cdea769d70b784cb0b34a6306f555e
 <pre class="r"><code>## We can even explicitly use stat_## instead of the geom
 ## By default, each stat is associated with a geom and vice versa
 ggplot(data = diamonds) +
   stat_count(mapping = aes(x = cut))</code></pre>
-<<<<<<< HEAD
 <p><img src="lecture5_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut))</code></pre>
 <p><img src="lecture5_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
-=======
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-8-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-8-1.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
-<pre class="r"><code>ggplot(data = diamonds) +
-  geom_bar(mapping = aes(x = cut))</code></pre>
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-8-2.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-8-2.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
->>>>>>> 786ca0cea3cdea769d70b784cb0b34a6306f555e
 <pre class="r"><code>ggplot(data = diamonds) +
   stat_summary(
     mapping = aes(x = cut, y = depth),
@@ -1372,7 +625,6 @@ Shengtong
     fun.ymax = max,
     fun.y = median
   )</code></pre>
-<<<<<<< HEAD
 <p><img src="lecture5_files/figure-html/unnamed-chunk-8-3.png" width="672" /></p>
 <pre class="r"><code>## Stacked versus side-by-side barplots
 ggplot(data = diamonds) +
@@ -1384,220 +636,18 @@ ggplot(data = diamonds) +
 <pre class="r"><code>ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, fill = clarity), position=&quot;dodge&quot;)</code></pre>
 <p><img src="lecture5_files/figure-html/unnamed-chunk-9-3.png" width="672" /></p>
-=======
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-8-3.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-8-3.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-8-3.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
-<pre class="r"><code>## Stacked versus side-by-side barplots
-ggplot(data = diamonds) +
-  geom_bar(mapping = aes(x = cut, fill = clarity))</code></pre>
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-9-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-9-1.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
-<pre class="r"><code>ggplot(data = diamonds) +
-  geom_bar(mapping = aes(x = cut, fill = clarity), position=&quot;fill&quot;)</code></pre>
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-9-2.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-9-2.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-9-2.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
-<pre class="r"><code>ggplot(data = diamonds) +
-  geom_bar(mapping = aes(x = cut, fill = clarity), position=&quot;dodge&quot;)</code></pre>
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-9-3.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-9-3.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-9-3.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
->>>>>>> 786ca0cea3cdea769d70b784cb0b34a6306f555e
 <pre class="r"><code>## geom_smooth: What variables does stat_smooth compute? 
 ## What parameters control its behavior?
 
 ggplot(diamonds, aes(x=carat, y=price, color=cut)) +
   geom_point() +
   geom_smooth(aes(fill=cut), alpha=0.5)</code></pre>
-<<<<<<< HEAD
 <pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
 <p><img src="lecture5_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(diamonds, aes(x=carat, y=price, color=cut)) +
   geom_point() +
   geom_smooth(aes(fill=cut), alpha=0.5, method=&quot;lm&quot;)</code></pre>
 <p><img src="lecture5_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
-=======
-<pre><code>`geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-10-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-10-1.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
-<pre class="r"><code>ggplot(diamonds, aes(x=carat, y=price, color=cut)) +
-  geom_point() +
-  geom_smooth(aes(fill=cut), alpha=0.5, method=&quot;lm&quot;)</code></pre>
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-10-2.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-10-2.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-10-2.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
->>>>>>> 786ca0cea3cdea769d70b784cb0b34a6306f555e
 <pre class="r"><code>  # ?geom_smooth</code></pre>
 <ul>
 <li>other tricks</li>
@@ -1611,7 +661,6 @@ Shengtong
 data(mpg)
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy))</code></pre>
-<<<<<<< HEAD
 <p><img src="lecture5_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy), position = &quot;jitter&quot;)</code></pre>
@@ -1625,257 +674,23 @@ ggplot(data = mpg) +
 <pre class="r"><code>ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy), alpha=0.25)</code></pre>
 <p><img src="lecture5_files/figure-html/unnamed-chunk-11-5.png" width="672" /></p>
-=======
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-11-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-11-1.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
-<pre class="r"><code>ggplot(data = mpg) +
-  geom_point(mapping = aes(x = displ, y = hwy), position = &quot;jitter&quot;)</code></pre>
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-11-2.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-11-2.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-11-2.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
-<pre class="r"><code>ggplot(data = mpg) +
-  geom_jitter(mapping = aes(x = displ, y = hwy))</code></pre>
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-11-3.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-11-3.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-11-3.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
-<pre class="r"><code>ggplot(data = mpg) +
-  geom_count(mapping = aes(x = displ, y = hwy))</code></pre>
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-11-4.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-11-4.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-11-4.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
-<pre class="r"><code>ggplot(data = mpg) +
-  geom_point(mapping = aes(x = displ, y = hwy), alpha=0.25)</code></pre>
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-11-5.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-11-5.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-11-5.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
->>>>>>> 786ca0cea3cdea769d70b784cb0b34a6306f555e
 <pre class="r"><code>## Facets: smaller plots that display a subset of the data
 ## Useful for exploring conditional relationships and large data
 ## facet_wrap
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_grid(~trans)</code></pre>
-<<<<<<< HEAD
 <p><img src="lecture5_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
-=======
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-12-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-12-1.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
->>>>>>> 786ca0cea3cdea769d70b784cb0b34a6306f555e
 <pre class="r"><code>## What is the difference between facet_wrap and facet_grid?
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_wrap(~trans)</code></pre>
-<<<<<<< HEAD
 <p><img src="lecture5_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
-=======
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-13-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-13-1.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
->>>>>>> 786ca0cea3cdea769d70b784cb0b34a6306f555e
 <pre class="r"><code>## What happens if you facet on a continuous variable?
 
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_wrap(~cty)</code></pre>
-<<<<<<< HEAD
 <p><img src="lecture5_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <pre class="r"><code>## coordinates in ggplot: can flip axes with coord_flip
 ggplot(data = mpg) +
@@ -1885,119 +700,17 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   coord_flip()</code></pre>
 <p><img src="lecture5_files/figure-html/unnamed-chunk-15-2.png" width="672" /></p>
-=======
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-14-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-14-1.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
-<pre class="r"><code>## coordinates in ggplot: can flip axes with coord_flip
-ggplot(data = mpg) +
-  geom_point(mapping = aes(x = displ, y = hwy))</code></pre>
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-15-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-15-1.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
-<pre class="r"><code>ggplot(data = mpg) +
-  geom_point(mapping = aes(x = displ, y = hwy)) +
-  coord_flip()</code></pre>
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-15-2.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-15-2.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-15-2.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
->>>>>>> 786ca0cea3cdea769d70b784cb0b34a6306f555e
 <pre class="r"><code>## Saving figures: ggsave
 g &lt;- ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   coord_flip()
 ggsave(g, filename=&quot;first_ggplot.pdf&quot;)</code></pre>
-<pre><code>Saving 7 x 5 in image</code></pre>
+<pre><code>## Saving 7 x 5 in image</code></pre>
 <pre class="r"><code>ggsave(filename=&quot;first_ggplot.pdf&quot;)  ## Save last plot</code></pre>
-<pre><code>Saving 7 x 5 in image</code></pre>
+<pre><code>## Saving 7 x 5 in image</code></pre>
 <pre class="r"><code>## Combining ggplot2 figures
 # install.packages(&quot;cowplot&quot;)  ## Only do this once!
 library(cowplot)</code></pre>
-<<<<<<< HEAD
 <pre><code>## 
 ## Attaching package: &#39;cowplot&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
@@ -2005,45 +718,6 @@ library(cowplot)</code></pre>
 ##     ggsave</code></pre>
 <pre class="r"><code>plot_grid(g, g, labels=c(&quot;A&quot;,&quot;B&quot;))</code></pre>
 <p><img src="lecture5_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
-=======
-<pre><code>
-Attaching package: &#39;cowplot&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:ggplot2&#39;:
-
-    ggsave</code></pre>
-<pre class="r"><code>plot_grid(g, g, labels=c(&quot;A&quot;,&quot;B&quot;))</code></pre>
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-17-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-17-1.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
->>>>>>> 786ca0cea3cdea769d70b784cb0b34a6306f555e
 </div>
 <div id="in-class" class="section level2">
 <h2>In class</h2>
@@ -2063,185 +737,49 @@ library(forcats)
 
 colors &lt;- c(&quot;red&quot;,&quot;blue&quot;,&quot;green&quot;,&quot;green&quot;,&quot;red&quot;,&quot;blue&quot;,&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;)
 class(colors)</code></pre>
-<pre><code>[1] &quot;character&quot;</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
 <pre class="r"><code>colors &lt;- factor(colors)
 print(colors)</code></pre>
-<pre><code>[1] red   blue  green green red   blue  red   green blue 
-Levels: blue green red</code></pre>
+<pre><code>## [1] red   blue  green green red   blue  red   green blue 
+## Levels: blue green red</code></pre>
 <pre class="r"><code>class(colors)</code></pre>
-<pre><code>[1] &quot;factor&quot;</code></pre>
+<pre><code>## [1] &quot;factor&quot;</code></pre>
 <pre class="r"><code># Each color is a level, and underlying each level is an integer associated with that
 # level; red = 3, green = 2, blue = 1. The order of the levels is assigned
 # alphabetically to the integer: b = 1, g = 2, r = 3.
 colors &lt;- factor(colors, levels = c(&quot;red&quot;,&quot;blue&quot;, &quot;green&quot;))
 print(colors)</code></pre>
-<pre><code>[1] red   blue  green green red   blue  red   green blue 
-Levels: red blue green</code></pre>
+<pre><code>## [1] red   blue  green green red   blue  red   green blue 
+## Levels: red blue green</code></pre>
 <pre class="r"><code>data(airquality)
 airquality$Month &lt;- factor(airquality$Month)
 levels(airquality$Month)</code></pre>
-<pre><code>[1] &quot;5&quot; &quot;6&quot; &quot;7&quot; &quot;8&quot; &quot;9&quot;</code></pre>
+<pre><code>## [1] &quot;5&quot; &quot;6&quot; &quot;7&quot; &quot;8&quot; &quot;9&quot;</code></pre>
 <pre class="r"><code>ggplot(airquality, aes(Month, Temp)) +
   geom_boxplot(aes(fill = Month)) +
   ggtitle(label = &quot;Daily Temperatures Aggregated by Month&quot;)</code></pre>
-<<<<<<< HEAD
 <p><img src="lecture5_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
-=======
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-19-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-19-1.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
->>>>>>> 786ca0cea3cdea769d70b784cb0b34a6306f555e
 <pre class="r"><code># ## Renaming factor levels: fct_recode
 airquality$Month &lt;- fct_recode(airquality$Month,
                                May=&#39;5&#39;, June=&#39;6&#39;, July=&#39;7&#39;, Aug=&#39;8&#39;, Sept=&#39;9&#39;)
 ggplot(airquality, aes(Month, Temp)) +
   geom_boxplot(aes(fill = Month)) +
   ggtitle(label = &quot;Daily Temperatures Aggregated by Month&quot;)</code></pre>
-<<<<<<< HEAD
 <p><img src="lecture5_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
-=======
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-20-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-20-1.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
->>>>>>> 786ca0cea3cdea769d70b784cb0b34a6306f555e
 <pre class="r"><code># ## Reverse factor order: fct_reverse
 ggplot(airquality, aes(fct_rev(Month), Temp)) +
   geom_boxplot(aes(fill = Month)) +
   labs(x = &quot;Month&quot;) +
   ggtitle(label = &quot;Our plot now has the x-axis in reverse order&quot;)</code></pre>
-<<<<<<< HEAD
 <p><img src="lecture5_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
-=======
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-21-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-21-1.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
->>>>>>> 786ca0cea3cdea769d70b784cb0b34a6306f555e
 <pre class="r"><code># ## Factor relevel
 airquality$Month &lt;- fct_relevel(airquality$Month, &#39;Sept&#39;, &#39;July&#39;, &#39;May&#39;, &#39;Aug&#39;, &#39;June&#39;)
 levels(airquality$Month)</code></pre>
-<pre><code>[1] &quot;Sept&quot; &quot;July&quot; &quot;May&quot;  &quot;Aug&quot;  &quot;June&quot;</code></pre>
+<pre><code>## [1] &quot;Sept&quot; &quot;July&quot; &quot;May&quot;  &quot;Aug&quot;  &quot;June&quot;</code></pre>
 <pre class="r"><code>ggplot(airquality, aes(Month, Temp)) +
   geom_boxplot(aes(fill = Month)) +
   ggtitle(label = &quot;Notice how the order of the level &#39;Month&#39; has changed&quot;)</code></pre>
-<<<<<<< HEAD
 <p><img src="lecture5_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
-=======
-<p><img src="figure/lecture5.Rmd/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-22-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/han16/Data-Science-in-R/blob/ce16c70c90dd4af2617fc7e8371b73dd22bbbc08/docs/figure/lecture5.Rmd/unnamed-chunk-22-1.png" target="_blank">ce16c70</a>
-</td>
-<td style="text-align:left;">
-Shengtong
-</td>
-<td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
->>>>>>> 786ca0cea3cdea769d70b784cb0b34a6306f555e
 <pre class="r"><code># ## And we can also order factors according to another variable
 data(mtcars)
 mtcars$model &lt;- factor(row.names(mtcars))
@@ -2255,76 +793,9 @@ ggplot(mtcars, aes(mpg, fct_reorder(f = model, x = mpg))) +
   ggtitle(label = &quot;Better comparison by reordering levels based on mpg values!&quot;) +
   theme(plot.title = element_text(size = 10, face = &#39;bold&#39;))</code></pre>
 </div>
-<div id="session-information" class="section level2">
-<h2>Session information</h2>
-<pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 3.5.1 (2018-07-02)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 17134)
-
-Matrix products: default
-
-locale:
-[1] LC_COLLATE=English_United States.1252 
-[2] LC_CTYPE=English_United States.1252   
-[3] LC_MONETARY=English_United States.1252
-[4] LC_NUMERIC=C                          
-[5] LC_TIME=English_United States.1252    
-
-attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
-
-other attached packages:
- [1] cowplot_0.9.3   bindrcpp_0.2.2  forcats_0.3.0   stringr_1.3.1  
- [5] dplyr_0.7.7     purrr_0.2.5     readr_1.1.1     tidyr_0.8.2    
- [9] tibble_1.4.2    ggplot2_3.1.0   tidyverse_1.2.1
-
-loaded via a namespace (and not attached):
- [1] tidyselect_0.2.5  reshape2_1.4.3    haven_1.1.2      
- [4] lattice_0.20-35   colorspace_1.3-2  viridisLite_0.3.0
- [7] htmltools_0.3.6   mgcv_1.8-24       yaml_2.2.0       
-[10] utf8_1.1.4        rlang_0.3.0.1     R.oo_1.22.0      
-[13] pillar_1.3.0      glue_1.3.0        withr_2.1.2      
-[16] R.utils_2.7.0     modelr_0.1.2      readxl_1.1.0     
-[19] bindr_0.1.1       plyr_1.8.4        munsell_0.5.0    
-[22] gtable_0.2.0      workflowr_1.1.1   cellranger_1.1.0 
-[25] rvest_0.3.2       R.methodsS3_1.7.1 evaluate_0.12    
-[28] labeling_0.3      knitr_1.20        fansi_0.4.0      
-[31] broom_0.5.0       Rcpp_0.12.19      scales_1.0.0     
-[34] backports_1.1.2   jsonlite_1.5      hms_0.4.2        
-[37] digest_0.6.18     stringi_1.2.4     grid_3.5.1       
-[40] rprojroot_1.3-2   cli_1.0.1         tools_3.5.1      
-[43] magrittr_1.5      lazyeval_0.2.1    crayon_1.3.4     
-[46] whisker_0.3-2     pkgconfig_2.0.2   Matrix_1.2-14    
-[49] xml2_1.2.0        lubridate_1.7.4   assertthat_0.2.0 
-[52] rmarkdown_1.10    httr_1.3.1        rstudioapi_0.8   
-[55] R6_2.3.0          nlme_3.1-137      git2r_0.23.0     
-[58] compiler_3.5.1   </code></pre>
-</div>
-
-<!-- Adjust MathJax settings so that all math formulae are shown using
-TeX fonts only; see
-http://docs.mathjax.org/en/latest/configuration.html.  This will make
-the presentation more consistent at the cost of the webpage sometimes
-taking slightly longer to load. Note that this only works because the
-footer is added to webpages before the MathJax javascript. -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    "HTML-CSS": { availableFonts: ["TeX"] }
-  });
-</script>
-
-<hr>
-<p>
-  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
-  analysis was created with
-  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
-</p>
-<hr>
 
 
-</div>
-</div>
+
 
 </div>
 
