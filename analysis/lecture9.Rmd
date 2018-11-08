@@ -6,7 +6,7 @@ output: workflowr::wflow_html
 ---
 
 
-```{r, echo=T, eval=F}
+```{r, echo=T}
 
 ########################################################
 #### Go over HW 5
@@ -42,7 +42,9 @@ library(titanic)
 library(tidyverse)
 survive_ageXsex <- glm(formula = Survived ~ Age * Sex, family = binomial, 
                        data = titanic_train)
+```
 
+```{r, echo=T}
 ## Let's calculate these values for our model, assuming pred > 0.5 => Survived
 library(pROC)
 logit2prob <- function(x) {
@@ -51,7 +53,10 @@ logit2prob <- function(x) {
 roc.object <- roc(titanic_train$Survived[!is.na(titanic_train$Age)], 
                   logit2prob(survive_ageXsex$linear.predictors))
 roc.object$auc
+```
 
+
+```{r, echo=T}
 ## Plot ROC curves
 roc.data <- tibble(x = roc.object$specificities,   ### TNR (1-FPR)
                    y = roc.object$sensitivities)   ### TPR
@@ -60,8 +65,9 @@ ggplot(roc.data, aes(x = x, y = y)) +
   ylab("Sensitivity") +
   xlab("Specificity") +
   geom_abline(intercept=1, slope=1, color="grey")
+```
 
-
+```{r, echo=T}
 ## Note: there are some nice tidyverse functions for automating cross-validation:
 library(modelr)
 library(purrr)
@@ -73,10 +79,11 @@ mse <- function(model, data) {
 }
 loocv_mse <- map2_dbl(loocv_models, loocv_data$test, mse)
 mean(loocv_mse)
+```
 
-#=============================================================
 ## Monte Carlo simulations
-#=============================================================
+
+```{r, echo=T}
 
 ## Why simulations?
 ### => To estimate quantities that are difficult or impossible to figure out analytically
@@ -95,7 +102,9 @@ flip_function <- function(n) {
 flip_function(10)
 flip_function(100)
 flip_function(1000)
+```
 
+```{r, echo=T}
 ## Law of large numbers: expected value of some random variable can be
 ##   approximated by taking the mean of independent samples of the variable
 ## => The average of results obtained from a large number of trials should be
@@ -105,7 +114,9 @@ n <- round(seq(10,10000, length=500))
 flip_perc <- c()
 for(i in n) flip_perc <- c(flip_perc, flip_function(i));
 plot(n, flip_perc, type = "l", ylim=c(0,1))
+```
 
+```{r, echo=T}
 ## Monte Carlo: rely on repeated random sampling to obtain numerical results
 ## i.e., use randomness to solve problems have a probabilistic interpretation
 ## => motivated by the strong-law of large numbers (Chapter 14)
@@ -125,7 +136,8 @@ plot(circle_sim, xlim = c(-1,1), ylim=c(-1,1), asp=1,
      col=ifelse(dist_to_origin <= 1, "red", "grey"))                            
 draw.circle(0,0,1,nv=10000, border="black")
 (length(which(dist_to_origin <= 1)) / length(dist_to_origin)) * 4  ## Estimate of pi
-
+```
+```{r, echo=T}
 #-------------------------------------------------------------
 ## In class:
 ## Make this example into a function, and see what happens as you
@@ -141,7 +153,9 @@ circle_sim <- function(nsims) {
   return(length(which(dist_to_origin <= 1)) / length(dist_to_origin) * 4)  ## Estimate of pi
 }
 circle_sim(1000)
+```
 
+```{r, echo=T}
 ## Another example of the Monte Carlo Method:
 ## Flip a fair coin 5 times, let X = the number of heads tossed.
 ## First: what do you expect to see?
@@ -159,7 +173,9 @@ for(j in 1:10000){
   X[j] <- sum(flips==1)
 }
 mean(X)
+```
 
+```{r, echo=T}
 #-------------------------------------------------------------
 ## In class:
 ## Make this example into a function, and see what happens as you
@@ -175,7 +191,9 @@ ggplot(data.frame(x,y)) + geom_boxplot(aes(x=factor(x),y=y))
 model <- lm(y ~ x)
 ## We would reject H0, if the p-value < 0.05
 summary(model)$coef[2,4]
+```
 
+```{r, echo=T}
 ### So to run a simulation here, we would get say 1,000 p-values and see how many of them 
 ### are less than 0.05 when H_A is true.
 N <- 1000
@@ -190,7 +208,8 @@ for(i in 1:N){
 sum(p.value < 0.05)/N
 ## What if we didn't use alpha = 0.05, but rather alpha = 0.001? 
 sum(p.value < 0.001)/N
-
+```
+```{r, echo=T}
 
 ### Type I error
 N <- 1000
@@ -203,13 +222,12 @@ for(i in 1:N){
 }
 ## Here is an estimate of the Type I error:
 sum(p.value < 0.05)/N
+```
 
 
-
-#=============================================================
 ## Bootstrapping
-#=============================================================
 
+```{r, echo=T}
 ## Very closely related topic to simulation based approaches 
 ## called "re-sampling" based approaches to evaluate statistical significance 
 ## and used in many different situations in statistics.
@@ -241,7 +259,9 @@ hist(invmean_resample)
 ## => The lower and upper bounds of the CI are the 0.025 and 0.975 quantiles of this distribution
 LB <- quantile(invmean_resample, probs=c(0.025))
 UB <- quantile(invmean_resample, probs=c(0.975))
+```
 
+```{r, echo=T}
 ## Now let's write a simulation to evaluate the "coverage" property of this CI over
 ## 100 simulations, i.e., does the 95% CI contain the true value (0.5) of invmean ~95% of the time?
 cover <- NULL
@@ -261,13 +281,12 @@ for(k in 1:nsims){
   cover[k] <- ifelse(LB <= 0.5 & UB >= 0.5, 1, 0)
 }
 mean(cover)
+```
 
 
-
-#=============================================================
 ## Permutations: samples assumed to be independent and exchangeable
-#=============================================================
 
+```{r, echo=T}
 ## Alternative to hypothesis tests is to run a "permutation" based procedure:
 #### 1. Shuffle the y-values
 #### 2. Calculate a test statistic that measures the effect you are looking for
@@ -287,8 +306,10 @@ for(i in 1:1000){
   mod <- lm(y.perm ~ x)
   p.perm[i] <- summary(mod)$coef[2,4]
 }
-perm.pvalue <- sum(p.perm <= summary(lm(y ~ x))$coef[2,4])/1000		  
+perm.pvalue <- sum(p.perm <= summary(lm(y ~ x))$coef[2,4])/1000		
+```
 
+```{r, echo=T}
 ## Let's write a function to perform a permutation test for logistic regression
 p.perm <- function(x, y){
   mod.observed <- glm(y ~ x, family="binomial")
@@ -302,8 +323,9 @@ p.perm <- function(x, y){
   p.perm <- (sum(ts.perm >= ts.observed))/1000
   return(p.perm)
 }
+```
 
-
+```{r, echo=T}
 ## We can compare the permutation test to a Wald or LRT test via a Monte Carlo simulation
 p.wald <- p.lrt <- p.permutations <- NULL
 for(k in 1:50){
@@ -313,9 +335,11 @@ for(k in 1:50){
   p.wald[k] <- summary(mod)$coef[2,4]
   p.lrt[k] <- drop1(mod, test="Chisq")[2,5]
   p.permutations[k] <- p.perm(x, y)
-  print(k)
+#  print(k)
 }
+```
 
+```{r, echo=T}
 ## QQPlot of Permutation-based p-values
 y.plot = -log10(sort(p.permutations))
 x.plot = -log10((1:length(y.plot)-0.5)/length(y.plot))
@@ -323,7 +347,9 @@ lim <- max(c(y.plot, x.plot))
 plot(x.plot, y.plot, xlim = c(0, lim), ylim = c(0, lim), pch=20, main="Permutation qqplot",
      cex = 2, xlab=expression(paste(-log[10], " expected")), ylab=expression(paste(-log[10], " observed")))
 abline(0, 1, lty='dashed', col='blue', lwd=2)
+```
 
+```{r, echo=T}
 ## QQPlot of LRT-based p-values
 y.plot = -log10(sort(p.lrt))
 x.plot = -log10((1:length(y.plot)-0.5)/length(y.plot))
@@ -331,7 +357,9 @@ lim <- max(c(y.plot, x.plot))
 plot(x.plot, y.plot, xlim = c(0, lim), ylim = c(0, lim), pch=20, main="LRT qqplot",
      cex = 2, xlab=expression(paste(-log[10], " expected")), ylab=expression(paste(-log[10], " observed")))
 abline(0, 1, lty='dashed', col='blue', lwd=2)
+```
 
+```{r, echo=T}
 ## QQPlot of Wald-based p-values
 y.plot = -log10(sort(p.wald))
 x.plot = -log10((1:length(y.plot)-0.5)/length(y.plot))
@@ -343,8 +371,9 @@ abline(0, 1, lty='dashed', col='blue', lwd=2)
 print(summary(p.permutations))
 print(summary(p.wald))
 print(summary(p.lrt))
+```
 
-
+```{r, echo=T}
 ## Does the permutation test produce "valid" p-values?
 ## To check: generate data under the null hypothesis and check that p-values are U(0,1)
 ## Note: these data are simulated such that the standard regression assumptions fail
@@ -366,7 +395,9 @@ for(j in 1:nsims){
 end <- proc.time()
 print(end-start)
 hist(perm.pvalue, breaks=25)
+```
 
+```{r, echo=T}
 #=============================================================
 ## Next time: HW 6 due. 
 ## Multiple testing, web-scraping, Simpson's paradox, what to do 
@@ -389,7 +420,9 @@ x <- matrix(0, ncol=100, nrow=50)
 for(i in 1:100){
   x[,i] <- rnorm(n=50)
 }
+```
 
+```{r, echo=T}
 #-------------------------------------------------------------
 ## In class:
 ## Fit a linear model y ~ x, and test the hypothesis that beta_x = 0.
@@ -435,7 +468,9 @@ for(j in 1:1000){
 }
 mean(uncorrected)
 mean(bonf.corrected)
+```
 
+```{r, echo=T}
 ## What is the False-Discovery Rate? How do we control the FDR?
 ##  => We can use the p.adjust() function on our previously
 ##     created p.vector object.

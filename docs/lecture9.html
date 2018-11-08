@@ -346,18 +346,11 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/d7b7b1e0af8c842523cd46bd1343c1e841f22644" target="_blank">d7b7b1e</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/90c9af223a516ba1a21e9ed3488bec56d6984f20" target="_blank">90c9af2</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
-    Ignored:    .DS_Store
-    Ignored:    .RData
-    Ignored:    .Rhistory
-    Ignored:    analysis/.DS_Store
-    Ignored:    analysis/.Rapp.history
-    Ignored:    analysis/.Rhistory
     Ignored:    analysis/figure/
-    Ignored:    docs/.DS_Store
 
 Unstaged changes:
     Modified:   analysis/lecture9.Rmd
@@ -389,6 +382,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/90c9af223a516ba1a21e9ed3488bec56d6984f20/analysis/lecture9.Rmd" target="_blank">90c9af2</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-11-08
+</td>
+<td style="text-align:left;">
+Nov82018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/han16/Data-Science-in-R/90c9af223a516ba1a21e9ed3488bec56d6984f20/docs/lecture9.html" target="_blank">90c9af2</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-11-08
+</td>
+<td style="text-align:left;">
+Nov82018
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -452,37 +479,49 @@ Nov82018
 ## Let&#39;s talk about a confusion matrix
 ##  TPR =   TP/P    =   TP/(TP+FN) =&gt; Sensitivity
 ##  TNR =   TN/N    =   TN/(FP+TN) =&gt; Specificiy
-##  FPR =   FP/N    =   FP/(FP+TN)  =   1   – TNR   =&gt; False positive rate
+##  FPR =   FP/N    =   FP/(FP+TN)  =   1   â TNR =&gt; False positive rate
 ##  TP/(TP+FP) =&gt; Precision
-##  FP/(FP+TP)  =   1– PPV =&gt; False discovery rate
+##  FP/(FP+TP)  =   1â PPV =&gt; False discovery rate
 ##  (TP +   TN) /   (TP +   TN  +   FP  +   FN) =&gt; Accuracy
 
 ## Back to titanic data for a bit
 library(titanic)
-library(tidyverse)
-survive_ageXsex &lt;- glm(formula = Survived ~ Age * Sex, family = binomial, 
-                       data = titanic_train)
+library(tidyverse)</code></pre>
+<pre><code>-- Attaching packages ------------------------------------------------------------------------------- tidyverse 1.2.1 --</code></pre>
+<pre><code>v ggplot2 3.1.0     v purrr   0.2.5
+v tibble  1.4.2     v dplyr   0.7.7
+v tidyr   0.8.2     v stringr 1.3.1
+v readr   1.1.1     v forcats 0.3.0</code></pre>
+<pre><code>-- Conflicts ---------------------------------------------------------------------------------- tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>survive_ageXsex &lt;- glm(formula = Survived ~ Age * Sex, family = binomial, 
+                       data = titanic_train)</code></pre>
+<pre class="r"><code>## Let&#39;s calculate these values for our model, assuming pred &gt; 0.5 =&gt; Survived
+library(pROC)</code></pre>
+<pre><code>Type &#39;citation(&quot;pROC&quot;)&#39; for a citation.</code></pre>
+<pre><code>
+Attaching package: &#39;pROC&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:stats&#39;:
 
-## Let&#39;s calculate these values for our model, assuming pred &gt; 0.5 =&gt; Survived
-library(pROC)
-logit2prob &lt;- function(x) {
+    cov, smooth, var</code></pre>
+<pre class="r"><code>logit2prob &lt;- function(x) {
   return(exp(x) / (1 + exp(x)))
 }
 roc.object &lt;- roc(titanic_train$Survived[!is.na(titanic_train$Age)], 
                   logit2prob(survive_ageXsex$linear.predictors))
-roc.object$auc
-
-## Plot ROC curves
+roc.object$auc</code></pre>
+<pre><code>Area under the curve: 0.787</code></pre>
+<pre class="r"><code>## Plot ROC curves
 roc.data &lt;- tibble(x = roc.object$specificities,   ### TNR (1-FPR)
                    y = roc.object$sensitivities)   ### TPR
 ggplot(roc.data, aes(x = x, y = y)) +
   geom_line() + scale_x_reverse() +
   ylab(&quot;Sensitivity&quot;) +
   xlab(&quot;Specificity&quot;) +
-  geom_abline(intercept=1, slope=1, color=&quot;grey&quot;)
-
-
-## Note: there are some nice tidyverse functions for automating cross-validation:
+  geom_abline(intercept=1, slope=1, color=&quot;grey&quot;)</code></pre>
+<p><img src="figure/lecture9.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Note: there are some nice tidyverse functions for automating cross-validation:
 library(modelr)
 library(purrr)
 loocv_data &lt;- crossv_kfold(iris, k = nrow(iris))
@@ -492,31 +531,31 @@ mse &lt;- function(model, data) {
   mean(x ^ 2, na.rm = TRUE)
 }
 loocv_mse &lt;- map2_dbl(loocv_models, loocv_data$test, mse)
-mean(loocv_mse)
-
-#=============================================================
-## Monte Carlo simulations
-#=============================================================
-
-## Why simulations?
+mean(loocv_mse)</code></pre>
+<pre><code>[1] 0.6885472</code></pre>
+<div id="monte-carlo-simulations" class="section level2">
+<h2>Monte Carlo simulations</h2>
+<pre class="r"><code>## Why simulations?
 ### =&gt; To estimate quantities that are difficult or impossible to figure out analytically
 ### =&gt; We run a simulation where we &quot;know the truth&quot; to estimate Type I error (simulate
 ### data under the &quot;null hypothesis&quot;) and Power (simulate data under the &quot;alternative hypothesis&quot;).
 
 ## Question: for a fair coin, what is the probability of a heads?
 
-sample(c(&quot;heads&quot;, &quot;tails&quot;), 1, replace=TRUE)
-
-flip_function &lt;- function(n) {
+sample(c(&quot;heads&quot;, &quot;tails&quot;), 1, replace=TRUE)</code></pre>
+<pre><code>[1] &quot;heads&quot;</code></pre>
+<pre class="r"><code>flip_function &lt;- function(n) {
   flips &lt;- sample(c(&quot;heads&quot;, &quot;tails&quot;), n, replace=TRUE) 
   percent_heads &lt;- length(which(flips== &quot;heads&quot;)) / n
   return(percent_heads)
 }
-flip_function(10)
-flip_function(100)
-flip_function(1000)
-
-## Law of large numbers: expected value of some random variable can be
+flip_function(10)</code></pre>
+<pre><code>[1] 0.1</code></pre>
+<pre class="r"><code>flip_function(100)</code></pre>
+<pre><code>[1] 0.56</code></pre>
+<pre class="r"><code>flip_function(1000)</code></pre>
+<pre><code>[1] 0.491</code></pre>
+<pre class="r"><code>## Law of large numbers: expected value of some random variable can be
 ##   approximated by taking the mean of independent samples of the variable
 ## =&gt; The average of results obtained from a large number of trials should be
 ##    close to the &quot;true&quot; population mean, and becomes closer as the number of trials increases.
@@ -524,9 +563,9 @@ flip_function(1000)
 n &lt;- round(seq(10,10000, length=500))
 flip_perc &lt;- c()
 for(i in n) flip_perc &lt;- c(flip_perc, flip_function(i));
-plot(n, flip_perc, type = &quot;l&quot;, ylim=c(0,1))
-
-## Monte Carlo: rely on repeated random sampling to obtain numerical results
+plot(n, flip_perc, type = &quot;l&quot;, ylim=c(0,1))</code></pre>
+<p><img src="figure/lecture9.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Monte Carlo: rely on repeated random sampling to obtain numerical results
 ## i.e., use randomness to solve problems have a probabilistic interpretation
 ## =&gt; motivated by the strong-law of large numbers (Chapter 14)
 
@@ -543,10 +582,11 @@ circle_sim &lt;- data.frame(x=runif(nsims, min = -1, max = 1),
 dist_to_origin &lt;- rowSums(circle_sim^2)
 plot(circle_sim, xlim = c(-1,1), ylim=c(-1,1), asp=1,
      col=ifelse(dist_to_origin &lt;= 1, &quot;red&quot;, &quot;grey&quot;))                            
-draw.circle(0,0,1,nv=10000, border=&quot;black&quot;)
-(length(which(dist_to_origin &lt;= 1)) / length(dist_to_origin)) * 4  ## Estimate of pi
-
-#-------------------------------------------------------------
+draw.circle(0,0,1,nv=10000, border=&quot;black&quot;)</code></pre>
+<p><img src="figure/lecture9.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>(length(which(dist_to_origin &lt;= 1)) / length(dist_to_origin)) * 4  ## Estimate of pi</code></pre>
+<pre><code>[1] 3.1508</code></pre>
+<pre class="r"><code>#-------------------------------------------------------------
 ## In class:
 ## Make this example into a function, and see what happens as you
 ## increase the number of simulations.
@@ -560,9 +600,9 @@ circle_sim &lt;- function(nsims) {
 #  draw.circle(0,0,1,nv=10000, border=&quot;black&quot;)
   return(length(which(dist_to_origin &lt;= 1)) / length(dist_to_origin) * 4)  ## Estimate of pi
 }
-circle_sim(1000)
-
-## Another example of the Monte Carlo Method:
+circle_sim(1000)</code></pre>
+<pre><code>[1] 3.14</code></pre>
+<pre class="r"><code>## Another example of the Monte Carlo Method:
 ## Flip a fair coin 5 times, let X = the number of heads tossed.
 ## First: what do you expect to see?
 ## Find E(X). We&#39;ll use sample() here!
@@ -578,9 +618,9 @@ for(j in 1:10000){
   flips &lt;- sample(c(0,1), size=5, replace=TRUE)
   X[j] &lt;- sum(flips==1)
 }
-mean(X)
-
-#-------------------------------------------------------------
+mean(X)</code></pre>
+<pre><code>[1] 2.4866</code></pre>
+<pre class="r"><code>#-------------------------------------------------------------
 ## In class:
 ## Make this example into a function, and see what happens as you
 ## increase the number of simulations to 10,000 and then 100,000.
@@ -590,13 +630,14 @@ mean(X)
 ## We simulate some data under the &quot;alternate hypothesis&quot; H_A
 x &lt;- sample(0:1, replace=TRUE, size=1000)
 y &lt;- x + rnorm(1000, sd=4)
-ggplot(data.frame(x,y)) + geom_boxplot(aes(x=factor(x),y=y))
-## What if we wanted to test if y and x are correlated?
+ggplot(data.frame(x,y)) + geom_boxplot(aes(x=factor(x),y=y))</code></pre>
+<p><img src="figure/lecture9.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## What if we wanted to test if y and x are correlated?
 model &lt;- lm(y ~ x)
 ## We would reject H0, if the p-value &lt; 0.05
-summary(model)$coef[2,4]
-
-### So to run a simulation here, we would get say 1,000 p-values and see how many of them 
+summary(model)$coef[2,4]</code></pre>
+<pre><code>[1] 1.041828e-05</code></pre>
+<pre class="r"><code>### So to run a simulation here, we would get say 1,000 p-values and see how many of them 
 ### are less than 0.05 when H_A is true.
 N &lt;- 1000
 p.value &lt;- NULL
@@ -607,12 +648,12 @@ for(i in 1:N){
   p.value[i] &lt;- summary(model)$coef[2,4]
 }
 ## Here is an estimate of the power:
-sum(p.value &lt; 0.05)/N
-## What if we didn&#39;t use alpha = 0.05, but rather alpha = 0.001? 
-sum(p.value &lt; 0.001)/N
-
-
-### Type I error
+sum(p.value &lt; 0.05)/N</code></pre>
+<pre><code>[1] 0.976</code></pre>
+<pre class="r"><code>## What if we didn&#39;t use alpha = 0.05, but rather alpha = 0.001? 
+sum(p.value &lt; 0.001)/N</code></pre>
+<pre><code>[1] 0.735</code></pre>
+<pre class="r"><code>### Type I error
 N &lt;- 1000
 p.value &lt;- NULL
 for(i in 1:N){
@@ -622,15 +663,12 @@ for(i in 1:N){
   p.value[i] &lt;- summary(model)$coef[2,4]
 }
 ## Here is an estimate of the Type I error:
-sum(p.value &lt; 0.05)/N
-
-
-
-#=============================================================
-## Bootstrapping
-#=============================================================
-
-## Very closely related topic to simulation based approaches 
+sum(p.value &lt; 0.05)/N</code></pre>
+<pre><code>[1] 0.05</code></pre>
+</div>
+<div id="bootstrapping" class="section level2">
+<h2>Bootstrapping</h2>
+<pre class="r"><code>## Very closely related topic to simulation based approaches 
 ## called &quot;re-sampling&quot; based approaches to evaluate statistical significance 
 ## and used in many different situations in statistics.
 ## =&gt; Two &quot;re-sampling&quot; based approaches are called the &quot;bootstrap&quot; and &quot;permutations&quot;
@@ -657,12 +695,12 @@ for(i in 1:1000){
   y_resample &lt;- sample(y, replace=TRUE, size=n)
   invmean_resample[i] &lt;- 1/mean(y_resample)
 }
-hist(invmean_resample)
-## =&gt; The lower and upper bounds of the CI are the 0.025 and 0.975 quantiles of this distribution
+hist(invmean_resample)</code></pre>
+<p><img src="figure/lecture9.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## =&gt; The lower and upper bounds of the CI are the 0.025 and 0.975 quantiles of this distribution
 LB &lt;- quantile(invmean_resample, probs=c(0.025))
-UB &lt;- quantile(invmean_resample, probs=c(0.975))
-
-## Now let&#39;s write a simulation to evaluate the &quot;coverage&quot; property of this CI over
+UB &lt;- quantile(invmean_resample, probs=c(0.975))</code></pre>
+<pre class="r"><code>## Now let&#39;s write a simulation to evaluate the &quot;coverage&quot; property of this CI over
 ## 100 simulations, i.e., does the 95% CI contain the true value (0.5) of invmean ~95% of the time?
 cover &lt;- NULL
 nbootstraps &lt;- 1000
@@ -680,15 +718,12 @@ for(k in 1:nsims){
   UB &lt;- quantile(invmean_resample, probs=c(0.975))
   cover[k] &lt;- ifelse(LB &lt;= 0.5 &amp; UB &gt;= 0.5, 1, 0)
 }
-mean(cover)
-
-
-
-#=============================================================
-## Permutations: samples assumed to be independent and exchangeable
-#=============================================================
-
-## Alternative to hypothesis tests is to run a &quot;permutation&quot; based procedure:
+mean(cover)</code></pre>
+<pre><code>[1] 0.939</code></pre>
+</div>
+<div id="permutations-samples-assumed-to-be-independent-and-exchangeable" class="section level2">
+<h2>Permutations: samples assumed to be independent and exchangeable</h2>
+<pre class="r"><code>## Alternative to hypothesis tests is to run a &quot;permutation&quot; based procedure:
 #### 1. Shuffle the y-values
 #### 2. Calculate a test statistic that measures the effect you are looking for
 #### 3. Repeat {#1-2} many times
@@ -699,17 +734,19 @@ mean(cover)
 x &lt;- c(rep(1, times=500), rep(16, times=500))
 y &lt;- rnorm(n=1000, mean=0, sd=sqrt(x))
 mod_orig &lt;- lm(y~x)
-summary(mod_orig)$coef
-## Permutation test
+summary(mod_orig)$coef</code></pre>
+<pre><code>                Estimate Std. Error    t value  Pr(&gt;|t|)
+(Intercept) -0.056785420 0.13431018 -0.4227931 0.6725373
+x            0.003737322 0.01184834  0.3154301 0.7525010</code></pre>
+<pre class="r"><code>## Permutation test
 p.perm &lt;- NULL
 for(i in 1:1000){
   y.perm &lt;- sample(y, replace=FALSE, size=1000) ## Note that replace = FALSE here!
   mod &lt;- lm(y.perm ~ x)
   p.perm[i] &lt;- summary(mod)$coef[2,4]
 }
-perm.pvalue &lt;- sum(p.perm &lt;= summary(lm(y ~ x))$coef[2,4])/1000       
-
-## Let&#39;s write a function to perform a permutation test for logistic regression
+perm.pvalue &lt;- sum(p.perm &lt;= summary(lm(y ~ x))$coef[2,4])/1000     </code></pre>
+<pre class="r"><code>## Let&#39;s write a function to perform a permutation test for logistic regression
 p.perm &lt;- function(x, y){
   mod.observed &lt;- glm(y ~ x, family=&quot;binomial&quot;)
   ts.observed &lt;- summary(mod.observed)$coef[2,3]
@@ -721,10 +758,8 @@ p.perm &lt;- function(x, y){
   }
   p.perm &lt;- (sum(ts.perm &gt;= ts.observed))/1000
   return(p.perm)
-}
-
-
-## We can compare the permutation test to a Wald or LRT test via a Monte Carlo simulation
+}</code></pre>
+<pre class="r"><code>## We can compare the permutation test to a Wald or LRT test via a Monte Carlo simulation
 p.wald &lt;- p.lrt &lt;- p.permutations &lt;- NULL
 for(k in 1:50){
   x &lt;- c(rep(0, times=90), rep(1, times=10))
@@ -733,39 +768,42 @@ for(k in 1:50){
   p.wald[k] &lt;- summary(mod)$coef[2,4]
   p.lrt[k] &lt;- drop1(mod, test=&quot;Chisq&quot;)[2,5]
   p.permutations[k] &lt;- p.perm(x, y)
-  print(k)
-}
-
-## QQPlot of Permutation-based p-values
+#  print(k)
+}</code></pre>
+<pre class="r"><code>## QQPlot of Permutation-based p-values
 y.plot = -log10(sort(p.permutations))
 x.plot = -log10((1:length(y.plot)-0.5)/length(y.plot))
 lim &lt;- max(c(y.plot, x.plot))
 plot(x.plot, y.plot, xlim = c(0, lim), ylim = c(0, lim), pch=20, main=&quot;Permutation qqplot&quot;,
      cex = 2, xlab=expression(paste(-log[10], &quot; expected&quot;)), ylab=expression(paste(-log[10], &quot; observed&quot;)))
-abline(0, 1, lty=&#39;dashed&#39;, col=&#39;blue&#39;, lwd=2)
-
-## QQPlot of LRT-based p-values
+abline(0, 1, lty=&#39;dashed&#39;, col=&#39;blue&#39;, lwd=2)</code></pre>
+<p><img src="figure/lecture9.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## QQPlot of LRT-based p-values
 y.plot = -log10(sort(p.lrt))
 x.plot = -log10((1:length(y.plot)-0.5)/length(y.plot))
 lim &lt;- max(c(y.plot, x.plot))
 plot(x.plot, y.plot, xlim = c(0, lim), ylim = c(0, lim), pch=20, main=&quot;LRT qqplot&quot;,
      cex = 2, xlab=expression(paste(-log[10], &quot; expected&quot;)), ylab=expression(paste(-log[10], &quot; observed&quot;)))
-abline(0, 1, lty=&#39;dashed&#39;, col=&#39;blue&#39;, lwd=2)
-
-## QQPlot of Wald-based p-values
+abline(0, 1, lty=&#39;dashed&#39;, col=&#39;blue&#39;, lwd=2)</code></pre>
+<p><img src="figure/lecture9.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## QQPlot of Wald-based p-values
 y.plot = -log10(sort(p.wald))
 x.plot = -log10((1:length(y.plot)-0.5)/length(y.plot))
 lim &lt;- max(c(y.plot, x.plot))
 plot(x.plot, y.plot, xlim = c(0, lim), ylim = c(0, lim), pch=20, main=&quot;Wald qqplot&quot;,
      cex = 2, xlab=expression(paste(-log[10], &quot; expected&quot;)), ylab=expression(paste(-log[10], &quot; observed&quot;)))
-abline(0, 1, lty=&#39;dashed&#39;, col=&#39;blue&#39;, lwd=2)
-
-print(summary(p.permutations))
-print(summary(p.wald))
-print(summary(p.lrt))
-
-
-## Does the permutation test produce &quot;valid&quot; p-values?
+abline(0, 1, lty=&#39;dashed&#39;, col=&#39;blue&#39;, lwd=2)</code></pre>
+<p><img src="figure/lecture9.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(summary(p.permutations))</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.0340  0.2903  0.4910  0.5124  0.7400  0.9750 </code></pre>
+<pre class="r"><code>print(summary(p.wald))</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+0.08013 0.41219 0.58571 0.61791 0.91728 1.00000 </code></pre>
+<pre class="r"><code>print(summary(p.lrt))</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+0.01574 0.25035 0.47879 0.47974 0.65251 1.00000 </code></pre>
+<pre class="r"><code>## Does the permutation test produce &quot;valid&quot; p-values?
 ## To check: generate data under the null hypothesis and check that p-values are U(0,1)
 ## Note: these data are simulated such that the standard regression assumptions fail
 ##    (very heteroskedastic)
@@ -784,10 +822,12 @@ for(j in 1:nsims){
   perm.pvalue[j] &lt;- sum(p.perm &lt;= summary(lm(y ~ x))$coef[2,4])/1000
 }
 end &lt;- proc.time()
-print(end-start)
-hist(perm.pvalue, breaks=25)
-
-#=============================================================
+print(end-start)</code></pre>
+<pre><code>   user  system elapsed 
+ 147.77    0.03  148.01 </code></pre>
+<pre class="r"><code>hist(perm.pvalue, breaks=25)</code></pre>
+<p><img src="figure/lecture9.Rmd/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#=============================================================
 ## Next time: HW 6 due. 
 ## Multiple testing, web-scraping, Simpson&#39;s paradox, what to do 
 ## when model diagnostics don&#39;t check out for modeling assumptions.
@@ -808,9 +848,8 @@ y &lt;- rnorm(n=50)
 x &lt;- matrix(0, ncol=100, nrow=50)
 for(i in 1:100){
   x[,i] &lt;- rnorm(n=50)
-}
-
-#-------------------------------------------------------------
+}</code></pre>
+<pre class="r"><code>#-------------------------------------------------------------
 ## In class:
 ## Fit a linear model y ~ x, and test the hypothesis that beta_x = 0.
 ## Save the p-values in a vector called p.vector.
@@ -853,18 +892,20 @@ for(j in 1:1000){
   uncorrected[j] &lt;- sum(p.vector &lt; 0.05)
   bonf.corrected[j] &lt;- sum(p.vector &lt; 0.05/100)
 }
-mean(uncorrected)
-mean(bonf.corrected)
-
-## What is the False-Discovery Rate? How do we control the FDR?
+mean(uncorrected)</code></pre>
+<pre><code>[1] 5.021</code></pre>
+<pre class="r"><code>mean(bonf.corrected)</code></pre>
+<pre><code>[1] 0.057</code></pre>
+<pre class="r"><code>## What is the False-Discovery Rate? How do we control the FDR?
 ##  =&gt; We can use the p.adjust() function on our previously
 ##     created p.vector object.
 p.bh.adjusted &lt;- p.adjust(p.vector, method=&#39;BH&#39;)
 p.bonf.adjusted &lt;- p.adjust(p.vector, method=&#39;bonferroni&#39;)
-sum(p.bh.adjusted &lt; 0.05)
-sum(p.bonf.adjusted &lt; 0.05)
-
-#-------------------------------------------------------------
+sum(p.bh.adjusted &lt; 0.05)</code></pre>
+<pre><code>[1] 0</code></pre>
+<pre class="r"><code>sum(p.bonf.adjusted &lt; 0.05)</code></pre>
+<pre><code>[1] 0</code></pre>
+<pre class="r"><code>#-------------------------------------------------------------
 ## In-class exercises: Assume we have 1 y-variable, 80 x-variables
 ## that are uncorrelated with y (under H_0) and 20 x-variables that
 ## are correlated with y (under H_1) such that y ~ 2*x
@@ -872,31 +913,51 @@ sum(p.bonf.adjusted &lt; 0.05)
 ## Write a simulation to see how well p.bh.adjusted controls FDR.
 ## Write a simulation to see how well p.bonf.adjusted controls FWER.
 #-------------------------------------------------------------</code></pre>
+</div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 3.5.1 (2018-07-02)
-Platform: x86_64-apple-darwin15.6.0 (64-bit)
-Running under: macOS High Sierra 10.13.6
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 17134)
 
 Matrix products: default
-BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
 
 locale:
-[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+[1] LC_COLLATE=English_United States.1252 
+[2] LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
+other attached packages:
+ [1] plotrix_3.7-4   modelr_0.1.2    pROC_1.13.0     forcats_0.3.0  
+ [5] stringr_1.3.1   dplyr_0.7.7     purrr_0.2.5     readr_1.1.1    
+ [9] tidyr_0.8.2     tibble_1.4.2    ggplot2_3.1.0   tidyverse_1.2.1
+[13] titanic_0.1.0  
+
 loaded via a namespace (and not attached):
- [1] workflowr_1.1.1   Rcpp_0.12.19      digest_0.6.18    
- [4] rprojroot_1.3-2   R.methodsS3_1.7.1 backports_1.1.2  
- [7] git2r_0.23.0      magrittr_1.5      evaluate_0.12    
-[10] stringi_1.2.4     whisker_0.3-2     R.oo_1.22.0      
-[13] R.utils_2.7.0     rmarkdown_1.10    tools_3.5.1      
-[16] stringr_1.3.1     yaml_2.2.0        compiler_3.5.1   
-[19] htmltools_0.3.6   knitr_1.20       </code></pre>
+ [1] tidyselect_0.2.5  haven_1.1.2       lattice_0.20-35  
+ [4] colorspace_1.3-2  htmltools_0.3.6   yaml_2.2.0       
+ [7] rlang_0.3.0.1     R.oo_1.22.0       pillar_1.3.0     
+[10] glue_1.3.0        withr_2.1.2       R.utils_2.7.0    
+[13] readxl_1.1.0      bindrcpp_0.2.2    bindr_0.1.1      
+[16] plyr_1.8.4        munsell_0.5.0     gtable_0.2.0     
+[19] workflowr_1.1.1   cellranger_1.1.0  rvest_0.3.2      
+[22] R.methodsS3_1.7.1 evaluate_0.12     labeling_0.3     
+[25] knitr_1.20        broom_0.5.0       Rcpp_0.12.19     
+[28] backports_1.1.2   scales_1.0.0      jsonlite_1.5     
+[31] hms_0.4.2         digest_0.6.18     stringi_1.2.4    
+[34] grid_3.5.1        rprojroot_1.3-2   cli_1.0.1        
+[37] tools_3.5.1       magrittr_1.5      lazyeval_0.2.1   
+[40] crayon_1.3.4      whisker_0.3-2     pkgconfig_2.0.2  
+[43] xml2_1.2.0        lubridate_1.7.4   assertthat_0.2.0 
+[46] rmarkdown_1.10    httr_1.3.1        rstudioapi_0.8   
+[49] R6_2.3.0          nlme_3.1-137      git2r_0.23.0     
+[52] compiler_3.5.1   </code></pre>
 </div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
