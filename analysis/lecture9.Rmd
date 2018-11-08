@@ -6,4 +6,453 @@ output: workflowr::wflow_html
 ---
 
 
+```{r, echo=T, eval=F}
 
+########################################################
+#### Go over HW 5
+####
+#### Read Chapter 11 from http://r4ds.had.co.nz/index.html.
+####
+#### HW 6 due next week
+####
+#### Review logistic regression, model seleciton
+######################################################
+
+## Model validation strategies:
+##
+## 0. Choose training (~60-80%) and test data.
+## 1. Adjusted R2 for a linear model
+## 2. Model predictions (RMSE for linear model, accuracy of prediction for logistic)
+## 3. Backwards / forwards / stepwise regression using AIC/BIC
+## 4. Likelihood ratio test (for ***nested*** models)
+## 5. k-fold cross validation
+## 6. ROC curves and AUC (for logistic regression)
+##
+## ROC (=receiver operating characteristic) curves and AUC (= area under the curve)
+## Let's talk about a confusion matrix
+##  TPR	=	TP/P	=	TP/(TP+FN) => Sensitivity
+##  TNR	=	TN/N	=	TN/(FP+TN) => Specificiy
+##  FPR	=	FP/N	=	FP/(FP+TN)	=	1	– TNR	=> False positive rate
+##  TP/(TP+FP) => Precision
+##  FP/(FP+TP)	=	1– PPV => False discovery rate
+##  (TP	+	TN)	/	(TP	+	TN	+	FP	+	FN) => Accuracy
+
+## Back to titanic data for a bit
+library(titanic)
+library(tidyverse)
+survive_ageXsex <- glm(formula = Survived ~ Age * Sex, family = binomial, 
+                       data = titanic_train)
+
+## Let's calculate these values for our model, assuming pred > 0.5 => Survived
+library(pROC)
+logit2prob <- function(x) {
+  return(exp(x) / (1 + exp(x)))
+}
+roc.object <- roc(titanic_train$Survived[!is.na(titanic_train$Age)], 
+                  logit2prob(survive_ageXsex$linear.predictors))
+roc.object$auc
+
+## Plot ROC curves
+roc.data <- tibble(x = roc.object$specificities,   ### TNR (1-FPR)
+                   y = roc.object$sensitivities)   ### TPR
+ggplot(roc.data, aes(x = x, y = y)) +
+  geom_line() + scale_x_reverse() +
+  ylab("Sensitivity") +
+  xlab("Specificity") +
+  geom_abline(intercept=1, slope=1, color="grey")
+
+
+## Note: there are some nice tidyverse functions for automating cross-validation:
+library(modelr)
+library(purrr)
+loocv_data <- crossv_kfold(iris, k = nrow(iris))
+loocv_models <- map(loocv_data$train, ~ lm(Sepal.Length ~ Sepal.Width, data = .))
+mse <- function(model, data) {
+  x <- modelr:::residuals(model, data)
+  mean(x ^ 2, na.rm = TRUE)
+}
+loocv_mse <- map2_dbl(loocv_models, loocv_data$test, mse)
+mean(loocv_mse)
+
+#=============================================================
+## Monte Carlo simulations
+#=============================================================
+
+## Why simulations?
+### => To estimate quantities that are difficult or impossible to figure out analytically
+### => We run a simulation where we "know the truth" to estimate Type I error (simulate
+### data under the "null hypothesis") and Power (simulate data under the "alternative hypothesis").
+
+## Question: for a fair coin, what is the probability of a heads?
+
+sample(c("heads", "tails"), 1, replace=TRUE)
+
+flip_function <- function(n) {
+  flips <- sample(c("heads", "tails"), n, replace=TRUE) 
+  percent_heads <- length(which(flips== "heads")) / n
+  return(percent_heads)
+}
+flip_function(10)
+flip_function(100)
+flip_function(1000)
+
+## Law of large numbers: expected value of some random variable can be
+##   approximated by taking the mean of independent samples of the variable
+## => The average of results obtained from a large number of trials should be
+##    close to the "true" population mean, and becomes closer as the number of trials increases.
+
+n <- round(seq(10,10000, length=500))
+flip_perc <- c()
+for(i in n) flip_perc <- c(flip_perc, flip_function(i));
+plot(n, flip_perc, type = "l", ylim=c(0,1))
+
+## Monte Carlo: rely on repeated random sampling to obtain numerical results
+## i.e., use randomness to solve problems have a probabilistic interpretation
+## => motivated by the strong-law of large numbers (Chapter 14)
+
+## Another example: we know the area of a circle is pi * r^2
+## Let's simulate data points in a unit square and calculate the ratio of
+## points within the circle.
+## Area of circle = pi * r^2, area of square = (2*r)^2
+## So the ratio of circle area:square area = pi / 4
+
+library(plotrix)
+nsims <- 10000
+circle_sim <- data.frame(x=runif(nsims, min = -1, max = 1),
+                         y = runif(nsims, min = -1, max = 1))
+dist_to_origin <- rowSums(circle_sim^2)
+plot(circle_sim, xlim = c(-1,1), ylim=c(-1,1), asp=1,
+     col=ifelse(dist_to_origin <= 1, "red", "grey"))                            
+draw.circle(0,0,1,nv=10000, border="black")
+(length(which(dist_to_origin <= 1)) / length(dist_to_origin)) * 4  ## Estimate of pi
+
+#-------------------------------------------------------------
+## In class:
+## Make this example into a function, and see what happens as you
+## increase the number of simulations.
+#-------------------------------------------------------------
+circle_sim <- function(nsims) {
+  circle_sim <- data.frame(x=runif(nsims, min = -1, max = 1),
+                           y = runif(nsims, min = -1, max = 1))
+  dist_to_origin <- rowSums(circle_sim^2)
+#  plot(circle_sim, xlim = c(-1,1), ylim=c(-1,1), asp=1,
+#       col=ifelse(dist_to_origin <= 1, "red", "grey"))                            
+#  draw.circle(0,0,1,nv=10000, border="black")
+  return(length(which(dist_to_origin <= 1)) / length(dist_to_origin) * 4)  ## Estimate of pi
+}
+circle_sim(1000)
+
+## Another example of the Monte Carlo Method:
+## Flip a fair coin 5 times, let X = the number of heads tossed.
+## First: what do you expect to see?
+## Find E(X). We'll use sample() here!
+
+### This is 1 iteration of this experiment
+set.seed(12345)
+flips <- sample(c(0,1), size=5, replace=TRUE)
+X <- sum(flips==1) 
+
+## Now let's run 100 iterations of the same experiment
+X <- NULL
+for(j in 1:10000){
+  flips <- sample(c(0,1), size=5, replace=TRUE)
+  X[j] <- sum(flips==1)
+}
+mean(X)
+
+#-------------------------------------------------------------
+## In class:
+## Make this example into a function, and see what happens as you
+## increase the number of simulations to 10,000 and then 100,000.
+#-------------------------------------------------------------
+
+## A power simulation
+## We simulate some data under the "alternate hypothesis" H_A
+x <- sample(0:1, replace=TRUE, size=1000)
+y <- x + rnorm(1000, sd=4)
+ggplot(data.frame(x,y)) + geom_boxplot(aes(x=factor(x),y=y))
+## What if we wanted to test if y and x are correlated?
+model <- lm(y ~ x)
+## We would reject H0, if the p-value < 0.05
+summary(model)$coef[2,4]
+
+### So to run a simulation here, we would get say 1,000 p-values and see how many of them 
+### are less than 0.05 when H_A is true.
+N <- 1000
+p.value <- NULL
+for(i in 1:N){
+  x <- sample(0:1, replace=TRUE, size=1000)
+  y <- x + rnorm(1000, sd=4)
+  model <- lm(y ~ x)
+  p.value[i] <- summary(model)$coef[2,4]
+}
+## Here is an estimate of the power:
+sum(p.value < 0.05)/N
+## What if we didn't use alpha = 0.05, but rather alpha = 0.001? 
+sum(p.value < 0.001)/N
+
+
+### Type I error
+N <- 1000
+p.value <- NULL
+for(i in 1:N){
+  x <- sample(0:1, replace=TRUE, size=1000)
+  y <- rnorm(1000, sd=4)
+  model <- lm(y ~ x)
+  p.value[i] <- summary(model)$coef[2,4]
+}
+## Here is an estimate of the Type I error:
+sum(p.value < 0.05)/N
+
+
+
+#=============================================================
+## Bootstrapping
+#=============================================================
+
+## Very closely related topic to simulation based approaches 
+## called "re-sampling" based approaches to evaluate statistical significance 
+## and used in many different situations in statistics.
+## => Two "re-sampling" based approaches are called the "bootstrap" and "permutations"
+
+## Example: Let's say we have 500 observations from a chi-square (df=2) distribution:
+n <- 500
+y <- rchisq(n=n, df=2)
+
+## It's easy to estimate the mean, and 1/mean:
+mean_y <- mean(y)      ## Note: true mean = 2
+invmean_y <- 1/mean_y  ## Note: true invmean = 0.5
+
+## But what if instead of the mean, we were interested in getting a 95% CI for 1/mean?
+## => No obvious "closed" form solution to this problem!
+## So how do we construct a CI? The bootstrap!
+##
+## Idea: "re-sample" n observations from our data (WITH REPLACEMENT), then
+## re-calculate the statistic of interest from this "re-sampled" distribution
+## We do this ~ 1,000+ times to get an "empirical re-sampling based" distribution of the statistic.
+## Then we can use the quantiles of this empirical distribution to construct our CI!
+
+invmean_resample <- NULL
+for(i in 1:1000){
+  y_resample <- sample(y, replace=TRUE, size=n)
+  invmean_resample[i] <- 1/mean(y_resample)
+}
+hist(invmean_resample)
+## => The lower and upper bounds of the CI are the 0.025 and 0.975 quantiles of this distribution
+LB <- quantile(invmean_resample, probs=c(0.025))
+UB <- quantile(invmean_resample, probs=c(0.975))
+
+## Now let's write a simulation to evaluate the "coverage" property of this CI over
+## 100 simulations, i.e., does the 95% CI contain the true value (0.5) of invmean ~95% of the time?
+cover <- NULL
+nbootstraps <- 1000
+nsims <- 1000
+for(k in 1:nsims){
+  y <- rchisq(n=n, df=2)
+  mean_y <- mean(y)
+  invmean_y <- 1/mean_y
+  invmean_resample <- NULL
+  for(i in 1:nbootstraps){
+    y_resample <- sample(y, replace=TRUE, size=n)
+    invmean_resample[i] <- 1/mean(y_resample)
+  }
+  LB <- quantile(invmean_resample, probs=c(0.025))
+  UB <- quantile(invmean_resample, probs=c(0.975))
+  cover[k] <- ifelse(LB <= 0.5 & UB >= 0.5, 1, 0)
+}
+mean(cover)
+
+
+
+#=============================================================
+## Permutations: samples assumed to be independent and exchangeable
+#=============================================================
+
+## Alternative to hypothesis tests is to run a "permutation" based procedure:
+#### 1. Shuffle the y-values
+#### 2. Calculate a test statistic that measures the effect you are looking for
+#### 3. Repeat {#1-2} many times
+#### 4. Count how many times the shuffled test statistics exceed your "observed" test statistic
+## => Let's think carefully about the definition of a p-value ...
+## (let's think about 1-sided versus 2-sided tests)
+
+x <- c(rep(1, times=500), rep(16, times=500))
+y <- rnorm(n=1000, mean=0, sd=sqrt(x))
+mod_orig <- lm(y~x)
+summary(mod_orig)$coef
+## Permutation test
+p.perm <- NULL
+for(i in 1:1000){
+  y.perm <- sample(y, replace=FALSE, size=1000) ## Note that replace = FALSE here!
+  mod <- lm(y.perm ~ x)
+  p.perm[i] <- summary(mod)$coef[2,4]
+}
+perm.pvalue <- sum(p.perm <= summary(lm(y ~ x))$coef[2,4])/1000		  
+
+## Let's write a function to perform a permutation test for logistic regression
+p.perm <- function(x, y){
+  mod.observed <- glm(y ~ x, family="binomial")
+  ts.observed <- summary(mod.observed)$coef[2,3]
+  ts.perm <- NULL
+  for(i in 1:1000){
+    y.shuffled <- sample(y, replace=FALSE, size=length(y))
+    mod.perm <- glm(y.shuffled ~ x, family="binomial")
+    ts.perm[i] <- summary(mod.perm)$coef[2,3]
+  }
+  p.perm <- (sum(ts.perm >= ts.observed))/1000
+  return(p.perm)
+}
+
+
+## We can compare the permutation test to a Wald or LRT test via a Monte Carlo simulation
+p.wald <- p.lrt <- p.permutations <- NULL
+for(k in 1:50){
+  x <- c(rep(0, times=90), rep(1, times=10))
+  y <- sample(0:1, replace=TRUE, size=100, prob=c(0.8, 0.2))
+  mod <- glm(y ~ x, family="binomial")
+  p.wald[k] <- summary(mod)$coef[2,4]
+  p.lrt[k] <- drop1(mod, test="Chisq")[2,5]
+  p.permutations[k] <- p.perm(x, y)
+  print(k)
+}
+
+## QQPlot of Permutation-based p-values
+y.plot = -log10(sort(p.permutations))
+x.plot = -log10((1:length(y.plot)-0.5)/length(y.plot))
+lim <- max(c(y.plot, x.plot))
+plot(x.plot, y.plot, xlim = c(0, lim), ylim = c(0, lim), pch=20, main="Permutation qqplot",
+     cex = 2, xlab=expression(paste(-log[10], " expected")), ylab=expression(paste(-log[10], " observed")))
+abline(0, 1, lty='dashed', col='blue', lwd=2)
+
+## QQPlot of LRT-based p-values
+y.plot = -log10(sort(p.lrt))
+x.plot = -log10((1:length(y.plot)-0.5)/length(y.plot))
+lim <- max(c(y.plot, x.plot))
+plot(x.plot, y.plot, xlim = c(0, lim), ylim = c(0, lim), pch=20, main="LRT qqplot",
+     cex = 2, xlab=expression(paste(-log[10], " expected")), ylab=expression(paste(-log[10], " observed")))
+abline(0, 1, lty='dashed', col='blue', lwd=2)
+
+## QQPlot of Wald-based p-values
+y.plot = -log10(sort(p.wald))
+x.plot = -log10((1:length(y.plot)-0.5)/length(y.plot))
+lim <- max(c(y.plot, x.plot))
+plot(x.plot, y.plot, xlim = c(0, lim), ylim = c(0, lim), pch=20, main="Wald qqplot",
+     cex = 2, xlab=expression(paste(-log[10], " expected")), ylab=expression(paste(-log[10], " observed")))
+abline(0, 1, lty='dashed', col='blue', lwd=2)
+
+print(summary(p.permutations))
+print(summary(p.wald))
+print(summary(p.lrt))
+
+
+## Does the permutation test produce "valid" p-values?
+## To check: generate data under the null hypothesis and check that p-values are U(0,1)
+## Note: these data are simulated such that the standard regression assumptions fail
+##    (very heteroskedastic)
+start <- proc.time()
+perm.pvalue <- NULL
+nsims <- 200
+for(j in 1:nsims){
+  x <- c(rep(1, times=500), rep(16, times=500))
+  y <- rnorm(n=1000, mean=0, sd=sqrt(x))
+  p.perm <- NULL
+  for(i in 1:1000){
+    y.perm <- sample(y, replace=FALSE, size=1000) ## Note that replace = FALSE here!
+    mod <- lm(y.perm ~ x)
+    p.perm[i] <- summary(mod)$coef[2,4]
+  }
+  perm.pvalue[j] <- sum(p.perm <= summary(lm(y ~ x))$coef[2,4])/1000
+}
+end <- proc.time()
+print(end-start)
+hist(perm.pvalue, breaks=25)
+
+#=============================================================
+## Next time: HW 6 due. 
+## Multiple testing, web-scraping, Simpson's paradox, what to do 
+## when model diagnostics don't check out for modeling assumptions.
+#=============================================================
+
+
+
+#=============================================================
+## If there's time this week: Multiple testing
+#=============================================================
+
+## What's the issue with multiple testing?
+## Consider the following: We have 1 y-variable and 100 different x-variables
+## Note: these are data under the null hypothesis (there is no relatinoship 
+## between x and y)
+set.seed(12345)
+y <- rnorm(n=50)
+x <- matrix(0, ncol=100, nrow=50)
+for(i in 1:100){
+  x[,i] <- rnorm(n=50)
+}
+
+#-------------------------------------------------------------
+## In class:
+## Fit a linear model y ~ x, and test the hypothesis that beta_x = 0.
+## Save the p-values in a vector called p.vector.
+##
+## If our criterion for "rejecting" the null hypothesis is p < 0.05,
+## how many null hypotheses would we reject here?
+#-------------------------------------------------------------
+
+## Does this control the Family-wise error rate (FWER)?
+## = probability of making at least one Type I error
+## FWER <= 1 - (1 - alpha)^c, where c is the # of tests
+
+## So what criterion would we use to control the FWER at 5%?
+##  => Only if p < 0.05/100 (this is called the Bonferroni correction)
+
+#-------------------------------------------------------------
+## In class:
+## If our criterion for "rejecting" the null hypothesis is a
+## Bonferroni corrected p < 0.05,
+## how many null hypotheses would we reject here?
+#-------------------------------------------------------------
+
+## Simulation to evaulate uncorrected and Bonferroni-corrected p-values
+uncorrected <- NULL
+bonf.corrected <- NULL
+for(j in 1:1000){
+  #### Simulate the data	
+  y <- rnorm(n=50)
+  x <- matrix(0, ncol=100, nrow=50)
+  for(i in 1:100){
+    x[,i] <- rnorm(n=50)
+  }
+  #### Run 100 regressions
+  p.vector <- NULL
+  for(i in 1:100){
+    mod <- lm(y ~ x[,i])
+    p.vector[i] <- summary(mod)$coef[2,4]
+  }
+  #### Count the number of false discoveries
+  uncorrected[j] <- sum(p.vector < 0.05)
+  bonf.corrected[j] <- sum(p.vector < 0.05/100)
+}
+mean(uncorrected)
+mean(bonf.corrected)
+
+## What is the False-Discovery Rate? How do we control the FDR?
+##  => We can use the p.adjust() function on our previously
+##     created p.vector object.
+p.bh.adjusted <- p.adjust(p.vector, method='BH')
+p.bonf.adjusted <- p.adjust(p.vector, method='bonferroni')
+sum(p.bh.adjusted < 0.05)
+sum(p.bonf.adjusted < 0.05)
+
+#-------------------------------------------------------------
+## In-class exercises: Assume we have 1 y-variable, 80 x-variables
+## that are uncorrelated with y (under H_0) and 20 x-variables that
+## are correlated with y (under H_1) such that y ~ 2*x
+##
+## Write a simulation to see how well p.bh.adjusted controls FDR.
+## Write a simulation to see how well p.bonf.adjusted controls FWER.
+#-------------------------------------------------------------
+
+
+
+```

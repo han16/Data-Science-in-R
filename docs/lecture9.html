@@ -327,11 +327,26 @@ div.section {
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
-<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/fbc7e6885c1a5f0958ae031d38145a037ac2e078" target="_blank">fbc7e68</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20181026)</code> </summary></p>
+<p>The command <code>set.seed(20181026)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/d7b7b1e0af8c842523cd46bd1343c1e841f22644" target="_blank">d7b7b1e</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -344,14 +359,545 @@ Ignored files:
     Ignored:    analysis/figure/
     Ignored:    docs/.DS_Store
 
-Untracked files:
-    Untracked:  analysis/lecture9.Rmd
+Unstaged changes:
+    Modified:   analysis/lecture9.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
 </li>
 </ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/d7b7b1e0af8c842523cd46bd1343c1e841f22644/analysis/lecture9.Rmd" target="_blank">d7b7b1e</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-11-08
+</td>
+<td style="text-align:left;">
+Nov82018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/han16/Data-Science-in-R/d7b7b1e0af8c842523cd46bd1343c1e841f22644/docs/lecture9.html" target="_blank">d7b7b1e</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-11-08
+</td>
+<td style="text-align:left;">
+Nov82018
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
 <hr />
+<pre class="r"><code>########################################################
+#### Go over HW 5
+####
+#### Read Chapter 11 from http://r4ds.had.co.nz/index.html.
+####
+#### HW 6 due next week
+####
+#### Review logistic regression, model seleciton
+######################################################
+
+## Model validation strategies:
+##
+## 0. Choose training (~60-80%) and test data.
+## 1. Adjusted R2 for a linear model
+## 2. Model predictions (RMSE for linear model, accuracy of prediction for logistic)
+## 3. Backwards / forwards / stepwise regression using AIC/BIC
+## 4. Likelihood ratio test (for ***nested*** models)
+## 5. k-fold cross validation
+## 6. ROC curves and AUC (for logistic regression)
+##
+## ROC (=receiver operating characteristic) curves and AUC (= area under the curve)
+## Let&#39;s talk about a confusion matrix
+##  TPR =   TP/P    =   TP/(TP+FN) =&gt; Sensitivity
+##  TNR =   TN/N    =   TN/(FP+TN) =&gt; Specificiy
+##  FPR =   FP/N    =   FP/(FP+TN)  =   1   – TNR   =&gt; False positive rate
+##  TP/(TP+FP) =&gt; Precision
+##  FP/(FP+TP)  =   1– PPV =&gt; False discovery rate
+##  (TP +   TN) /   (TP +   TN  +   FP  +   FN) =&gt; Accuracy
+
+## Back to titanic data for a bit
+library(titanic)
+library(tidyverse)
+survive_ageXsex &lt;- glm(formula = Survived ~ Age * Sex, family = binomial, 
+                       data = titanic_train)
+
+## Let&#39;s calculate these values for our model, assuming pred &gt; 0.5 =&gt; Survived
+library(pROC)
+logit2prob &lt;- function(x) {
+  return(exp(x) / (1 + exp(x)))
+}
+roc.object &lt;- roc(titanic_train$Survived[!is.na(titanic_train$Age)], 
+                  logit2prob(survive_ageXsex$linear.predictors))
+roc.object$auc
+
+## Plot ROC curves
+roc.data &lt;- tibble(x = roc.object$specificities,   ### TNR (1-FPR)
+                   y = roc.object$sensitivities)   ### TPR
+ggplot(roc.data, aes(x = x, y = y)) +
+  geom_line() + scale_x_reverse() +
+  ylab(&quot;Sensitivity&quot;) +
+  xlab(&quot;Specificity&quot;) +
+  geom_abline(intercept=1, slope=1, color=&quot;grey&quot;)
+
+
+## Note: there are some nice tidyverse functions for automating cross-validation:
+library(modelr)
+library(purrr)
+loocv_data &lt;- crossv_kfold(iris, k = nrow(iris))
+loocv_models &lt;- map(loocv_data$train, ~ lm(Sepal.Length ~ Sepal.Width, data = .))
+mse &lt;- function(model, data) {
+  x &lt;- modelr:::residuals(model, data)
+  mean(x ^ 2, na.rm = TRUE)
+}
+loocv_mse &lt;- map2_dbl(loocv_models, loocv_data$test, mse)
+mean(loocv_mse)
+
+#=============================================================
+## Monte Carlo simulations
+#=============================================================
+
+## Why simulations?
+### =&gt; To estimate quantities that are difficult or impossible to figure out analytically
+### =&gt; We run a simulation where we &quot;know the truth&quot; to estimate Type I error (simulate
+### data under the &quot;null hypothesis&quot;) and Power (simulate data under the &quot;alternative hypothesis&quot;).
+
+## Question: for a fair coin, what is the probability of a heads?
+
+sample(c(&quot;heads&quot;, &quot;tails&quot;), 1, replace=TRUE)
+
+flip_function &lt;- function(n) {
+  flips &lt;- sample(c(&quot;heads&quot;, &quot;tails&quot;), n, replace=TRUE) 
+  percent_heads &lt;- length(which(flips== &quot;heads&quot;)) / n
+  return(percent_heads)
+}
+flip_function(10)
+flip_function(100)
+flip_function(1000)
+
+## Law of large numbers: expected value of some random variable can be
+##   approximated by taking the mean of independent samples of the variable
+## =&gt; The average of results obtained from a large number of trials should be
+##    close to the &quot;true&quot; population mean, and becomes closer as the number of trials increases.
+
+n &lt;- round(seq(10,10000, length=500))
+flip_perc &lt;- c()
+for(i in n) flip_perc &lt;- c(flip_perc, flip_function(i));
+plot(n, flip_perc, type = &quot;l&quot;, ylim=c(0,1))
+
+## Monte Carlo: rely on repeated random sampling to obtain numerical results
+## i.e., use randomness to solve problems have a probabilistic interpretation
+## =&gt; motivated by the strong-law of large numbers (Chapter 14)
+
+## Another example: we know the area of a circle is pi * r^2
+## Let&#39;s simulate data points in a unit square and calculate the ratio of
+## points within the circle.
+## Area of circle = pi * r^2, area of square = (2*r)^2
+## So the ratio of circle area:square area = pi / 4
+
+library(plotrix)
+nsims &lt;- 10000
+circle_sim &lt;- data.frame(x=runif(nsims, min = -1, max = 1),
+                         y = runif(nsims, min = -1, max = 1))
+dist_to_origin &lt;- rowSums(circle_sim^2)
+plot(circle_sim, xlim = c(-1,1), ylim=c(-1,1), asp=1,
+     col=ifelse(dist_to_origin &lt;= 1, &quot;red&quot;, &quot;grey&quot;))                            
+draw.circle(0,0,1,nv=10000, border=&quot;black&quot;)
+(length(which(dist_to_origin &lt;= 1)) / length(dist_to_origin)) * 4  ## Estimate of pi
+
+#-------------------------------------------------------------
+## In class:
+## Make this example into a function, and see what happens as you
+## increase the number of simulations.
+#-------------------------------------------------------------
+circle_sim &lt;- function(nsims) {
+  circle_sim &lt;- data.frame(x=runif(nsims, min = -1, max = 1),
+                           y = runif(nsims, min = -1, max = 1))
+  dist_to_origin &lt;- rowSums(circle_sim^2)
+#  plot(circle_sim, xlim = c(-1,1), ylim=c(-1,1), asp=1,
+#       col=ifelse(dist_to_origin &lt;= 1, &quot;red&quot;, &quot;grey&quot;))                            
+#  draw.circle(0,0,1,nv=10000, border=&quot;black&quot;)
+  return(length(which(dist_to_origin &lt;= 1)) / length(dist_to_origin) * 4)  ## Estimate of pi
+}
+circle_sim(1000)
+
+## Another example of the Monte Carlo Method:
+## Flip a fair coin 5 times, let X = the number of heads tossed.
+## First: what do you expect to see?
+## Find E(X). We&#39;ll use sample() here!
+
+### This is 1 iteration of this experiment
+set.seed(12345)
+flips &lt;- sample(c(0,1), size=5, replace=TRUE)
+X &lt;- sum(flips==1) 
+
+## Now let&#39;s run 100 iterations of the same experiment
+X &lt;- NULL
+for(j in 1:10000){
+  flips &lt;- sample(c(0,1), size=5, replace=TRUE)
+  X[j] &lt;- sum(flips==1)
+}
+mean(X)
+
+#-------------------------------------------------------------
+## In class:
+## Make this example into a function, and see what happens as you
+## increase the number of simulations to 10,000 and then 100,000.
+#-------------------------------------------------------------
+
+## A power simulation
+## We simulate some data under the &quot;alternate hypothesis&quot; H_A
+x &lt;- sample(0:1, replace=TRUE, size=1000)
+y &lt;- x + rnorm(1000, sd=4)
+ggplot(data.frame(x,y)) + geom_boxplot(aes(x=factor(x),y=y))
+## What if we wanted to test if y and x are correlated?
+model &lt;- lm(y ~ x)
+## We would reject H0, if the p-value &lt; 0.05
+summary(model)$coef[2,4]
+
+### So to run a simulation here, we would get say 1,000 p-values and see how many of them 
+### are less than 0.05 when H_A is true.
+N &lt;- 1000
+p.value &lt;- NULL
+for(i in 1:N){
+  x &lt;- sample(0:1, replace=TRUE, size=1000)
+  y &lt;- x + rnorm(1000, sd=4)
+  model &lt;- lm(y ~ x)
+  p.value[i] &lt;- summary(model)$coef[2,4]
+}
+## Here is an estimate of the power:
+sum(p.value &lt; 0.05)/N
+## What if we didn&#39;t use alpha = 0.05, but rather alpha = 0.001? 
+sum(p.value &lt; 0.001)/N
+
+
+### Type I error
+N &lt;- 1000
+p.value &lt;- NULL
+for(i in 1:N){
+  x &lt;- sample(0:1, replace=TRUE, size=1000)
+  y &lt;- rnorm(1000, sd=4)
+  model &lt;- lm(y ~ x)
+  p.value[i] &lt;- summary(model)$coef[2,4]
+}
+## Here is an estimate of the Type I error:
+sum(p.value &lt; 0.05)/N
+
+
+
+#=============================================================
+## Bootstrapping
+#=============================================================
+
+## Very closely related topic to simulation based approaches 
+## called &quot;re-sampling&quot; based approaches to evaluate statistical significance 
+## and used in many different situations in statistics.
+## =&gt; Two &quot;re-sampling&quot; based approaches are called the &quot;bootstrap&quot; and &quot;permutations&quot;
+
+## Example: Let&#39;s say we have 500 observations from a chi-square (df=2) distribution:
+n &lt;- 500
+y &lt;- rchisq(n=n, df=2)
+
+## It&#39;s easy to estimate the mean, and 1/mean:
+mean_y &lt;- mean(y)      ## Note: true mean = 2
+invmean_y &lt;- 1/mean_y  ## Note: true invmean = 0.5
+
+## But what if instead of the mean, we were interested in getting a 95% CI for 1/mean?
+## =&gt; No obvious &quot;closed&quot; form solution to this problem!
+## So how do we construct a CI? The bootstrap!
+##
+## Idea: &quot;re-sample&quot; n observations from our data (WITH REPLACEMENT), then
+## re-calculate the statistic of interest from this &quot;re-sampled&quot; distribution
+## We do this ~ 1,000+ times to get an &quot;empirical re-sampling based&quot; distribution of the statistic.
+## Then we can use the quantiles of this empirical distribution to construct our CI!
+
+invmean_resample &lt;- NULL
+for(i in 1:1000){
+  y_resample &lt;- sample(y, replace=TRUE, size=n)
+  invmean_resample[i] &lt;- 1/mean(y_resample)
+}
+hist(invmean_resample)
+## =&gt; The lower and upper bounds of the CI are the 0.025 and 0.975 quantiles of this distribution
+LB &lt;- quantile(invmean_resample, probs=c(0.025))
+UB &lt;- quantile(invmean_resample, probs=c(0.975))
+
+## Now let&#39;s write a simulation to evaluate the &quot;coverage&quot; property of this CI over
+## 100 simulations, i.e., does the 95% CI contain the true value (0.5) of invmean ~95% of the time?
+cover &lt;- NULL
+nbootstraps &lt;- 1000
+nsims &lt;- 1000
+for(k in 1:nsims){
+  y &lt;- rchisq(n=n, df=2)
+  mean_y &lt;- mean(y)
+  invmean_y &lt;- 1/mean_y
+  invmean_resample &lt;- NULL
+  for(i in 1:nbootstraps){
+    y_resample &lt;- sample(y, replace=TRUE, size=n)
+    invmean_resample[i] &lt;- 1/mean(y_resample)
+  }
+  LB &lt;- quantile(invmean_resample, probs=c(0.025))
+  UB &lt;- quantile(invmean_resample, probs=c(0.975))
+  cover[k] &lt;- ifelse(LB &lt;= 0.5 &amp; UB &gt;= 0.5, 1, 0)
+}
+mean(cover)
+
+
+
+#=============================================================
+## Permutations: samples assumed to be independent and exchangeable
+#=============================================================
+
+## Alternative to hypothesis tests is to run a &quot;permutation&quot; based procedure:
+#### 1. Shuffle the y-values
+#### 2. Calculate a test statistic that measures the effect you are looking for
+#### 3. Repeat {#1-2} many times
+#### 4. Count how many times the shuffled test statistics exceed your &quot;observed&quot; test statistic
+## =&gt; Let&#39;s think carefully about the definition of a p-value ...
+## (let&#39;s think about 1-sided versus 2-sided tests)
+
+x &lt;- c(rep(1, times=500), rep(16, times=500))
+y &lt;- rnorm(n=1000, mean=0, sd=sqrt(x))
+mod_orig &lt;- lm(y~x)
+summary(mod_orig)$coef
+## Permutation test
+p.perm &lt;- NULL
+for(i in 1:1000){
+  y.perm &lt;- sample(y, replace=FALSE, size=1000) ## Note that replace = FALSE here!
+  mod &lt;- lm(y.perm ~ x)
+  p.perm[i] &lt;- summary(mod)$coef[2,4]
+}
+perm.pvalue &lt;- sum(p.perm &lt;= summary(lm(y ~ x))$coef[2,4])/1000       
+
+## Let&#39;s write a function to perform a permutation test for logistic regression
+p.perm &lt;- function(x, y){
+  mod.observed &lt;- glm(y ~ x, family=&quot;binomial&quot;)
+  ts.observed &lt;- summary(mod.observed)$coef[2,3]
+  ts.perm &lt;- NULL
+  for(i in 1:1000){
+    y.shuffled &lt;- sample(y, replace=FALSE, size=length(y))
+    mod.perm &lt;- glm(y.shuffled ~ x, family=&quot;binomial&quot;)
+    ts.perm[i] &lt;- summary(mod.perm)$coef[2,3]
+  }
+  p.perm &lt;- (sum(ts.perm &gt;= ts.observed))/1000
+  return(p.perm)
+}
+
+
+## We can compare the permutation test to a Wald or LRT test via a Monte Carlo simulation
+p.wald &lt;- p.lrt &lt;- p.permutations &lt;- NULL
+for(k in 1:50){
+  x &lt;- c(rep(0, times=90), rep(1, times=10))
+  y &lt;- sample(0:1, replace=TRUE, size=100, prob=c(0.8, 0.2))
+  mod &lt;- glm(y ~ x, family=&quot;binomial&quot;)
+  p.wald[k] &lt;- summary(mod)$coef[2,4]
+  p.lrt[k] &lt;- drop1(mod, test=&quot;Chisq&quot;)[2,5]
+  p.permutations[k] &lt;- p.perm(x, y)
+  print(k)
+}
+
+## QQPlot of Permutation-based p-values
+y.plot = -log10(sort(p.permutations))
+x.plot = -log10((1:length(y.plot)-0.5)/length(y.plot))
+lim &lt;- max(c(y.plot, x.plot))
+plot(x.plot, y.plot, xlim = c(0, lim), ylim = c(0, lim), pch=20, main=&quot;Permutation qqplot&quot;,
+     cex = 2, xlab=expression(paste(-log[10], &quot; expected&quot;)), ylab=expression(paste(-log[10], &quot; observed&quot;)))
+abline(0, 1, lty=&#39;dashed&#39;, col=&#39;blue&#39;, lwd=2)
+
+## QQPlot of LRT-based p-values
+y.plot = -log10(sort(p.lrt))
+x.plot = -log10((1:length(y.plot)-0.5)/length(y.plot))
+lim &lt;- max(c(y.plot, x.plot))
+plot(x.plot, y.plot, xlim = c(0, lim), ylim = c(0, lim), pch=20, main=&quot;LRT qqplot&quot;,
+     cex = 2, xlab=expression(paste(-log[10], &quot; expected&quot;)), ylab=expression(paste(-log[10], &quot; observed&quot;)))
+abline(0, 1, lty=&#39;dashed&#39;, col=&#39;blue&#39;, lwd=2)
+
+## QQPlot of Wald-based p-values
+y.plot = -log10(sort(p.wald))
+x.plot = -log10((1:length(y.plot)-0.5)/length(y.plot))
+lim &lt;- max(c(y.plot, x.plot))
+plot(x.plot, y.plot, xlim = c(0, lim), ylim = c(0, lim), pch=20, main=&quot;Wald qqplot&quot;,
+     cex = 2, xlab=expression(paste(-log[10], &quot; expected&quot;)), ylab=expression(paste(-log[10], &quot; observed&quot;)))
+abline(0, 1, lty=&#39;dashed&#39;, col=&#39;blue&#39;, lwd=2)
+
+print(summary(p.permutations))
+print(summary(p.wald))
+print(summary(p.lrt))
+
+
+## Does the permutation test produce &quot;valid&quot; p-values?
+## To check: generate data under the null hypothesis and check that p-values are U(0,1)
+## Note: these data are simulated such that the standard regression assumptions fail
+##    (very heteroskedastic)
+start &lt;- proc.time()
+perm.pvalue &lt;- NULL
+nsims &lt;- 200
+for(j in 1:nsims){
+  x &lt;- c(rep(1, times=500), rep(16, times=500))
+  y &lt;- rnorm(n=1000, mean=0, sd=sqrt(x))
+  p.perm &lt;- NULL
+  for(i in 1:1000){
+    y.perm &lt;- sample(y, replace=FALSE, size=1000) ## Note that replace = FALSE here!
+    mod &lt;- lm(y.perm ~ x)
+    p.perm[i] &lt;- summary(mod)$coef[2,4]
+  }
+  perm.pvalue[j] &lt;- sum(p.perm &lt;= summary(lm(y ~ x))$coef[2,4])/1000
+}
+end &lt;- proc.time()
+print(end-start)
+hist(perm.pvalue, breaks=25)
+
+#=============================================================
+## Next time: HW 6 due. 
+## Multiple testing, web-scraping, Simpson&#39;s paradox, what to do 
+## when model diagnostics don&#39;t check out for modeling assumptions.
+#=============================================================
+
+
+
+#=============================================================
+## If there&#39;s time this week: Multiple testing
+#=============================================================
+
+## What&#39;s the issue with multiple testing?
+## Consider the following: We have 1 y-variable and 100 different x-variables
+## Note: these are data under the null hypothesis (there is no relatinoship 
+## between x and y)
+set.seed(12345)
+y &lt;- rnorm(n=50)
+x &lt;- matrix(0, ncol=100, nrow=50)
+for(i in 1:100){
+  x[,i] &lt;- rnorm(n=50)
+}
+
+#-------------------------------------------------------------
+## In class:
+## Fit a linear model y ~ x, and test the hypothesis that beta_x = 0.
+## Save the p-values in a vector called p.vector.
+##
+## If our criterion for &quot;rejecting&quot; the null hypothesis is p &lt; 0.05,
+## how many null hypotheses would we reject here?
+#-------------------------------------------------------------
+
+## Does this control the Family-wise error rate (FWER)?
+## = probability of making at least one Type I error
+## FWER &lt;= 1 - (1 - alpha)^c, where c is the # of tests
+
+## So what criterion would we use to control the FWER at 5%?
+##  =&gt; Only if p &lt; 0.05/100 (this is called the Bonferroni correction)
+
+#-------------------------------------------------------------
+## In class:
+## If our criterion for &quot;rejecting&quot; the null hypothesis is a
+## Bonferroni corrected p &lt; 0.05,
+## how many null hypotheses would we reject here?
+#-------------------------------------------------------------
+
+## Simulation to evaulate uncorrected and Bonferroni-corrected p-values
+uncorrected &lt;- NULL
+bonf.corrected &lt;- NULL
+for(j in 1:1000){
+  #### Simulate the data    
+  y &lt;- rnorm(n=50)
+  x &lt;- matrix(0, ncol=100, nrow=50)
+  for(i in 1:100){
+    x[,i] &lt;- rnorm(n=50)
+  }
+  #### Run 100 regressions
+  p.vector &lt;- NULL
+  for(i in 1:100){
+    mod &lt;- lm(y ~ x[,i])
+    p.vector[i] &lt;- summary(mod)$coef[2,4]
+  }
+  #### Count the number of false discoveries
+  uncorrected[j] &lt;- sum(p.vector &lt; 0.05)
+  bonf.corrected[j] &lt;- sum(p.vector &lt; 0.05/100)
+}
+mean(uncorrected)
+mean(bonf.corrected)
+
+## What is the False-Discovery Rate? How do we control the FDR?
+##  =&gt; We can use the p.adjust() function on our previously
+##     created p.vector object.
+p.bh.adjusted &lt;- p.adjust(p.vector, method=&#39;BH&#39;)
+p.bonf.adjusted &lt;- p.adjust(p.vector, method=&#39;bonferroni&#39;)
+sum(p.bh.adjusted &lt; 0.05)
+sum(p.bonf.adjusted &lt; 0.05)
+
+#-------------------------------------------------------------
+## In-class exercises: Assume we have 1 y-variable, 80 x-variables
+## that are uncorrelated with y (under H_0) and 20 x-variables that
+## are correlated with y (under H_1) such that y ~ 2*x
+##
+## Write a simulation to see how well p.bh.adjusted controls FDR.
+## Write a simulation to see how well p.bonf.adjusted controls FWER.
+#-------------------------------------------------------------</code></pre>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.1 (2018-07-02)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS High Sierra 10.13.6
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+ [1] workflowr_1.1.1   Rcpp_0.12.19      digest_0.6.18    
+ [4] rprojroot_1.3-2   R.methodsS3_1.7.1 backports_1.1.2  
+ [7] git2r_0.23.0      magrittr_1.5      evaluate_0.12    
+[10] stringi_1.2.4     whisker_0.3-2     R.oo_1.22.0      
+[13] R.utils_2.7.0     rmarkdown_1.10    tools_3.5.1      
+[16] stringr_1.3.1     yaml_2.2.0        compiler_3.5.1   
+[19] htmltools_0.3.6   knitr_1.20       </code></pre>
+</div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
 TeX fonts only; see
