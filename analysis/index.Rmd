@@ -16,3 +16,4 @@ output:
 * [lecture 7](lecture7.html)
 * [lecture 8](lecture8.html)
 * [lecture 9](lecture9.html)
+* [lecture 10](lecture10.html)

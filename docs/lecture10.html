@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Shengtong" />
+
+<meta name="date" content="2018-11-09" />
+
+<title>lecture10</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Code</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://han16.github.io/Data-Science-in-R/">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">lecture10</h1>
+<h4 class="author"><em>Shengtong</em></h4>
+<h4 class="date"><em>2018-11-09</em></h4>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2018-11-09</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20181026)</code> </summary></p>
+<p>The command <code>set.seed(20181026)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/ec0ae0220a54776efe07ffb853b8e836a844e039" target="_blank">ec0ae02</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.Rapp.history
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/figure/
+    Ignored:    docs/.DS_Store
+
+Untracked files:
+    Untracked:  analysis/lecture10.Rmd
+
+Unstaged changes:
+    Modified:   analysis/index.Rmd
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<hr />
+<pre class="re"><code>########################################################
+#### Read Chapter 11 from http://r4ds.had.co.nz/index.html.
+####
+#### Projects out this week
+####
+#### Review permutation tests
+######################################################
+
+#-------------------------------------------------------------
+## Permutation test for the difference in means of y for groups 
+##   0-1 in x
+## Both: 2-sided p-value (mean_y[0] != mean_y[1]) and 1-sided 
+##   p-value (mean_y[0] &lt; mean_y[1])
+#-------------------------------------------------------------
+set.seed(1234)
+x &lt;- rbinom(100, 1, 0.5)
+y &lt;- 0.4*x + rnorm(100, sd=1)
+boxplot(y~x) ## We are testing for a difference in means of y for groups x=0 and x=1
+obs &lt;- t.test(y~x)
+obs$p.value
+obs.t &lt;- obs$statistic
+## Permutation test
+perm &lt;- NULL
+for(i in 1:1000){
+  y.perm &lt;- sample(y, replace=FALSE, size=100) ## Note that replace = FALSE here!
+  perm[i] &lt;- t.test(y.perm~x)$statistic
+}
+
+## Two-sided p-value: look for absolute values of permutations larger than absolute 
+##   values of observed
+twosided &lt;- sum(abs(perm) &gt;= abs(obs.t))/1000
+twosided
+
+## One-sided p-value: for one-sided, because we want to test mean_y[0] &lt; mean_y[1] 
+##   and because the t-test estimates mean_y[0] - mean_y[1] based on factor ordering of 
+##   x, we want to know how many negative permutation test statistics were LESS THAN 
+##   OR EQUAL TO (=more extreme) than that observed.
+onesided &lt;- sum(perm &lt;= obs.t)/1000
+onesided
+
+#-------------------------------------------------------------
+## Permutation test for the difference in means of y for groups 
+##   0-1 in x
+## Same as above, but I will directly calculate the difference 
+##   in mean rather than use the t-test
+## Both: 2-sided p-value (mean_y[0] != mean_y[1]) and 1-sided 
+##   p-value (mean_y[0] &lt; mean_y[1])
+#-------------------------------------------------------------
+set.seed(1234)
+obs &lt;- mean(y[x == 0]) - mean(y[x==1])
+## Permutation test
+perm &lt;- NULL
+for(i in 1:1000){
+  y.perm &lt;- sample(y, replace=FALSE, size=100) ## Note that replace = FALSE here!
+  perm[i] &lt;- mean(y.perm[x == 0]) - mean(y.perm[x==1])
+}
+
+## Two-sided p-value: look for absolute values of permutations 
+##   larger than absolute values of observed
+twosided &lt;- sum(abs(perm) &gt;= abs(obs))/1000
+twosided
+
+## One-sided p-value: for one-sided, because we want to test 
+##   mean_y[0] &lt; mean_y[1] and because our difference in means estimates 
+##   mean_y[0] - mean_y[1], we want to know how many permutation test 
+##   statistics were LESS THAN OR EQUAL TO (=more extreme) than that observed.
+onesided &lt;- sum(perm &lt;= obs)/1000
+onesided
+
+
+#=============================================================
+## Multiple testing
+#=============================================================
+
+## What&#39;s the issue with multiple testing?
+## Consider the following: We have 1 y-variable and 100 different x-variables
+## Note: these are data under the null hypothesis (there is no relatinoship 
+## between x and y)
+set.seed(12345)
+y &lt;- rnorm(n=50)
+x &lt;- matrix(0, ncol=100, nrow=50)
+for(i in 1:100){
+  x[,i] &lt;- rnorm(n=50)
+}
+
+#-------------------------------------------------------------
+## In class:
+## Fit a linear model y ~ x, and test the hypothesis that beta_x = 0.
+## Save the p-values in a vector called p.vector.
+##
+## If our criterion for &quot;rejecting&quot; the null hypothesis is p &lt; 0.05,
+## how many null hypotheses would we reject here?
+#-------------------------------------------------------------
+
+p.vector &lt;- rep(NA, 100)
+for(i in 1:100) {
+  p.vector[i] &lt;- summary(lm(y~x[,i]))$coef[2,4]
+}
+length(which(p.vector &lt; 0.05)) /100
+
+## Does this control the Family-wise error rate (FWER)?
+## = probability of making at least one Type I error
+## FWER &lt;= 1 - (1 - alpha)^c, where c is the # of tests
+
+## So what criterion would we use to control the FWER at 5%?
+##  =&gt; Only if p &lt; 0.05/100 (this is called the Bonferroni correction)
+
+#-------------------------------------------------------------
+## In class:
+## If our criterion for &quot;rejecting&quot; the null hypothesis is a
+## Bonferroni corrected p &lt; 0.05,
+## how many null hypotheses would we reject here?
+#-------------------------------------------------------------
+
+length(which(p.vector &lt; (0.05/100))) /100
+
+
+## Simulation to evaulate uncorrected and Bonferroni-corrected p-values
+uncorrected &lt;- NULL
+bonf.corrected &lt;- NULL
+for(j in 1:50){
+  #### Simulate the data    
+  y &lt;- rnorm(n=50)
+  x &lt;- matrix(0, ncol=100, nrow=50)
+  for(i in 1:100){
+    x[,i] &lt;- rnorm(n=50)
+  }
+  #### Run 100 regressions
+  p.vector &lt;- NULL
+  for(i in 1:100){
+    mod &lt;- lm(y ~ x[,i])
+    p.vector[i] &lt;- summary(mod)$coef[2,4]
+  }
+  #### Count the number of false discoveries
+  uncorrected[j] &lt;- sum(p.vector &lt; 0.05)
+  bonf.corrected[j] &lt;- sum(p.vector &lt; 0.05/100)
+}
+mean(uncorrected)
+mean(bonf.corrected)
+
+## What is the False-Discovery Rate? How do we control the FDR?
+##  =&gt; We can use the p.adjust() function on our previously
+##     created p.vector object.
+p.bh.adjusted &lt;- p.adjust(p.vector, method=&#39;BH&#39;)
+p.bonf.adjusted &lt;- p.adjust(p.vector, method=&#39;bonferroni&#39;)
+sum(p.bh.adjusted &lt; 0.05)
+sum(p.bonf.adjusted &lt; 0.05)
+
+#-------------------------------------------------------------
+## In-class exercises: Assume we have 1 y-variable, 80 x-variables
+## that are uncorrelated with y (under H_0) and 20 x-variables that
+## are correlated with y (under H_1) such that y ~ 2*x
+##
+## Write a simulation to see how well p.bh.adjusted controls FDR.
+## Write a simulation to see how well p.bonf.adjusted controls FWER.
+#-------------------------------------------------------------
+
+## Simulation to evaulate uncorrected and Bonferroni-corrected p-values
+uncorrected &lt;- matrix(NA, nrow=50, ncol=100)
+bonf.corrected &lt;-  matrix(NA, nrow=50, ncol=100)
+BH.corrected &lt;-  matrix(NA, nrow=50, ncol=100)
+for(j in 1:50){
+  #### Simulate the data    
+  x &lt;- matrix(0, ncol=100, nrow=50)
+  for(i in 1:100){
+    x[,i] &lt;- rnorm(n=50)
+  }
+  coef &lt;- c(rep(0,80), rep(2,20))
+  y &lt;- x %*% coef + rnorm(n=50)
+  
+  #### Run 100 regressions
+  p.vector &lt;- NULL
+  for(i in 1:100){
+    mod &lt;- lm(y ~ x[,i])
+    p.vector[i] &lt;- summary(mod)$coef[2,4]
+  }
+  #### Count the number of false discoveries
+  uncorrected[j,] &lt;- p.vector 
+  bonf.corrected[j,] &lt;- p.adjust(p.vector, method=&quot;bonferroni&quot;)
+  BH.corrected[j,] &lt;- p.adjust(p.vector, method=&quot;BH&quot;)
+}
+
+FDR_calc &lt;- function(x) {
+  FP &lt;- TP &lt;- rep(NA, nrow(x))
+  for(j in 1:nrow(x)) {
+    FP[j] &lt;- length(which(x[j, 1:80] &lt; 0.05))
+    TP[j] &lt;- length(which(x[j, 81:100] &lt; 0.05))
+  }
+  check &lt;- FP + TP
+  remove_index &lt;- which(check == 0)
+  if(length(remove_index) == 0) {
+    ret &lt;- mean(FP / (FP + TP))
+  } else {
+    ret &lt;- mean(FP[-remove_index] / (FP[-remove_index] + TP[-remove_index]))
+  }
+  return(ret)
+}
+FDR_calc(uncorrected)
+FDR_calc(bonf.corrected)
+FDR_calc(BH.corrected)
+
+#=============================================================
+## Simpson&#39;s paradox
+#=============================================================
+
+## Not considering an important variable when studying a relationship
+##  between two variables can result in the so-called Simpson&#39;s paradox
+## In other words: the inclusion of a 3rd variable can change the
+##  apparent relationship between two other variables
+
+## Let&#39;s look at the Whickham data, which measured age, smoking, and 
+##   mortality from a 1-in-6 survey of residents of Whickham, UK in the 1970s
+library(tidyverse)
+library(mosaicData)
+data(&quot;Whickham&quot;)
+?Whickham ## Take a look at the variables
+
+#-------------------------------------------------------------
+## In-class exercises: 
+##
+## How many observations are in the Whickham data?
+## Graphically explore each of the three variables in the dataset.
+## What do we expect the relationship between smoking status and
+##    health outcome to be?
+## Create a plot depicting the relationship between smoking status
+##    and health outcome. Is it what you expect?
+## Create a new variable age_category using the following:
+##    age &lt;= 44 ~ &quot;18-44&quot;
+##    age &gt; 44 &amp; age &lt;= 64 ~ &quot;45-64&quot;
+##    age &gt; 64 ~ &quot;65+&quot;
+## Recreate your previous visualization, but now facetting on
+##    age_category. What&#39;s going on?   
+#-------------------------------------------------------------
+
+ggplot(Whickham, aes(x=smoker, fill=outcome)) + 
+  geom_bar(position = &quot;fill&quot;)
+
+Whickham&lt;- Whickham %&gt;%
+  mutate(age_category = ifelse(age &lt;= 44, &quot;18-44&quot;, 
+                                ifelse(age &gt; 64, &quot;65+&quot;, &quot;45-64&quot;)))
+
+ggplot(Whickham, aes(x=smoker, fill=outcome)) + 
+  geom_bar(position = &quot;dodge&quot;) +
+  facet_wrap(~age_category)
+
+
+#=============================================================
+## Getting data from the web
+##
+## https://towardsdatascience.com/ethics-in-web-scraping-b96b18136f01
+## http://www.wired.co.uk/article/facebook-news-data-scraping-mark-zuckerburg
+#=============================================================
+
+## Many ways to obtain data from web:
+## 1. click-and-download on the internet as a “flat” file, such as .csv, .xls
+## 2. install-and-play an API (application program interface) for which 
+##   someone has written a handy R package
+## 3. API-query published with an unwrapped API
+## 4. Scraping implicit in an html website
+## =&gt; Let&#39;s look at these one-by-one
+
+## NOTE: If you are scraping/using data from a web page that frequently updates 
+##   its content, good idea to save a copy of the data locally
+
+#-------------------------------------------------------------
+## 1. click-and-download on the internet as a “flat” file, such as .csv, .xls
+## Simplest case! Use read.csv, readr::read_csv to read data straight into R
+## Note: data may still need to be cleaned/tidied!
+#-------------------------------------------------------------
+## National Centre of Environmental Information:
+##   blended polar geo biomass burning emissions records
+
+file &lt;- &quot;http://www.ospo.noaa.gov/data/land/bbep2/biomass_burning.txt&quot;
+Biomass_Burning_overview &lt;- read.csv(file, sep=&quot; &quot;, header=FALSE, nrows = 2,
+                                     stringsAsFactors=FALSE)
+Biomass_Burning_Data &lt;- read.csv(file, sep=&quot; &quot;, header=FALSE, skip=2)
+head(Biomass_Burning_Data)
+colnames(Biomass_Burning_overview) &lt;- as.character(Biomass_Burning_overview[1,])
+Biomass_Burning_overview &lt;- Biomass_Burning_overview[-1,]
+
+## Alternatively, save file locally and then read into R
+
+#-------------------------------------------------------------
+## 2. Handy R-package APIs
+#-------------------------------------------------------------
+## APIs = descriptions of the kinds of requests that can be made
+##   on a specific software, and kinds of answers that can be returned
+## Many sources of data have made (part or all of) their data
+##   available through APIs
+
+## APIs with R wrappers send queries to server and format response
+##   directly within R! Reproducible, easy to update/scale up
+## Note: some APIs require you to register for access (to track
+##   users submitting queries and manage demands =&gt; meaning you
+##   might be rate-limited or even blocked if too many requests)
+## NOTE: Always check the API access policy of the website to
+##   know about limits and usage limits
+## NOTE: Remember to protect any API keys or tokens, if your chosen 
+##   API requires them!
+
+## Some examples:
+
+#***********************************
+## ebird database of bird sightings: http://ebird.org/content/ebird/
+library(rebird)
+## Hotspot locations like Lincoln Park: http://ebird.org/ebird/hotspot/L1573785
+lincoln_park &lt;- ebirdhotspot(locID = &quot;L1573785&quot;) %&gt;%
+  as_tibble()
+## List of recent sightings in Milwaukee using ebirdgeo function (look at defaults)
+MKEbirds &lt;- ebirdgeo(lat = 43.0389, lng = -87.9065)
+MKEbirds %&gt;%
+  as_tibble() 
+## List of recent sightings in France
+frenchbirds &lt;- ebirdregion(&quot;FR&quot;)
+frenchbirds %&gt;%
+  as_tibble() 
+## rebird knows where you are, based on your IP address
+birds_near_me &lt;- ebirdgeo() %&gt;%
+  as_tibble() 
+birds_near_me
+
+#***********************************
+## Twitter APIs: 
+## REST API, Streaming API
+## twitteR, streamR, rtweet
+library(rtweet)
+
+#***********************************
+## Facebook API: https://github.com/pablobarbera/Rfacebook
+library(Rfacebook)
+
+## See example here: http://cfss.uchicago.edu/webdata002_twitter_exercise.html
+
+## VERY LARGE LIST OF install-and-play R-API&#39;s here:
+## https://ropensci.org/packages/
+## https://github.com/ropensci/webservices
+## https://cran.r-project.org/web/packages/rwunderground/README.html (https://www.wunderground.com)
+## Rfacebook, rpinterest, Rlinkedin, fitbitScraper, RGoogleFit, ubeR, ZillowR, ...
+
+#-------------------------------------------------------------
+## 3. Write your own query for APIs
+#-------------------------------------------------------------
+library(httr)
+
+## See here: http://cfss.uchicago.edu/webdata003_api_by_hand.html#introducing_the_easy_way:_httr
+
+## VERY LARGE LIST of API&#39;s (without plug-and-play R package) here:
+## http://www.programmableweb.com/category/all/apis
+## https://www.omdbapi.com for the open movie database
+
+#-------------------------------------------------------------
+## 4. Web scraping
+## Read: https://blog.rstudio.com/2014/11/24/rvest-easy-web-scraping-with-r/
+## http://selectorgadget.com/
+## Extract tag names with html_tag(), text with html_text(),
+##   single attribute with html_attr()
+## Note: First confirm there is no R package or API!
+## Note: ability to scrape depends on quality of website
+#-------------------------------------------------------------
+
+## Explore, try, test, automatize, test!
+## Scraping data from the web will require a lot of trial and error. 
+
+vignette(&quot;selectorgadget&quot;)
+library(rvest)      ## Downloads HTML and turns it into an XML file
+# demo(&quot;tripadvisor&quot;) ## scraping a Trip Advisor page
+# demo(&quot;united&quot;)      ## scraping a page that requires a login
+# demo(&quot;zillow&quot;)
+
+## Let&#39;s scrape information about &quot;The Lego Movie&quot; from IMDB
+## Note: it&#39;s a good idea to save your read_html() call into an object,
+##   otherwise you send a request to the server each time you call it
+lego_movie &lt;- read_html(&quot;http://www.imdb.com/title/tt1490017/&quot;)
+
+lego_movie %&gt;% html_structure()
+
+## Now we need to use the selectorgadget to find the css selector we want
+## for rating (&quot;strong span&quot;), or alternatively look at source HTML
+lego_movie %&gt;%
+  html_node(&quot;strong span&quot;) %&gt;%  ## Find first node with that selector
+  html_text() %&gt;%               ## Extract contents
+  as.numeric()
+
+## Same thing for cast:
+lego_movie %&gt;%
+  html_nodes(&quot;#titleCast span.itemprop&quot;) %&gt;%
+  html_text()
+
+## html_table allows us to scrape whole tables
+## Let&#39;s use Sterling&#39;s Best Places: http://www.bestplaces.net
+MKE &lt;- read_html(&quot;http://www.bestplaces.net/cost_of_living/city/wisconsin/milwaukee&quot;)
+tables &lt;- html_nodes(MKE, css = &quot;table&quot;)
+tables %&gt;%
+  # get the second table
+  nth(2) %&gt;%
+  # convert to data frame
+  html_table(header = TRUE)
+
+
+#=============================================================
+## Next time: 
+## Interactive graphics with R, Shiny, what to do about failed 
+##   model diagnostics.
+#=============================================================
+</code></pre>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.1 (2018-07-02)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS High Sierra 10.13.6
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+ [1] workflowr_1.1.1   Rcpp_0.12.19      digest_0.6.18    
+ [4] rprojroot_1.3-2   R.methodsS3_1.7.1 backports_1.1.2  
+ [7] git2r_0.23.0      magrittr_1.5      evaluate_0.12    
+[10] stringi_1.2.4     whisker_0.3-2     R.oo_1.22.0      
+[13] R.utils_2.7.0     rmarkdown_1.10    tools_3.5.1      
+[16] stringr_1.3.1     yaml_2.2.0        compiler_3.5.1   
+[19] htmltools_0.3.6   knitr_1.20       </code></pre>
+</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
