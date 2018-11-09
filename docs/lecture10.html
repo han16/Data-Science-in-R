@@ -327,7 +327,7 @@ div.section {
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
-<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </details>
 </li>
 <li>
@@ -346,31 +346,82 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/ec0ae0220a54776efe07ffb853b8e836a844e039" target="_blank">ec0ae02</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/b4d1a694f39852a9ea8e30f8ca4737dadd706b47" target="_blank">b4d1a69</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
-    Ignored:    .DS_Store
-    Ignored:    .RData
-    Ignored:    .Rhistory
-    Ignored:    analysis/.DS_Store
-    Ignored:    analysis/.Rapp.history
-    Ignored:    analysis/.Rhistory
     Ignored:    analysis/figure/
-    Ignored:    docs/.DS_Store
-
-Untracked files:
-    Untracked:  analysis/lecture10.Rmd
 
 Unstaged changes:
-    Modified:   analysis/index.Rmd
+    Modified:   analysis/lecture10.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
 </li>
 </ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/b4d1a694f39852a9ea8e30f8ca4737dadd706b47/analysis/lecture10.Rmd" target="_blank">b4d1a69</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-11-09
+</td>
+<td style="text-align:left;">
+Nov92018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/han16/Data-Science-in-R/b4d1a694f39852a9ea8e30f8ca4737dadd706b47/docs/lecture10.html" target="_blank">b4d1a69</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-11-09
+</td>
+<td style="text-align:left;">
+Nov92018
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
 <hr />
-<pre class="re"><code>########################################################
+<pre class="r"><code>########################################################
 #### Read Chapter 11 from http://r4ds.had.co.nz/index.html.
 ####
 #### Projects out this week
@@ -387,11 +438,13 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 set.seed(1234)
 x &lt;- rbinom(100, 1, 0.5)
 y &lt;- 0.4*x + rnorm(100, sd=1)
-boxplot(y~x) ## We are testing for a difference in means of y for groups x=0 and x=1
-obs &lt;- t.test(y~x)
-obs$p.value
-obs.t &lt;- obs$statistic
-## Permutation test
+boxplot(y~x) ## We are testing for a difference in means of y for groups x=0 and x=1</code></pre>
+<p><img src="figure/lecture10.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>obs &lt;- t.test(y~x)
+obs$p.value</code></pre>
+<pre><code>[1] 0.01086042</code></pre>
+<pre class="r"><code>obs.t &lt;- obs$statistic</code></pre>
+<pre class="r"><code>## Permutation test
 perm &lt;- NULL
 for(i in 1:1000){
   y.perm &lt;- sample(y, replace=FALSE, size=100) ## Note that replace = FALSE here!
@@ -401,16 +454,16 @@ for(i in 1:1000){
 ## Two-sided p-value: look for absolute values of permutations larger than absolute 
 ##   values of observed
 twosided &lt;- sum(abs(perm) &gt;= abs(obs.t))/1000
-twosided
-
-## One-sided p-value: for one-sided, because we want to test mean_y[0] &lt; mean_y[1] 
+twosided</code></pre>
+<pre><code>[1] 0.01</code></pre>
+<pre class="r"><code>## One-sided p-value: for one-sided, because we want to test mean_y[0] &lt; mean_y[1] 
 ##   and because the t-test estimates mean_y[0] - mean_y[1] based on factor ordering of 
 ##   x, we want to know how many negative permutation test statistics were LESS THAN 
 ##   OR EQUAL TO (=more extreme) than that observed.
 onesided &lt;- sum(perm &lt;= obs.t)/1000
-onesided
-
-#-------------------------------------------------------------
+onesided</code></pre>
+<pre><code>[1] 0.009</code></pre>
+<pre class="r"><code>#-------------------------------------------------------------
 ## Permutation test for the difference in means of y for groups 
 ##   0-1 in x
 ## Same as above, but I will directly calculate the difference 
@@ -430,21 +483,18 @@ for(i in 1:1000){
 ## Two-sided p-value: look for absolute values of permutations 
 ##   larger than absolute values of observed
 twosided &lt;- sum(abs(perm) &gt;= abs(obs))/1000
-twosided
-
-## One-sided p-value: for one-sided, because we want to test 
+twosided</code></pre>
+<pre><code>[1] 0.01</code></pre>
+<pre class="r"><code>## One-sided p-value: for one-sided, because we want to test 
 ##   mean_y[0] &lt; mean_y[1] and because our difference in means estimates 
 ##   mean_y[0] - mean_y[1], we want to know how many permutation test 
 ##   statistics were LESS THAN OR EQUAL TO (=more extreme) than that observed.
 onesided &lt;- sum(perm &lt;= obs)/1000
-onesided
-
-
-#=============================================================
-## Multiple testing
-#=============================================================
-
-## What&#39;s the issue with multiple testing?
+onesided</code></pre>
+<pre><code>[1] 0.009</code></pre>
+<div id="multiple-testing" class="section level2">
+<h2>Multiple testing</h2>
+<pre class="r"><code>## What&#39;s the issue with multiple testing?
 ## Consider the following: We have 1 y-variable and 100 different x-variables
 ## Note: these are data under the null hypothesis (there is no relatinoship 
 ## between x and y)
@@ -468,9 +518,9 @@ p.vector &lt;- rep(NA, 100)
 for(i in 1:100) {
   p.vector[i] &lt;- summary(lm(y~x[,i]))$coef[2,4]
 }
-length(which(p.vector &lt; 0.05)) /100
-
-## Does this control the Family-wise error rate (FWER)?
+length(which(p.vector &lt; 0.05)) /100</code></pre>
+<pre><code>[1] 0.03</code></pre>
+<pre class="r"><code>## Does this control the Family-wise error rate (FWER)?
 ## = probability of making at least one Type I error
 ## FWER &lt;= 1 - (1 - alpha)^c, where c is the # of tests
 
@@ -484,10 +534,9 @@ length(which(p.vector &lt; 0.05)) /100
 ## how many null hypotheses would we reject here?
 #-------------------------------------------------------------
 
-length(which(p.vector &lt; (0.05/100))) /100
-
-
-## Simulation to evaulate uncorrected and Bonferroni-corrected p-values
+length(which(p.vector &lt; (0.05/100))) /100</code></pre>
+<pre><code>[1] 0</code></pre>
+<pre class="r"><code>## Simulation to evaulate uncorrected and Bonferroni-corrected p-values
 uncorrected &lt;- NULL
 bonf.corrected &lt;- NULL
 for(j in 1:50){
@@ -507,18 +556,20 @@ for(j in 1:50){
   uncorrected[j] &lt;- sum(p.vector &lt; 0.05)
   bonf.corrected[j] &lt;- sum(p.vector &lt; 0.05/100)
 }
-mean(uncorrected)
-mean(bonf.corrected)
-
-## What is the False-Discovery Rate? How do we control the FDR?
+mean(uncorrected)</code></pre>
+<pre><code>[1] 5.5</code></pre>
+<pre class="r"><code>mean(bonf.corrected)</code></pre>
+<pre><code>[1] 0.12</code></pre>
+<pre class="r"><code>## What is the False-Discovery Rate? How do we control the FDR?
 ##  =&gt; We can use the p.adjust() function on our previously
 ##     created p.vector object.
 p.bh.adjusted &lt;- p.adjust(p.vector, method=&#39;BH&#39;)
 p.bonf.adjusted &lt;- p.adjust(p.vector, method=&#39;bonferroni&#39;)
-sum(p.bh.adjusted &lt; 0.05)
-sum(p.bonf.adjusted &lt; 0.05)
-
-#-------------------------------------------------------------
+sum(p.bh.adjusted &lt; 0.05)</code></pre>
+<pre><code>[1] 0</code></pre>
+<pre class="r"><code>sum(p.bonf.adjusted &lt; 0.05)</code></pre>
+<pre><code>[1] 0</code></pre>
+<pre class="r"><code>#-------------------------------------------------------------
 ## In-class exercises: Assume we have 1 y-variable, 80 x-variables
 ## that are uncorrelated with y (under H_0) and 20 x-variables that
 ## are correlated with y (under H_1) such that y ~ 2*x
@@ -567,11 +618,13 @@ FDR_calc &lt;- function(x) {
   }
   return(ret)
 }
-FDR_calc(uncorrected)
-FDR_calc(bonf.corrected)
-FDR_calc(BH.corrected)
-
-#=============================================================
+FDR_calc(uncorrected)</code></pre>
+<pre><code>[1] 0.3504999</code></pre>
+<pre class="r"><code>FDR_calc(bonf.corrected)</code></pre>
+<pre><code>[1] 0.04</code></pre>
+<pre class="r"><code>FDR_calc(BH.corrected)</code></pre>
+<pre><code>[1] 0.07407407</code></pre>
+<pre class="r"><code>#=============================================================
 ## Simpson&#39;s paradox
 #=============================================================
 
@@ -582,12 +635,21 @@ FDR_calc(BH.corrected)
 
 ## Let&#39;s look at the Whickham data, which measured age, smoking, and 
 ##   mortality from a 1-in-6 survey of residents of Whickham, UK in the 1970s
-library(tidyverse)
-library(mosaicData)
+library(tidyverse)</code></pre>
+<pre><code>-- Attaching packages -------------------------------------------------------------------------------- tidyverse 1.2.1 --</code></pre>
+<pre><code>v ggplot2 3.1.0     v purrr   0.2.5
+v tibble  1.4.2     v dplyr   0.7.7
+v tidyr   0.8.2     v stringr 1.3.1
+v readr   1.1.1     v forcats 0.3.0</code></pre>
+<pre><code>-- Conflicts ----------------------------------------------------------------------------------- tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(mosaicData)
 data(&quot;Whickham&quot;)
-?Whickham ## Take a look at the variables
-
-#-------------------------------------------------------------
+?Whickham ## Take a look at the variables</code></pre>
+<pre><code>starting httpd help server ...</code></pre>
+<pre><code> done</code></pre>
+<pre class="r"><code>#-------------------------------------------------------------
 ## In-class exercises: 
 ##
 ## How many observations are in the Whickham data?
@@ -605,18 +667,17 @@ data(&quot;Whickham&quot;)
 #-------------------------------------------------------------
 
 ggplot(Whickham, aes(x=smoker, fill=outcome)) + 
-  geom_bar(position = &quot;fill&quot;)
-
-Whickham&lt;- Whickham %&gt;%
+  geom_bar(position = &quot;fill&quot;)</code></pre>
+<p><img src="figure/lecture10.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>Whickham&lt;- Whickham %&gt;%
   mutate(age_category = ifelse(age &lt;= 44, &quot;18-44&quot;, 
                                 ifelse(age &gt; 64, &quot;65+&quot;, &quot;45-64&quot;)))
 
 ggplot(Whickham, aes(x=smoker, fill=outcome)) + 
   geom_bar(position = &quot;dodge&quot;) +
-  facet_wrap(~age_category)
-
-
-#=============================================================
+  facet_wrap(~age_category)</code></pre>
+<p><img src="figure/lecture10.Rmd/unnamed-chunk-9-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#=============================================================
 ## Getting data from the web
 ##
 ## https://towardsdatascience.com/ethics-in-web-scraping-b96b18136f01
@@ -624,7 +685,7 @@ ggplot(Whickham, aes(x=smoker, fill=outcome)) +
 #=============================================================
 
 ## Many ways to obtain data from web:
-## 1. click-and-download on the internet as a “flat” file, such as .csv, .xls
+## 1. click-and-download on the internet as a âflatâ file, such as .csv, .xls
 ## 2. install-and-play an API (application program interface) for which 
 ##   someone has written a handy R package
 ## 3. API-query published with an unwrapped API
@@ -635,7 +696,7 @@ ggplot(Whickham, aes(x=smoker, fill=outcome)) +
 ##   its content, good idea to save a copy of the data locally
 
 #-------------------------------------------------------------
-## 1. click-and-download on the internet as a “flat” file, such as .csv, .xls
+## 1. click-and-download on the internet as a âflatâ file, such as .csv, .xls
 ## Simplest case! Use read.csv, readr::read_csv to read data straight into R
 ## Note: data may still need to be cleaned/tidied!
 #-------------------------------------------------------------
@@ -650,12 +711,11 @@ head(Biomass_Burning_Data)
 colnames(Biomass_Burning_overview) &lt;- as.character(Biomass_Burning_overview[1,])
 Biomass_Burning_overview &lt;- Biomass_Burning_overview[-1,]
 
-## Alternatively, save file locally and then read into R
-
-#-------------------------------------------------------------
-## 2. Handy R-package APIs
-#-------------------------------------------------------------
-## APIs = descriptions of the kinds of requests that can be made
+## Alternatively, save file locally and then read into R</code></pre>
+</div>
+<div id="handy-r-package-apis" class="section level2">
+<h2>2. Handy R-package APIs</h2>
+<pre class="r"><code>## APIs = descriptions of the kinds of requests that can be made
 ##   on a specific software, and kinds of answers that can be returned
 ## Many sources of data have made (part or all of) their data
 ##   available through APIs
@@ -689,9 +749,8 @@ frenchbirds %&gt;%
 ## rebird knows where you are, based on your IP address
 birds_near_me &lt;- ebirdgeo() %&gt;%
   as_tibble() 
-birds_near_me
-
-#***********************************
+birds_near_me</code></pre>
+<pre class="r"><code>#***********************************
 ## Twitter APIs: 
 ## REST API, Streaming API
 ## twitteR, streamR, rtweet
@@ -773,33 +832,52 @@ tables %&gt;%
 ## Next time: 
 ## Interactive graphics with R, Shiny, what to do about failed 
 ##   model diagnostics.
-#=============================================================
-</code></pre>
+#=============================================================</code></pre>
+</div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 3.5.1 (2018-07-02)
-Platform: x86_64-apple-darwin15.6.0 (64-bit)
-Running under: macOS High Sierra 10.13.6
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 17134)
 
 Matrix products: default
-BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
 
 locale:
-[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+[1] LC_COLLATE=English_United States.1252 
+[2] LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
+other attached packages:
+ [1] bindrcpp_0.2.2    mosaicData_0.17.0 forcats_0.3.0    
+ [4] stringr_1.3.1     dplyr_0.7.7       purrr_0.2.5      
+ [7] readr_1.1.1       tidyr_0.8.2       tibble_1.4.2     
+[10] ggplot2_3.1.0     tidyverse_1.2.1  
+
 loaded via a namespace (and not attached):
- [1] workflowr_1.1.1   Rcpp_0.12.19      digest_0.6.18    
- [4] rprojroot_1.3-2   R.methodsS3_1.7.1 backports_1.1.2  
- [7] git2r_0.23.0      magrittr_1.5      evaluate_0.12    
-[10] stringi_1.2.4     whisker_0.3-2     R.oo_1.22.0      
-[13] R.utils_2.7.0     rmarkdown_1.10    tools_3.5.1      
-[16] stringr_1.3.1     yaml_2.2.0        compiler_3.5.1   
-[19] htmltools_0.3.6   knitr_1.20       </code></pre>
+ [1] tidyselect_0.2.5  haven_1.1.2       lattice_0.20-35  
+ [4] colorspace_1.3-2  htmltools_0.3.6   yaml_2.2.0       
+ [7] rlang_0.3.0.1     R.oo_1.22.0       pillar_1.3.0     
+[10] glue_1.3.0        withr_2.1.2       R.utils_2.7.0    
+[13] modelr_0.1.2      readxl_1.1.0      bindr_0.1.1      
+[16] plyr_1.8.4        munsell_0.5.0     gtable_0.2.0     
+[19] workflowr_1.1.1   cellranger_1.1.0  rvest_0.3.2      
+[22] R.methodsS3_1.7.1 evaluate_0.12     labeling_0.3     
+[25] knitr_1.20        broom_0.5.0       Rcpp_0.12.19     
+[28] scales_1.0.0      backports_1.1.2   jsonlite_1.5     
+[31] hms_0.4.2         digest_0.6.18     stringi_1.2.4    
+[34] grid_3.5.1        rprojroot_1.3-2   cli_1.0.1        
+[37] tools_3.5.1       magrittr_1.5      lazyeval_0.2.1   
+[40] crayon_1.3.4      whisker_0.3-2     pkgconfig_2.0.2  
+[43] xml2_1.2.0        lubridate_1.7.4   assertthat_0.2.0 
+[46] rmarkdown_1.10    httr_1.3.1        rstudioapi_0.8   
+[49] R6_2.3.0          nlme_3.1-137      git2r_0.23.0     
+[52] compiler_3.5.1   </code></pre>
 </div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using

@@ -5,7 +5,7 @@ date: "2018-11-09"
 output: workflowr::wflow_html
 ---
 
-```{re, echo=T, eval=F}
+```{r, echo=T}
 ########################################################
 #### Read Chapter 11 from http://r4ds.had.co.nz/index.html.
 ####
@@ -27,6 +27,10 @@ boxplot(y~x) ## We are testing for a difference in means of y for groups x=0 and
 obs <- t.test(y~x)
 obs$p.value
 obs.t <- obs$statistic
+
+```
+
+```{r, echo=T}
 ## Permutation test
 perm <- NULL
 for(i in 1:1000){
@@ -38,13 +42,17 @@ for(i in 1:1000){
 ##   values of observed
 twosided <- sum(abs(perm) >= abs(obs.t))/1000
 twosided
+```
 
+```{r, echo=T}
 ## One-sided p-value: for one-sided, because we want to test mean_y[0] < mean_y[1] 
 ##   and because the t-test estimates mean_y[0] - mean_y[1] based on factor ordering of 
 ##   x, we want to know how many negative permutation test statistics were LESS THAN 
 ##   OR EQUAL TO (=more extreme) than that observed.
 onesided <- sum(perm <= obs.t)/1000
 onesided
+```
+```{r, echo=T}
 
 #-------------------------------------------------------------
 ## Permutation test for the difference in means of y for groups 
@@ -74,11 +82,12 @@ twosided
 ##   statistics were LESS THAN OR EQUAL TO (=more extreme) than that observed.
 onesided <- sum(perm <= obs)/1000
 onesided
+```
 
 
-#=============================================================
 ## Multiple testing
-#=============================================================
+
+```{r, echo=T}
 
 ## What's the issue with multiple testing?
 ## Consider the following: We have 1 y-variable and 100 different x-variables
@@ -105,7 +114,9 @@ for(i in 1:100) {
   p.vector[i] <- summary(lm(y~x[,i]))$coef[2,4]
 }
 length(which(p.vector < 0.05)) /100
+```
 
+```{r, echo=T}
 ## Does this control the Family-wise error rate (FWER)?
 ## = probability of making at least one Type I error
 ## FWER <= 1 - (1 - alpha)^c, where c is the # of tests
@@ -145,7 +156,9 @@ for(j in 1:50){
 }
 mean(uncorrected)
 mean(bonf.corrected)
+```
 
+```{r, echo=T}
 ## What is the False-Discovery Rate? How do we control the FDR?
 ##  => We can use the p.adjust() function on our previously
 ##     created p.vector object.
@@ -153,7 +166,9 @@ p.bh.adjusted <- p.adjust(p.vector, method='BH')
 p.bonf.adjusted <- p.adjust(p.vector, method='bonferroni')
 sum(p.bh.adjusted < 0.05)
 sum(p.bonf.adjusted < 0.05)
+```
 
+```{r, echo=T}
 #-------------------------------------------------------------
 ## In-class exercises: Assume we have 1 y-variable, 80 x-variables
 ## that are uncorrelated with y (under H_0) and 20 x-variables that
@@ -206,7 +221,9 @@ FDR_calc <- function(x) {
 FDR_calc(uncorrected)
 FDR_calc(bonf.corrected)
 FDR_calc(BH.corrected)
+```
 
+```{r, echo=T}
 #=============================================================
 ## Simpson's paradox
 #=============================================================
@@ -250,8 +267,10 @@ Whickham<- Whickham %>%
 ggplot(Whickham, aes(x=smoker, fill=outcome)) + 
   geom_bar(position = "dodge") +
   facet_wrap(~age_category)
+```
 
 
+```{r, echo=T, eval=F}
 #=============================================================
 ## Getting data from the web
 ##
@@ -287,10 +306,11 @@ colnames(Biomass_Burning_overview) <- as.character(Biomass_Burning_overview[1,])
 Biomass_Burning_overview <- Biomass_Burning_overview[-1,]
 
 ## Alternatively, save file locally and then read into R
+```
 
-#-------------------------------------------------------------
 ## 2. Handy R-package APIs
-#-------------------------------------------------------------
+
+```{r, echo=T, eval=F}
 ## APIs = descriptions of the kinds of requests that can be made
 ##   on a specific software, and kinds of answers that can be returned
 ## Many sources of data have made (part or all of) their data
@@ -326,7 +346,9 @@ frenchbirds %>%
 birds_near_me <- ebirdgeo() %>%
   as_tibble() 
 birds_near_me
+```
 
+```{r, echo=T, eval=F}
 #***********************************
 ## Twitter APIs: 
 ## REST API, Streaming API
