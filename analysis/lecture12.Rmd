@@ -5,7 +5,7 @@ date: "2018-11-14"
 output: workflowr::wflow_html
 ---
 
-```{r, echo=T, eval=F}
+```{r, echo=T}
 ########################################################
 #### Go over HW 7 Shiny apps, check in on projects
 ####
@@ -39,10 +39,13 @@ library(cowplot)
 theme_set(theme_bw())
 library(mvtnorm) ## Package to simulate multivariate normal data
 
-#-------------------------------------------------------------
-## First example : 2D example
-#-------------------------------------------------------------
+```
 
+
+
+## First example : 2D example
+
+```{r, echo=T}
 set.seed(12345)
 cov <- matrix(c(1,0.6,0.6,1), byrow=2, nrow=2)
 sim <- rmvnorm(100, mean=c(1,1), sigma = cov)
@@ -58,10 +61,12 @@ sim_df <- data.frame(rbind(data.frame(sim, type="Original variables"),
 ggplot(sim_df, aes(var1, var2)) + geom_point() + facet_wrap(~type)
 
 ## Look at this nice visual example: http://setosa.io/ev/principal-component-analysis/
+```
 
-#-------------------------------------------------------------
+
 ## Next example : Iris data (4 dimensions)
-#-------------------------------------------------------------
+
+```{r, echo=T}
 
 library(GGally)
 data(iris)
@@ -95,7 +100,9 @@ ggplot(iris_pca_dat, aes(x=PC1, y=PC2, color=Species)) +
 ggplot(iris_pca_dat, aes(x=PC1, y=PC3, color=Species)) + 
   geom_point() + 
   stat_ellipse()
+```
 
+```{r, echo=T}
 ## Visualizing PCA: Loadings
 ## => Petal.Length/Petal.Width load positively on PC1 but not PC2
 ## => Sepal.Width is orthogonal to petals (i.e., it captures uncorrelated information)
@@ -108,7 +115,9 @@ ggplot(loadings) +
   xlim(-1.,1) +
   ylim(-1.,1.) +
   coord_fixed()
+```
 
+```{r, echo=T}
 #-------------------------------------------------------------
 ## How many principal components to choose in practice?
 #-------------------------------------------------------------
@@ -124,13 +133,18 @@ ggplot(var_explained, aes(x = PC, y = value)) +
   geom_bar(stat = "identity")
 
 cumsum(var_explained$value)
+```
 
+```{r, echo=T}
 ## Base R graphics
 plot(iris_pca)
 biplot(iris_pca) ## Biplot represents both observations and variables on the same plot
 screeplot(iris_pca)
 pairs(iris_pca$x, col=iris$Species, pch=20, cex=2)
 
+```
+
+```{r, echo=T}
 ### Chalkboard: So what does PCA actually do? Link with singular value decomposition 
 
 scale_iris <- scale(select(iris, -Species), center=TRUE, scale=TRUE)
@@ -138,7 +152,9 @@ SVD <- svd(scale_iris)
 pairs(t(t(SVD$u) * SVD$d), col=iris$Species, pch=20, cex=2)
 SVD.2 <- svd(t(scale_iris))
 pairs(SVD.2$v, col=iris$Species, pch=20, cex=2)
+```
 
+```{r, echo=T, eval=F}
 #-------------------------------------------------------------
 ## In class exercise:
 ## Read in wine.csv dataset. Note that the Cultivar variable is
@@ -180,7 +196,8 @@ ggplot(wine_pca_labels) +
 ## Going a little bit further, PCA in real analyses:
 ## (1) Genes Mirror Geography in Europe, Novembre et al (2008)
 ## (2) Genomic Insights into the Peopling of the Southwest Pacific, Skoglund et al (2016)
-
+```
+```{r, echo=T, eval=F}
 #=============================================================
 ## Clustering analysis: K-means, hierarchical clustering, mixture models, ....
 #=============================================================

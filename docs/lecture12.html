@@ -327,7 +327,7 @@ div.section {
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
-<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </details>
 </li>
 <li>
@@ -346,32 +346,81 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/fd915dffc686b5b8565657a9c2727b3b3bf6b16c" target="_blank">fd915df</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/c828177875bf8c7bd13995d12c96fbd8a33ce8cd" target="_blank">c828177</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
-    Ignored:    .DS_Store
-    Ignored:    .RData
-    Ignored:    .Rhistory
-    Ignored:    analysis/.DS_Store
-    Ignored:    analysis/.Rapp.history
-    Ignored:    analysis/.Rhistory
     Ignored:    analysis/figure/
-    Ignored:    docs/.DS_Store
-
-Untracked files:
-    Untracked:  analysis/lecture12.Rmd
-    Untracked:  docs/bcl-data.csv
-    Untracked:  docs/shiny/
-    Untracked:  docs/shiny_separate/
+    Ignored:    analysis/shiny/.Rhistory
 
 Unstaged changes:
-    Modified:   analysis/index.Rmd
+    Modified:   analysis/lecture12.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
 </li>
 </ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/c828177875bf8c7bd13995d12c96fbd8a33ce8cd/analysis/lecture12.Rmd" target="_blank">c828177</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-11-14
+</td>
+<td style="text-align:left;">
+Nov142018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/han16/Data-Science-in-R/c828177875bf8c7bd13995d12c96fbd8a33ce8cd/docs/lecture12.html" target="_blank">c828177</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-11-14
+</td>
+<td style="text-align:left;">
+Nov142018
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
 <hr />
 <pre class="r"><code>########################################################
 #### Go over HW 7 Shiny apps, check in on projects
@@ -401,16 +450,26 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 ## Note 3: Usually need to standardize the data (i.e., scale each column to have 
 ##   mean zero and unit sd) prior to PCA
 
-library(tidyverse)
-library(cowplot)
-theme_set(theme_bw())
-library(mvtnorm) ## Package to simulate multivariate normal data
+library(tidyverse)</code></pre>
+<pre><code>-- Attaching packages ------------------------------------------------------------------------------- tidyverse 1.2.1 --</code></pre>
+<pre><code>v ggplot2 3.1.0     v purrr   0.2.5
+v tibble  1.4.2     v dplyr   0.7.7
+v tidyr   0.8.2     v stringr 1.3.1
+v readr   1.1.1     v forcats 0.3.0</code></pre>
+<pre><code>-- Conflicts ---------------------------------------------------------------------------------- tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(cowplot)</code></pre>
+<pre><code>
+Attaching package: &#39;cowplot&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:ggplot2&#39;:
 
-#-------------------------------------------------------------
-## First example : 2D example
-#-------------------------------------------------------------
-
-set.seed(12345)
+    ggsave</code></pre>
+<pre class="r"><code>theme_set(theme_bw())
+library(mvtnorm) ## Package to simulate multivariate normal data</code></pre>
+<div id="first-example-2d-example" class="section level2">
+<h2>First example : 2D example</h2>
+<pre class="r"><code>set.seed(12345)
 cov &lt;- matrix(c(1,0.6,0.6,1), byrow=2, nrow=2)
 sim &lt;- rmvnorm(100, mean=c(1,1), sigma = cov)
 colnames(sim) &lt;- c(&quot;var1&quot;, &quot;var2&quot;)
@@ -422,48 +481,71 @@ colnames(sim_pca) &lt;- c(&quot;var1&quot;, &quot;var2&quot;)
 
 sim_df &lt;- data.frame(rbind(data.frame(sim, type=&quot;Original variables&quot;),
                            data.frame(sim_pca, type=&quot;PC1 &amp; PC2&quot;)))
-ggplot(sim_df, aes(var1, var2)) + geom_point() + facet_wrap(~type)
+ggplot(sim_df, aes(var1, var2)) + geom_point() + facet_wrap(~type)</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Look at this nice visual example: http://setosa.io/ev/principal-component-analysis/</code></pre>
+</div>
+<div id="next-example-iris-data-4-dimensions" class="section level2">
+<h2>Next example : Iris data (4 dimensions)</h2>
+<pre class="r"><code>library(GGally)</code></pre>
+<pre><code>
+Attaching package: &#39;GGally&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:dplyr&#39;:
 
-## Look at this nice visual example: http://setosa.io/ev/principal-component-analysis/
-
-#-------------------------------------------------------------
-## Next example : Iris data (4 dimensions)
-#-------------------------------------------------------------
-
-library(GGally)
-data(iris)
+    nasa</code></pre>
+<pre class="r"><code>data(iris)
 ## Note: how well we can distiguish between species depends on the plotting strategy/chosen variables
 ggpairs(iris, columns = 1:4, ggplot2::aes(colour=Species), 
-        upper=list(continuous=&quot;blank&quot;))
-
-## Let&#39;s fit a PCA and look at the output
+        upper=list(continuous=&quot;blank&quot;))</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Let&#39;s fit a PCA and look at the output
 iris_pca &lt;- prcomp(select(iris, -Species), center=TRUE, scale=TRUE)
-summary(iris_pca)
-## Rotation matrix: loadings (sort of) represent the percent of variance 
+summary(iris_pca)</code></pre>
+<pre><code>Importance of components:
+                          PC1    PC2     PC3     PC4
+Standard deviation     1.7084 0.9560 0.38309 0.14393
+Proportion of Variance 0.7296 0.2285 0.03669 0.00518
+Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
+<pre class="r"><code>## Rotation matrix: loadings (sort of) represent the percent of variance 
 ## explained by the variable
-iris_pca$rotation
-## Actual principal components
-head(iris_pca$x)
-## Standard deviation of components represents the percent of variation each component explains
-iris_pca$sdev
-## Compute variance explained:
+iris_pca$rotation</code></pre>
+<pre><code>                    PC1         PC2        PC3        PC4
+Sepal.Length  0.5210659 -0.37741762  0.7195664  0.2612863
+Sepal.Width  -0.2693474 -0.92329566 -0.2443818 -0.1235096
+Petal.Length  0.5804131 -0.02449161 -0.1421264 -0.8014492
+Petal.Width   0.5648565 -0.06694199 -0.6342727  0.5235971</code></pre>
+<pre class="r"><code>## Actual principal components
+head(iris_pca$x)</code></pre>
+<pre><code>           PC1        PC2         PC3          PC4
+[1,] -2.257141 -0.4784238  0.12727962  0.024087508
+[2,] -2.074013  0.6718827  0.23382552  0.102662845
+[3,] -2.356335  0.3407664 -0.04405390  0.028282305
+[4,] -2.291707  0.5953999 -0.09098530 -0.065735340
+[5,] -2.381863 -0.6446757 -0.01568565 -0.035802870
+[6,] -2.068701 -1.4842053 -0.02687825  0.006586116</code></pre>
+<pre class="r"><code>## Standard deviation of components represents the percent of variation each component explains
+iris_pca$sdev</code></pre>
+<pre><code>[1] 1.7083611 0.9560494 0.3830886 0.1439265</code></pre>
+<pre class="r"><code>## Compute variance explained:
 ## Note: by definition, PC1 explains the most variation, PC2 the second most variation, ...
-(iris_pca$sdev)^2 / (sum(iris_pca$sdev^2))
-## Double check PCs
+(iris_pca$sdev)^2 / (sum(iris_pca$sdev^2))</code></pre>
+<pre><code>[1] 0.729624454 0.228507618 0.036689219 0.005178709</code></pre>
+<pre class="r"><code>## Double check PCs
 PC_check &lt;- as.matrix(scale(iris[,-5], center=TRUE, scale=TRUE)) %*% iris_pca$rotation
-all.equal(PC_check, iris_pca$x)
-
-## Now plot the PCs: PC1 vs PC2
+all.equal(PC_check, iris_pca$x)</code></pre>
+<pre><code>[1] TRUE</code></pre>
+<pre class="r"><code>## Now plot the PCs: PC1 vs PC2
 iris_pca_dat &lt;- cbind(iris, iris_pca$x)
 ggplot(iris_pca_dat, aes(x=PC1, y=PC2, color=Species)) + 
   geom_point() + 
-  stat_ellipse()
-## PC1 vs PC3
+  stat_ellipse()</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## PC1 vs PC3
 ggplot(iris_pca_dat, aes(x=PC1, y=PC3, color=Species)) + 
   geom_point() + 
-  stat_ellipse()
-
-## Visualizing PCA: Loadings
+  stat_ellipse()</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Visualizing PCA: Loadings
 ## =&gt; Petal.Length/Petal.Width load positively on PC1 but not PC2
 ## =&gt; Sepal.Width is orthogonal to petals (i.e., it captures uncorrelated information)
 loadings &lt;- as.data.frame(iris_pca$rotation)
@@ -474,9 +556,9 @@ ggplot(loadings) +
   geom_text(aes(x=PC1, y=PC2, label=variable), size=3, color=&#39;red&#39;) +
   xlim(-1.,1) +
   ylim(-1.,1.) +
-  coord_fixed()
-
-#-------------------------------------------------------------
+  coord_fixed()</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#-------------------------------------------------------------
 ## How many principal components to choose in practice?
 #-------------------------------------------------------------
 
@@ -488,25 +570,29 @@ ggplot(loadings) +
 var_explained &lt;- data.frame(value=(iris_pca$sdev)^2 / (sum(iris_pca$sdev^2)),
                             PC = colnames(iris_pca$x))
 ggplot(var_explained, aes(x = PC, y = value)) +
-  geom_bar(stat = &quot;identity&quot;)
-
-cumsum(var_explained$value)
-
-## Base R graphics
-plot(iris_pca)
-biplot(iris_pca) ## Biplot represents both observations and variables on the same plot
-screeplot(iris_pca)
-pairs(iris_pca$x, col=iris$Species, pch=20, cex=2)
-
-### Chalkboard: So what does PCA actually do? Link with singular value decomposition 
+  geom_bar(stat = &quot;identity&quot;)</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>cumsum(var_explained$value)</code></pre>
+<pre><code>[1] 0.7296245 0.9581321 0.9948213 1.0000000</code></pre>
+<pre class="r"><code>## Base R graphics
+plot(iris_pca)</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>biplot(iris_pca) ## Biplot represents both observations and variables on the same plot</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>screeplot(iris_pca)</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-6-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>pairs(iris_pca$x, col=iris$Species, pch=20, cex=2)</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-6-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>### Chalkboard: So what does PCA actually do? Link with singular value decomposition 
 
 scale_iris &lt;- scale(select(iris, -Species), center=TRUE, scale=TRUE)
 SVD &lt;- svd(scale_iris)
-pairs(t(t(SVD$u) * SVD$d), col=iris$Species, pch=20, cex=2)
-SVD.2 &lt;- svd(t(scale_iris))
-pairs(SVD.2$v, col=iris$Species, pch=20, cex=2)
-
-#-------------------------------------------------------------
+pairs(t(t(SVD$u) * SVD$d), col=iris$Species, pch=20, cex=2)</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>SVD.2 &lt;- svd(t(scale_iris))
+pairs(SVD.2$v, col=iris$Species, pch=20, cex=2)</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#-------------------------------------------------------------
 ## In class exercise:
 ## Read in wine.csv dataset. Note that the Cultivar variable is
 ##  categorical and should be removed prior to the PCA analysis.
@@ -546,9 +632,8 @@ ggplot(wine_pca_labels) +
 
 ## Going a little bit further, PCA in real analyses:
 ## (1) Genes Mirror Geography in Europe, Novembre et al (2008)
-## (2) Genomic Insights into the Peopling of the Southwest Pacific, Skoglund et al (2016)
-
-#=============================================================
+## (2) Genomic Insights into the Peopling of the Southwest Pacific, Skoglund et al (2016)</code></pre>
+<pre class="r"><code>#=============================================================
 ## Clustering analysis: K-means, hierarchical clustering, mixture models, ....
 #=============================================================
 
@@ -738,31 +823,51 @@ adjustedRandIndex(km_4$cluster, km_5$cluster)
 ## Next time: 
 ## Regular expressions, Sentiment analysis, quick review for final take-home exam!
 #=============================================================</code></pre>
+</div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 3.5.1 (2018-07-02)
-Platform: x86_64-apple-darwin15.6.0 (64-bit)
-Running under: macOS High Sierra 10.13.6
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 17134)
 
 Matrix products: default
-BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
 
 locale:
-[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+[1] LC_COLLATE=English_United States.1252 
+[2] LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
+other attached packages:
+ [1] GGally_1.4.0    mvtnorm_1.0-8   cowplot_0.9.3   forcats_0.3.0  
+ [5] stringr_1.3.1   dplyr_0.7.7     purrr_0.2.5     readr_1.1.1    
+ [9] tidyr_0.8.2     tibble_1.4.2    ggplot2_3.1.0   tidyverse_1.2.1
+
 loaded via a namespace (and not attached):
- [1] workflowr_1.1.1   Rcpp_0.12.19      digest_0.6.18    
- [4] rprojroot_1.3-2   R.methodsS3_1.7.1 backports_1.1.2  
- [7] git2r_0.23.0      magrittr_1.5      evaluate_0.12    
-[10] stringi_1.2.4     whisker_0.3-2     R.oo_1.22.0      
-[13] R.utils_2.7.0     rmarkdown_1.10    tools_3.5.1      
-[16] stringr_1.3.1     yaml_2.2.0        compiler_3.5.1   
-[19] htmltools_0.3.6   knitr_1.20       </code></pre>
+ [1] tidyselect_0.2.5   reshape2_1.4.3     haven_1.1.2       
+ [4] lattice_0.20-35    colorspace_1.3-2   htmltools_0.3.6   
+ [7] yaml_2.2.0         rlang_0.3.0.1      R.oo_1.22.0       
+[10] pillar_1.3.0       glue_1.3.0         withr_2.1.2       
+[13] R.utils_2.7.0      RColorBrewer_1.1-2 modelr_0.1.2      
+[16] readxl_1.1.0       bindrcpp_0.2.2     bindr_0.1.1       
+[19] plyr_1.8.4         munsell_0.5.0      gtable_0.2.0      
+[22] workflowr_1.1.1    cellranger_1.1.0   rvest_0.3.2       
+[25] R.methodsS3_1.7.1  evaluate_0.12      labeling_0.3      
+[28] knitr_1.20         broom_0.5.0        Rcpp_0.12.19      
+[31] scales_1.0.0       backports_1.1.2    jsonlite_1.5      
+[34] hms_0.4.2          digest_0.6.18      stringi_1.2.4     
+[37] grid_3.5.1         rprojroot_1.3-2    cli_1.0.1         
+[40] tools_3.5.1        magrittr_1.5       lazyeval_0.2.1    
+[43] crayon_1.3.4       whisker_0.3-2      pkgconfig_2.0.2   
+[46] MASS_7.3-50        xml2_1.2.0         lubridate_1.7.4   
+[49] reshape_0.8.8      assertthat_0.2.0   rmarkdown_1.10    
+[52] httr_1.3.1         rstudioapi_0.8     R6_2.3.0          
+[55] nlme_3.1-137       git2r_0.23.0       compiler_3.5.1    </code></pre>
 </div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
