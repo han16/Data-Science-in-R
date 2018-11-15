@@ -154,7 +154,7 @@ SVD.2 <- svd(t(scale_iris))
 pairs(SVD.2$v, col=iris$Species, pch=20, cex=2)
 ```
 
-```{r, echo=T, eval=F}
+```{r, echo=T}
 #-------------------------------------------------------------
 ## In class exercise:
 ## Read in wine.csv dataset. Note that the Cultivar variable is
@@ -170,7 +170,7 @@ pairs(SVD.2$v, col=iris$Species, pch=20, cex=2)
 ##   original scatterplots?
 #-------------------------------------------------------------
 
-wine <- read_csv("wine.csv")
+wine <- read.csv("C:\\Shengtong\\Teaching\\PH718\\Code\\Data-Science-in-R\\analysis\\wine.csv")
 ## Note: how well we can distiguish between species depends on the plotting strategy/chosen variables
 ggpairs(wine, columns = 2:9, ggplot2::aes(colour=Cultivar), 
         upper=list(continuous="blank"))
@@ -197,7 +197,8 @@ ggplot(wine_pca_labels) +
 ## (1) Genes Mirror Geography in Europe, Novembre et al (2008)
 ## (2) Genomic Insights into the Peopling of the Southwest Pacific, Skoglund et al (2016)
 ```
-```{r, echo=T, eval=F}
+
+```{r, echo=T}
 #=============================================================
 ## Clustering analysis: K-means, hierarchical clustering, mixture models, ....
 #=============================================================
@@ -219,9 +220,12 @@ plot(ruspini)
 
 rus_scaled <- scale(ruspini)
 plot(rus_scaled, pch=20, cex=2)
+```
 
-#=============================================================
+
 ## K-means algorithm
+
+```{r, echo=T}
 ## Cluster data into k groups of equal variance by minimizing 
 ##   the within-cluster sum of squares
 #=============================================================
@@ -231,7 +235,9 @@ km <- kmeans(rus_scaled, centers=2)
 plot(rus_scaled, col=km$cluster, pch=20, cex=2)
 points(km$centers, pch=3, cex=2)           ## this adds the centroids
 #text(km$centers, labels=1:4, pos=2, cex=2) ## this adds the cluster ID
+```
 
+```{r, echo=T}
 ## What did this algorithm just do?
 ## Chalkboard Discussion of K-means clustering 
 ##
@@ -252,7 +258,10 @@ for(k in 1:10){
   wss[k] <- kmeans(rus_scaled, centers=k)$tot.withinss
 }
 plot(1:10, wss, type='l', xlab='k', ylab='WSS')
+```
 
+
+```{r, echo=T}
 ## Let's compare the results for K=4 and K=5 clusters: Which looks better to you?
 km_4 <- kmeans(rus_scaled, centers=4, nstart=10)
 km_5 <- kmeans(rus_scaled, centers=5, nstart=10)
@@ -264,7 +273,9 @@ rus_df <- rus_df %>% mutate(x=as.numeric(as.character(x)),
 ggplot(rus_df, aes(x,y, color=Clusters)) + 
   geom_point() + 
   facet_wrap(~K)
+```
 
+```{r, echo=T, eval=F}
 ## Note: broom package also works here!
 library(broom)
 rus_scaled %>%
@@ -274,7 +285,9 @@ rus_scaled %>%
 rus_scaled %>%
   kmeans(5) %>%
   tidy()
+```
 
+```{r, echo=T}
 ## Some caveats:
 ## (1) Clustering depends on initial conditions
 ## (2) Algorithm guaranteed to converge, but maybe on local optima
@@ -303,9 +316,12 @@ for(i in 1:3) {
   set.seed(i+1)
   km_run[,i] <- kmeans(wine_scaled, centers = 3)$cluster
 }
+```
 
-#=============================================================
+
 ## Hierarchical clustering and dendrograms
+
+```{r, echo=T}
 ## Difference between different linkage types (advantages, disadvantages)
 ## Difference between agglomerative (bottom up) and divisive (top down)
 #=============================================================
@@ -325,15 +341,20 @@ hc <- hclust(d, method="complete")
 ## Look at the result
 plot(hc)
 rect.hclust(hc, k=4)
+```
 
+```{r, echo=T}
 ## Without the leaf labels
 plot(as.dendrogram(hc), leaflab="none")
 rect.hclust(hc, k=4)
-
+```
+```{r, echo=T}
 ## Look at how the data are clustered with 4 clusters
 cluster.complete <- cutree(hc, k=4)
 plot(rus_scaled, col=cluster.complete, cex=2, pch=20)
+```
 
+```{r, echo=T}
 ## Chalk-board Discussion of Hierarchical Clustering 
 
 ### With 5 clusters
@@ -350,8 +371,9 @@ cluster.single <- cutree(hc.single, k=4)
 plot(rus_scaled, col=cluster.single, pch=20, cex=2, main="Single Linkage")
 clust <- cutree(hc, k=4)
 plot(rus_scaled, col=clust, pch=20, cex=2, main="Complete Linkage")
+```
 
-
+```{r, echo=T}
 #-------------------------------------------------------------
 ## In class exercise:
 ## Perform hierarchical clustering on the wine data, using

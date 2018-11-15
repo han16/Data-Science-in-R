@@ -323,7 +323,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-11-14</p>
+<p><strong>Last updated:</strong> 2018-11-15</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -346,12 +346,17 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/c828177875bf8c7bd13995d12c96fbd8a33ce8cd" target="_blank">c828177</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/2b7ee1bf42ee48a2126ef53d29a9a48d0fd0d3bd" target="_blank">2b7ee1b</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
+    Ignored:    analysis/.Rhistory
     Ignored:    analysis/figure/
     Ignored:    analysis/shiny/.Rhistory
+    Ignored:    docs/shiny/.Rhistory
+
+Untracked files:
+    Untracked:  analysis/wine.csv
 
 Unstaged changes:
     Modified:   analysis/lecture12.Rmd
@@ -383,6 +388,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/2b7ee1bf42ee48a2126ef53d29a9a48d0fd0d3bd/analysis/lecture12.Rmd" target="_blank">2b7ee1b</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-14
+</td>
+<td style="text-align:left;">
+Nov142018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/han16/Data-Science-in-R/2b7ee1bf42ee48a2126ef53d29a9a48d0fd0d3bd/docs/lecture12.html" target="_blank">2b7ee1b</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-14
+</td>
+<td style="text-align:left;">
+Nov142018
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -483,6 +522,36 @@ sim_df &lt;- data.frame(rbind(data.frame(sim, type=&quot;Original variables&quot
                            data.frame(sim_pca, type=&quot;PC1 &amp; PC2&quot;)))
 ggplot(sim_df, aes(var1, var2)) + geom_point() + facet_wrap(~type)</code></pre>
 <p><img src="figure/lecture12.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-2-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/2b7ee1bf42ee48a2126ef53d29a9a48d0fd0d3bd/docs/figure/lecture12.Rmd/unnamed-chunk-2-1.png" target="_blank">2b7ee1b</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-14
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>## Look at this nice visual example: http://setosa.io/ev/principal-component-analysis/</code></pre>
 </div>
 <div id="next-example-iris-data-4-dimensions" class="section level2">
@@ -498,6 +567,36 @@ Attaching package: &#39;GGally&#39;</code></pre>
 ggpairs(iris, columns = 1:4, ggplot2::aes(colour=Species), 
         upper=list(continuous=&quot;blank&quot;))</code></pre>
 <p><img src="figure/lecture12.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-3-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/2b7ee1bf42ee48a2126ef53d29a9a48d0fd0d3bd/docs/figure/lecture12.Rmd/unnamed-chunk-3-1.png" target="_blank">2b7ee1b</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-14
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>## Let&#39;s fit a PCA and look at the output
 iris_pca &lt;- prcomp(select(iris, -Species), center=TRUE, scale=TRUE)
 summary(iris_pca)</code></pre>
@@ -540,11 +639,71 @@ ggplot(iris_pca_dat, aes(x=PC1, y=PC2, color=Species)) +
   geom_point() + 
   stat_ellipse()</code></pre>
 <p><img src="figure/lecture12.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-3-2.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/2b7ee1bf42ee48a2126ef53d29a9a48d0fd0d3bd/docs/figure/lecture12.Rmd/unnamed-chunk-3-2.png" target="_blank">2b7ee1b</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-14
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>## PC1 vs PC3
 ggplot(iris_pca_dat, aes(x=PC1, y=PC3, color=Species)) + 
   geom_point() + 
   stat_ellipse()</code></pre>
 <p><img src="figure/lecture12.Rmd/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-3-3.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/2b7ee1bf42ee48a2126ef53d29a9a48d0fd0d3bd/docs/figure/lecture12.Rmd/unnamed-chunk-3-3.png" target="_blank">2b7ee1b</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-14
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>## Visualizing PCA: Loadings
 ## =&gt; Petal.Length/Petal.Width load positively on PC1 but not PC2
 ## =&gt; Sepal.Width is orthogonal to petals (i.e., it captures uncorrelated information)
@@ -558,6 +717,36 @@ ggplot(loadings) +
   ylim(-1.,1.) +
   coord_fixed()</code></pre>
 <p><img src="figure/lecture12.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-4-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/2b7ee1bf42ee48a2126ef53d29a9a48d0fd0d3bd/docs/figure/lecture12.Rmd/unnamed-chunk-4-1.png" target="_blank">2b7ee1b</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-14
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>#-------------------------------------------------------------
 ## How many principal components to choose in practice?
 #-------------------------------------------------------------
@@ -572,26 +761,236 @@ var_explained &lt;- data.frame(value=(iris_pca$sdev)^2 / (sum(iris_pca$sdev^2)),
 ggplot(var_explained, aes(x = PC, y = value)) +
   geom_bar(stat = &quot;identity&quot;)</code></pre>
 <p><img src="figure/lecture12.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-5-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/2b7ee1bf42ee48a2126ef53d29a9a48d0fd0d3bd/docs/figure/lecture12.Rmd/unnamed-chunk-5-1.png" target="_blank">2b7ee1b</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-14
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>cumsum(var_explained$value)</code></pre>
 <pre><code>[1] 0.7296245 0.9581321 0.9948213 1.0000000</code></pre>
 <pre class="r"><code>## Base R graphics
 plot(iris_pca)</code></pre>
 <p><img src="figure/lecture12.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-6-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/2b7ee1bf42ee48a2126ef53d29a9a48d0fd0d3bd/docs/figure/lecture12.Rmd/unnamed-chunk-6-1.png" target="_blank">2b7ee1b</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-14
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>biplot(iris_pca) ## Biplot represents both observations and variables on the same plot</code></pre>
 <p><img src="figure/lecture12.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-6-2.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/2b7ee1bf42ee48a2126ef53d29a9a48d0fd0d3bd/docs/figure/lecture12.Rmd/unnamed-chunk-6-2.png" target="_blank">2b7ee1b</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-14
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>screeplot(iris_pca)</code></pre>
 <p><img src="figure/lecture12.Rmd/unnamed-chunk-6-3.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-6-3.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/2b7ee1bf42ee48a2126ef53d29a9a48d0fd0d3bd/docs/figure/lecture12.Rmd/unnamed-chunk-6-3.png" target="_blank">2b7ee1b</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-14
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>pairs(iris_pca$x, col=iris$Species, pch=20, cex=2)</code></pre>
 <p><img src="figure/lecture12.Rmd/unnamed-chunk-6-4.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-6-4.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/2b7ee1bf42ee48a2126ef53d29a9a48d0fd0d3bd/docs/figure/lecture12.Rmd/unnamed-chunk-6-4.png" target="_blank">2b7ee1b</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-14
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>### Chalkboard: So what does PCA actually do? Link with singular value decomposition 
 
 scale_iris &lt;- scale(select(iris, -Species), center=TRUE, scale=TRUE)
 SVD &lt;- svd(scale_iris)
 pairs(t(t(SVD$u) * SVD$d), col=iris$Species, pch=20, cex=2)</code></pre>
 <p><img src="figure/lecture12.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-7-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/2b7ee1bf42ee48a2126ef53d29a9a48d0fd0d3bd/docs/figure/lecture12.Rmd/unnamed-chunk-7-1.png" target="_blank">2b7ee1b</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-14
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>SVD.2 &lt;- svd(t(scale_iris))
 pairs(SVD.2$v, col=iris$Species, pch=20, cex=2)</code></pre>
 <p><img src="figure/lecture12.Rmd/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-7-2.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/2b7ee1bf42ee48a2126ef53d29a9a48d0fd0d3bd/docs/figure/lecture12.Rmd/unnamed-chunk-7-2.png" target="_blank">2b7ee1b</a>
+</td>
+<td style="text-align:left;">
+Shengtong
+</td>
+<td style="text-align:left;">
+2018-11-14
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>#-------------------------------------------------------------
 ## In class exercise:
 ## Read in wine.csv dataset. Note that the Cultivar variable is
@@ -607,15 +1006,44 @@ pairs(SVD.2$v, col=iris$Species, pch=20, cex=2)</code></pre>
 ##   original scatterplots?
 #-------------------------------------------------------------
 
-wine &lt;- read_csv(&quot;wine.csv&quot;)
+wine &lt;- read.csv(&quot;C:\\Shengtong\\Teaching\\PH718\\Code\\Data-Science-in-R\\analysis\\wine.csv&quot;)
 ## Note: how well we can distiguish between species depends on the plotting strategy/chosen variables
 ggpairs(wine, columns = 2:9, ggplot2::aes(colour=Cultivar), 
-        upper=list(continuous=&quot;blank&quot;))
-wine_pca &lt;- prcomp(select(wine, -Cultivar), center=TRUE, scale=TRUE)
-plot(wine_pca)
-summary(wine_pca)
-wine_pca$rotation
-loadings &lt;- as.data.frame(wine_pca$rotation)
+        upper=list(continuous=&quot;blank&quot;))</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>wine_pca &lt;- prcomp(select(wine, -Cultivar), center=TRUE, scale=TRUE)
+plot(wine_pca)</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>summary(wine_pca)</code></pre>
+<pre><code>Importance of components:
+                          PC1    PC2    PC3    PC4     PC5     PC6     PC7
+Standard deviation     1.6403 1.4036 0.9758 0.9118 0.82748 0.63651 0.59091
+Proportion of Variance 0.3363 0.2462 0.1190 0.1039 0.08559 0.05064 0.04365
+Cumulative Proportion  0.3363 0.5826 0.7016 0.8055 0.89111 0.94175 0.98540
+                          PC8
+Standard deviation     0.3418
+Proportion of Variance 0.0146
+Cumulative Proportion  1.0000</code></pre>
+<pre class="r"><code>wine_pca$rotation</code></pre>
+<pre><code>                       PC1          PC2         PC3         PC4
+Alcohol        -0.22654303  0.501465867 -0.40546435  0.21466476
+MalicAcid       0.31157625  0.322362963 -0.02402787  0.07622524
+Ash            -0.06559042  0.430407129  0.73311784  0.09876505
+Magnesium      -0.25009429  0.318535452  0.16787273 -0.80749990
+TotalPhenol    -0.53747068  0.004786501  0.10823030  0.32034021
+Flavanoids     -0.55663487 -0.072794005  0.13105601  0.25795708
+NonflavPhenols  0.42920190  0.136227208  0.35263552  0.32878655
+Color           0.04263628  0.577943979 -0.34078880  0.09506746
+                        PC5        PC6          PC7         PC8
+Alcohol        -0.061544336 -0.1282794 -0.681546057  0.04449257
+MalicAcid       0.865553459 -0.1591111  0.119692299 -0.06155780
+Ash            -0.009604591  0.4838802 -0.151710216  0.07735021
+Magnesium      -0.032273948 -0.3897976  0.037144643 -0.03724463
+TotalPhenol     0.111965977 -0.3082298  0.307596024  0.62818264
+Flavanoids      0.121640862 -0.1094416  0.095275330 -0.75185755
+NonflavPhenols -0.352644293 -0.6528980 -0.001695339 -0.11890648
+Color          -0.306927958  0.1971978  0.626958878 -0.11322052</code></pre>
+<pre class="r"><code>loadings &lt;- as.data.frame(wine_pca$rotation)
 loadings$variable &lt;- rownames(loadings)
 arrow_style &lt;- arrow(length = unit(0.05, &quot;inches&quot;), type = &quot;closed&quot;)
 ggplot(loadings) +
@@ -623,14 +1051,16 @@ ggplot(loadings) +
   geom_text(aes(x=PC1, y=PC2, label=variable), size=3, color=&#39;red&#39;) +
   xlim(-1.,1) +
   ylim(-1.,1.) +
-  coord_fixed()
-wine_pca_labels &lt;- data.frame(wine_pca$x, Cultivar=factor(wine$Cultivar))
+  coord_fixed()</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-8-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>wine_pca_labels &lt;- data.frame(wine_pca$x, Cultivar=factor(wine$Cultivar))
 ggplot(wine_pca_labels) +
-  geom_point(aes(x=PC1, y=PC2, color=Cultivar))
-ggplot(wine_pca_labels) +
-  geom_point(aes(x=PC1, y=PC2))
-
-## Going a little bit further, PCA in real analyses:
+  geom_point(aes(x=PC1, y=PC2, color=Cultivar))</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-8-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggplot(wine_pca_labels) +
+  geom_point(aes(x=PC1, y=PC2))</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-8-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Going a little bit further, PCA in real analyses:
 ## (1) Genes Mirror Geography in Europe, Novembre et al (2008)
 ## (2) Genomic Insights into the Peopling of the Southwest Pacific, Skoglund et al (2016)</code></pre>
 <pre class="r"><code>#=============================================================
@@ -646,28 +1076,29 @@ ggplot(wine_pca_labels) +
 ## We will make use of the Ruspini data set for this part
 library(cluster)
 data(ruspini)
-plot(ruspini)
-
-## Clustering methods are based on &quot;distance&quot; between points.
+plot(ruspini)</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Clustering methods are based on &quot;distance&quot; between points.
 ## As with PCA, in order to standardize these &quot;distances&quot; we need to standardize the data,
 ##   i.e., we should scale each column of data to have mean zero and unit sd
 
 rus_scaled &lt;- scale(ruspini)
-plot(rus_scaled, pch=20, cex=2)
-
-#=============================================================
-## K-means algorithm
-## Cluster data into k groups of equal variance by minimizing 
+plot(rus_scaled, pch=20, cex=2)</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-9-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="k-means-algorithm" class="section level2">
+<h2>K-means algorithm</h2>
+<pre class="r"><code>## Cluster data into k groups of equal variance by minimizing 
 ##   the within-cluster sum of squares
 #=============================================================
 
 km &lt;- kmeans(rus_scaled, centers=2)
 
 plot(rus_scaled, col=km$cluster, pch=20, cex=2)
-points(km$centers, pch=3, cex=2)           ## this adds the centroids
-#text(km$centers, labels=1:4, pos=2, cex=2) ## this adds the cluster ID
-
-## What did this algorithm just do?
+points(km$centers, pch=3, cex=2)           ## this adds the centroids</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#text(km$centers, labels=1:4, pos=2, cex=2) ## this adds the cluster ID</code></pre>
+<pre class="r"><code>## What did this algorithm just do?
 ## Chalkboard Discussion of K-means clustering 
 ##
 ## 1. Place k &quot;centroids&quot; in the data
@@ -686,9 +1117,9 @@ wss &lt;- rep(NA, 10)
 for(k in 1:10){
   wss[k] &lt;- kmeans(rus_scaled, centers=k)$tot.withinss
 }
-plot(1:10, wss, type=&#39;l&#39;, xlab=&#39;k&#39;, ylab=&#39;WSS&#39;)
-
-## Let&#39;s compare the results for K=4 and K=5 clusters: Which looks better to you?
+plot(1:10, wss, type=&#39;l&#39;, xlab=&#39;k&#39;, ylab=&#39;WSS&#39;)</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Let&#39;s compare the results for K=4 and K=5 clusters: Which looks better to you?
 km_4 &lt;- kmeans(rus_scaled, centers=4, nstart=10)
 km_5 &lt;- kmeans(rus_scaled, centers=5, nstart=10)
 rus_df &lt;- data.frame(rbind(cbind(rus_scaled, Clusters=km_4$cluster, K=&quot;K=4&quot;),
@@ -698,9 +1129,9 @@ rus_df &lt;- rus_df %&gt;% mutate(x=as.numeric(as.character(x)),
                             y=as.numeric(as.character(y)))
 ggplot(rus_df, aes(x,y, color=Clusters)) + 
   geom_point() + 
-  facet_wrap(~K)
-
-## Note: broom package also works here!
+  facet_wrap(~K)</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Note: broom package also works here!
 library(broom)
 rus_scaled %&gt;%
   kmeans(5) %&gt;%
@@ -708,9 +1139,8 @@ rus_scaled %&gt;%
   head()
 rus_scaled %&gt;%
   kmeans(5) %&gt;%
-  tidy()
-
-## Some caveats:
+  tidy()</code></pre>
+<pre class="r"><code>## Some caveats:
 ## (1) Clustering depends on initial conditions
 ## (2) Algorithm guaranteed to converge, but maybe on local optima
 ## (3) No way to know if clusters have meaning beyond the math (but this is true for
@@ -731,17 +1161,17 @@ for(k in 1:20) {
   wss[k] &lt;- kmeans(wine_scaled, centers = k)$tot.withinss
 }
 plot(1:20, wss, type = &quot;l&quot;)
-abline(v=3, lty=2)
-
-km_run &lt;- matrix(NA, nrow=nrow(wine_scaled), ncol=3)
+abline(v=3, lty=2)</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>km_run &lt;- matrix(NA, nrow=nrow(wine_scaled), ncol=3)
 for(i in 1:3) {
   set.seed(i+1)
   km_run[,i] &lt;- kmeans(wine_scaled, centers = 3)$cluster
-}
-
-#=============================================================
-## Hierarchical clustering and dendrograms
-## Difference between different linkage types (advantages, disadvantages)
+}</code></pre>
+</div>
+<div id="hierarchical-clustering-and-dendrograms" class="section level2">
+<h2>Hierarchical clustering and dendrograms</h2>
+<pre class="r"><code>## Difference between different linkage types (advantages, disadvantages)
 ## Difference between agglomerative (bottom up) and divisive (top down)
 #=============================================================
 
@@ -759,35 +1189,34 @@ d &lt;- dist(rus_scaled)
 hc &lt;- hclust(d, method=&quot;complete&quot;)
 ## Look at the result
 plot(hc)
-rect.hclust(hc, k=4)
-
-## Without the leaf labels
+rect.hclust(hc, k=4)</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Without the leaf labels
 plot(as.dendrogram(hc), leaflab=&quot;none&quot;)
-rect.hclust(hc, k=4)
-
-## Look at how the data are clustered with 4 clusters
+rect.hclust(hc, k=4)</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Look at how the data are clustered with 4 clusters
 cluster.complete &lt;- cutree(hc, k=4)
-plot(rus_scaled, col=cluster.complete, cex=2, pch=20)
-
-## Chalk-board Discussion of Hierarchical Clustering 
+plot(rus_scaled, col=cluster.complete, cex=2, pch=20)</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Chalk-board Discussion of Hierarchical Clustering 
 
 ### With 5 clusters
 cluster.complete &lt;- cutree(hc, k=5)
-plot(rus_scaled, col=cluster.complete, cex=2, pch=20)
-
-### Cluster with single linkage rather than complete linkage
+plot(rus_scaled, col=cluster.complete, cex=2, pch=20)</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>### Cluster with single linkage rather than complete linkage
 hc.single &lt;- hclust(d, method=&quot;single&quot;)
 plot(as.dendrogram(hc.single), leaflab=&quot;none&quot;)
-rect.hclust(hc.single, k=4)
-
-par(mfrow=c(1,2))
+rect.hclust(hc.single, k=4)</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-18-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>par(mfrow=c(1,2))
 cluster.single &lt;- cutree(hc.single, k=4)
 plot(rus_scaled, col=cluster.single, pch=20, cex=2, main=&quot;Single Linkage&quot;)
 clust &lt;- cutree(hc, k=4)
-plot(rus_scaled, col=clust, pch=20, cex=2, main=&quot;Complete Linkage&quot;)
-
-
-#-------------------------------------------------------------
+plot(rus_scaled, col=clust, pch=20, cex=2, main=&quot;Complete Linkage&quot;)</code></pre>
+<p><img src="figure/lecture12.Rmd/unnamed-chunk-18-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#-------------------------------------------------------------
 ## In class exercise:
 ## Perform hierarchical clustering on the wine data, using
 ##   complete, single, and average linkage. How stable are results
@@ -809,13 +1238,20 @@ plot(rus_scaled, col=clust, pch=20, cex=2, main=&quot;Complete Linkage&quot;)
 
 ## Rand index is a measure of similarity between two data clusterings (between 0 and 1)
 library(clusteval)
-cluster_similarity(km_4$cluster, km_5$cluster, similarity = &quot;rand&quot;)
+cluster_similarity(km_4$cluster, km_5$cluster, similarity = &quot;rand&quot;)</code></pre>
+<pre><code>[1] 0.9783784</code></pre>
+<pre class="r"><code>## The adjusted Rand index is adjusted for the chance grouping of elements:
+library(mclust)</code></pre>
+<pre><code>Package &#39;mclust&#39; version 5.4.1
+Type &#39;citation(&quot;mclust&quot;)&#39; for citing this R package in publications.</code></pre>
+<pre><code>
+Attaching package: &#39;mclust&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:purrr&#39;:
 
-## The adjusted Rand index is adjusted for the chance grouping of elements:
-library(mclust)
-adjustedRandIndex(km_4$cluster, km_5$cluster)
-
-## 1 = perfect greement, 0 = clusterings do not agree on any pair of points
+    map</code></pre>
+<pre class="r"><code>adjustedRandIndex(km_4$cluster, km_5$cluster)</code></pre>
+<pre><code>[1] 0.9400231</code></pre>
+<pre class="r"><code>## 1 = perfect greement, 0 = clusterings do not agree on any pair of points
 
 
 
@@ -844,9 +1280,10 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] GGally_1.4.0    mvtnorm_1.0-8   cowplot_0.9.3   forcats_0.3.0  
- [5] stringr_1.3.1   dplyr_0.7.7     purrr_0.2.5     readr_1.1.1    
- [9] tidyr_0.8.2     tibble_1.4.2    ggplot2_3.1.0   tidyverse_1.2.1
+ [1] mclust_5.4.1    clusteval_0.1   bindrcpp_0.2.2  cluster_2.0.7-1
+ [5] GGally_1.4.0    mvtnorm_1.0-8   cowplot_0.9.3   forcats_0.3.0  
+ [9] stringr_1.3.1   dplyr_0.7.7     purrr_0.2.5     readr_1.1.1    
+[13] tidyr_0.8.2     tibble_1.4.2    ggplot2_3.1.0   tidyverse_1.2.1
 
 loaded via a namespace (and not attached):
  [1] tidyselect_0.2.5   reshape2_1.4.3     haven_1.1.2       
@@ -854,11 +1291,11 @@ loaded via a namespace (and not attached):
  [7] yaml_2.2.0         rlang_0.3.0.1      R.oo_1.22.0       
 [10] pillar_1.3.0       glue_1.3.0         withr_2.1.2       
 [13] R.utils_2.7.0      RColorBrewer_1.1-2 modelr_0.1.2      
-[16] readxl_1.1.0       bindrcpp_0.2.2     bindr_0.1.1       
-[19] plyr_1.8.4         munsell_0.5.0      gtable_0.2.0      
-[22] workflowr_1.1.1    cellranger_1.1.0   rvest_0.3.2       
-[25] R.methodsS3_1.7.1  evaluate_0.12      labeling_0.3      
-[28] knitr_1.20         broom_0.5.0        Rcpp_0.12.19      
+[16] readxl_1.1.0       bindr_0.1.1        plyr_1.8.4        
+[19] munsell_0.5.0      gtable_0.2.0       workflowr_1.1.1   
+[22] cellranger_1.1.0   rvest_0.3.2        R.methodsS3_1.7.1 
+[25] evaluate_0.12      labeling_0.3       knitr_1.20        
+[28] parallel_3.5.1     broom_0.5.0        Rcpp_0.12.19      
 [31] scales_1.0.0       backports_1.1.2    jsonlite_1.5      
 [34] hms_0.4.2          digest_0.6.18      stringi_1.2.4     
 [37] grid_3.5.1         rprojroot_1.3-2    cli_1.0.1         
