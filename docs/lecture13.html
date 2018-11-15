@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Shengtong" />
+
+<meta name="date" content="2018-11-15" />
+
+<title>lecture13</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Code</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://han16.github.io/Data-Science-in-R/">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">lecture13</h1>
+<h4 class="author"><em>Shengtong</em></h4>
+<h4 class="date"><em>2018-11-15</em></h4>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2018-11-15</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20181026)</code> </summary></p>
+<p>The command <code>set.seed(20181026)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/889def6c2f82e260629a706a9cddc7c95780bfa7" target="_blank">889def6</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.Rapp.history
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/figure/
+    Ignored:    docs/.DS_Store
+
+Untracked files:
+    Untracked:  analysis/lecture13.Rmd
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<hr />
+<pre class="r"><code>########################################################
+#### Project presentations
+####
+#### Final take-home exam next week
+######################################################
+
+#=============================================================
+## Regular expressions (Regex)
+# Extra resource: https://regexr.com/
+#=============================================================
+
+## Character data can be hard to deal with!
+## Regular expressions = way to express patterns to match in text or 
+##   search and replace
+##
+## Basic tasks:
+## (1) Study a single character vector 
+##  - How long are strings?
+##  - Presence/absence of literal string
+## (2) Operate on single character vector
+##  - Keep/discard elements that contain a string
+##  - Split into two or more vectors using a delimiter
+##  - Snip out pieces of strings based on position
+## (3) Operate on two or more character vectors
+##  - Glue them together element-wise
+
+#-----------------------------------------------------------------
+## First: let&#39;s look at regex-free string manipulation in R
+#-----------------------------------------------------------------
+
+## We will use the stringr package (part of the tidyverse)
+##   Main functions start with str_*
+## Note: base functions include nchar(), strsplit(), substr(), grep(), ...
+
+library(tidyverse)
+
+## fruit, words, sentences
+## =&gt; Which fruits actually contain the word &quot;fruit&quot;?
+str_detect(fruit, pattern = &quot;fruit&quot;)
+str_subset(fruit, pattern = &quot;fruit&quot;)
+str_subset(fruit, pattern = &quot;Fruit&quot;)  ## Note: case sensitive
+my_fruit &lt;- str_subset(fruit, pattern = &quot;fruit&quot;)
+
+## Split on a delimiter
+str_split(my_fruit, pattern = &quot; &quot;) ## Why is this a list?
+str_split_fixed(my_fruit, pattern = &quot; &quot;, n = 2)
+## Remember, we already knew how to do this with tidyr commands:
+my_fruit_df &lt;- data.frame(my_fruit)
+my_fruit_df %&gt;% 
+  separate(my_fruit, into = c(&quot;pre&quot;, &quot;post&quot;), sep = &quot; &quot;)
+
+## Substring extraction and replacement
+length(my_fruit)
+str_length(my_fruit)
+head(fruit) %&gt;% str_sub(1, 3)
+tibble(fruit) %&gt;% 
+  head() %&gt;% 
+  mutate(snip = str_sub(fruit, 1:6, 3:8))  ## This can be vectorized
+x &lt;- head(fruit, 3)
+str_sub(x, 1, 3) &lt;- &quot;AAA&quot;  ## Can also be used for assignment
+x
+
+## Collapse a vector to a single string
+head(fruit) %&gt;% 
+  str_c(collapse = &quot;, &quot;)
+
+## Or create a new vector by collapsing element-wise 
+## =&gt; we can also do this with tidyr::unite()
+str_c(fruit[1:4], fruit[5:8], sep = &quot; &amp; &quot;)
+
+## Replace a substring
+str_replace(my_fruit, pattern = &quot;fruit&quot;, replacement = &quot;THINGY&quot;)
+## Special case is str_replace_na
+x[1] &lt;- NA
+str_replace_na(x, &quot;UNKNOWN!&quot;)
+
+#-----------------------------------------------------------------
+## Now: regular expressions in R
+#-----------------------------------------------------------------
+
+## Let&#39;s use the gapminder data for this part
+
+library(gapminder)
+countries &lt;- levels(gapminder$country)
+
+## Frequently you can&#39;t do your character task with a fixed string but 
+##  need to use a pattern instead =&gt; regex is standard way to deal with this!
+
+## Use metacharacters:
+## . = any standard character except a newline
+## \n = newline
+## \d = [:digit:] = digit
+## [:lower:], [:upper:]: lowercase and uppercase
+
+str_subset(countries, pattern = &quot;i.a&quot;)  ## Note: case sensitive! Italy doesn&#39;t match...
+str_subset(countries, pattern = regex(&quot;i.a&quot;))
+str_subset(countries, pattern = &quot;I.a&quot;)
+
+## Anchors specify where an expression must occur within a string
+## ^ = start
+## $ = end
+
+str_subset(countries, pattern = &quot;i.a$&quot;)
+str_subset(my_fruit, pattern = &quot;d&quot;)
+str_subset(my_fruit, pattern = &quot;^d&quot;)
+
+## Some metacharacters need &quot;escaping&quot; = an additional backslash
+## This is the case for any characters that would otherwise have a special interpretation
+## e.g. $ * + . ? [ ] ^ { } | ( ) \
+## \\b = word boundary
+## \\B = NOT a word boundary
+
+str_subset(fruit, pattern = &quot;melon&quot;)
+str_subset(fruit, pattern = &quot;bmelon&quot;)
+str_subset(fruit, pattern = &quot;\\Bmelon&quot;)
+str_subset(countries, pattern = &quot;.&quot;) ## This doesn&#39;t work because . is a special character!
+str_subset(countries, pattern = &quot;\\.&quot;) ## This doesn&#39;t work because . is a special character!
+x &lt;- c(&quot;whatever&quot;, &quot;X is distributed U[0,1]&quot;)
+str_subset(x, pattern = &quot;\\[&quot;)
+
+## | = or
+str_subset(fruit, pattern = &quot;apple|berry&quot;)
+
+## Character classes are indicated by square brackets
+## [...] = one of the characters in this class
+## [^...] = NOT one of the characters in this class
+str_subset(countries, pattern = &quot;[nls]ia$&quot;)
+str_subset(countries, pattern = &quot;[^nls]ia$&quot;)
+
+## \s = space
+## [[:space:]] = space
+## [[:punct:]] = punctuation
+str_split_fixed(my_fruit, pattern = &quot; &quot;, n = 2)
+str_split_fixed(my_fruit, pattern = &quot;\\s&quot;, n = 2)
+str_split_fixed(my_fruit, pattern = &quot;[[:space:]]&quot;, n = 2)
+str_subset(countries, &quot;[[:punct:]]&quot;)
+
+## Quantifiers:
+## * = 0 or more
+## + = 1 or more
+## ? = 0 or 1
+## {n} = exactly n
+## {n,} = at least n
+## {,m} = at most m
+## {n,m} = between n and m, inclusive
+
+## Let&#39;s play around with this: how does changing the quantifier change the result?
+str_subset(fruit, pattern = &quot;l[^\\s]{2}e&quot;)
+
+tmp &lt;- c(&quot;file_record_transcript.pdf&quot;,
+         &quot;file_07241999.pdf&quot;,
+         &quot;testfile_fake.pdf.tmptest&quot;)
+str_subset(tmp, pattern = &quot;^(file.*)\\.pdf$&quot;)
+str_subset(tmp, pattern = &quot;^file.*[^.pdf]&quot;)
+
+
+#-----------------------------------------------------------------
+## In class: https://regexone.com/lesson/introduction_abcs
+##
+## Play around with the Million Song Database
+## -- Find all song titles with love/loving/lovin&#39;.
+## -- Find all artists with punctuation in their names.
+#-----------------------------------------------------------------
+
+library(devtools)
+install_github(&quot;JoeyBernhardt/singer&quot;)
+library(singer) ## Data package with an excerpt from the Million Song Database
+places &lt;- unique(singer_locations$city)
+song_titles &lt;- singer_locations$title
+
+
+#=============================================================
+## Sentiment analysis aka opinion mining
+## Read this: http://varianceexplained.org/r/trump-tweets/
+## And this: http://varianceexplained.org/r/trump-followup/
+##
+## https://www.tidytextmining.com/
+#=============================================================
+
+## Aim: determine the attitude of someone/thing wrt some topic/context/documents/etc
+##   (often used by companies to quantify general social media opinion)
+## Idea: attribute to each word a score, expressing whether its negative or positive,
+##   and sum it up
+## Classify polarity (= positive, neutral, negative) or beyond polarity 
+##   (angry, sad, happy, ...)
+
+
+## 1. obtain your text source (website, Twitter, database, PDF document, ...)
+## 2. extract documents and move into a corpus
+## 3. transformation (convert to lowercase, remove punctuation, remove stopwords, ...)
+## 4. extract features
+## 5. perform analysis (word frequency, co-occurrrence, document classification/comparison,
+##      topic modeling)
+
+#-----------------------------------------------------------------
+## Polarity analysis
+#-----------------------------------------------------------------
+
+## Now let&#39;s look at the tidy data frame in austen_books()
+## -- We will first add a linenumber variable to keep track of original line numbers.
+## -- Then let&#39;s use a regex to find where the chapters are.
+## -- Then we must break text up into words using unnest_tokens, 
+##  remove those not considered interesting (=&quot;stop words&quot;),
+##  join text data frame to the vocabulary scores, and do the math!
+
+library(tidytext)
+library(janeaustenr)
+
+original_books &lt;- austen_books() %&gt;%
+  group_by(book) %&gt;%
+  mutate(linenumber = row_number(),
+         chapter = cumsum(str_detect(text, 
+                                     regex(&quot;^chapter [\\divxlc]&quot;, ignore_case = TRUE)))) %&gt;%
+  ungroup()
+original_books
+
+## We then use the unnest_tokens function to return text in one-token-per-row tidy format
+tidy_books &lt;- original_books %&gt;%
+  unnest_tokens(word, text)
+
+## Now we can use tidyverse data cleaning to remove the &quot;stop words&quot;
+data(stop_words)
+head(stop_words)
+tidy_books &lt;- tidy_books %&gt;%
+  anti_join(stop_words)
+
+## And dplyr can tell us about e.g. the most common words in all of Jane Austen&#39;s novels
+tidy_books %&gt;%
+  group_by(book) %&gt;%
+  count(word) %&gt;%
+  top_n(1)
+
+## Now need a vocabulary of words for which we have the scores
+## Choices: afinn, bing, nrc, loughran
+bing &lt;- get_sentiments(&quot;bing&quot;)
+get_sentiments(&quot;afinn&quot;)
+get_sentiments(&quot;nrc&quot;)
+
+
+## Now we combine the vocabulary with our tidy text, and count up for pre-defined sections
+janeaustensentiment &lt;- tidy_books %&gt;%
+  inner_join(bing) %&gt;% 
+  count(book, index = linenumber %/% 80, sentiment) %&gt;% 
+  spread(sentiment, n, fill = 0) %&gt;% 
+  mutate(sentiment = positive - negative)
+
+janeaustensentiment
+
+## And let&#39;s plot this out!
+ggplot(janeaustensentiment, aes(index, sentiment, fill = book)) +
+  geom_bar(stat = &quot;identity&quot;, show.legend = FALSE) +
+  facet_wrap(~book, ncol = 2, scales = &quot;free_x&quot;) +
+  theme_minimal(base_size = 13) +
+  labs(title = &quot;Sentiment in Jane Austen&#39;s Novels&quot;,
+       y = &quot;Sentiment&quot;) +
+  scale_x_discrete(expand=c(0.02,0)) +
+  theme(strip.text=element_text(hjust=0)) +
+  theme(strip.text = element_text(face = &quot;italic&quot;)) +
+  theme(axis.title.x=element_blank()) +
+  theme(axis.ticks.x=element_blank()) +
+  theme(axis.text.x=element_blank())
+
+## Let&#39;s ask another question: What is the most negative chapter of each
+##   Jane Austen novel?
+## 1. Identify &quot;negative&quot; Bing words
+## 2. Group words by chapter, and count the total number of words per chapter
+##   (to normalize for differences in length)
+
+bingnegative &lt;- sentiments %&gt;%
+  filter(lexicon == &quot;bing&quot;, sentiment == &quot;negative&quot;)
+
+wordcounts &lt;- tidy_books %&gt;%
+  group_by(book, chapter) %&gt;%
+  summarize(words = n())
+
+tidy_books %&gt;%
+  semi_join(bingnegative) %&gt;%
+  group_by(book, chapter) %&gt;%
+  summarize(negativewords = n()) %&gt;%
+  left_join(wordcounts, by = c(&quot;book&quot;, &quot;chapter&quot;)) %&gt;%
+  mutate(ratio = negativewords/words) %&gt;%
+  filter(chapter != 0) %&gt;%
+  top_n(1)
+
+## And what about looking at words that co-occur together? =&gt; Use pair_count
+install_github(&quot;dgrtwo/widyr&quot;)
+library(widyr)
+pride_prejudice_words &lt;- tidy_books %&gt;%
+  filter(book == &quot;Pride &amp; Prejudice&quot;)
+word_cooccurences &lt;- pride_prejudice_words %&gt;%
+  pairwise_count(word, linenumber, sort = TRUE, upper=FALSE)
+word_cooccurences
+
+## Now we could plot a network of co-occurring words
+library(igraph)
+library(ggraph)
+
+set.seed(1813)
+word_cooccurences %&gt;%
+  filter(n &gt;= 10) %&gt;%
+  graph_from_data_frame() %&gt;%
+  ggraph(layout = &quot;fr&quot;) +
+  geom_edge_link(aes(edge_alpha = n, edge_width = n)) +
+  geom_node_point(color = &quot;darkslategray4&quot;, size = 5) +
+  geom_node_text(aes(label = name), vjust = 1.8) +
+  ggtitle(expression(paste(&quot;Word Network in Jane Austen&#39;s &quot;, 
+                           italic(&quot;Pride and Prejudice&quot;)))) +
+  theme_void()
+
+## And another book
+pride_prejudice_words &lt;- tidy_books %&gt;%
+  filter(book == &quot;Emma&quot;)
+word_cooccurences &lt;- pride_prejudice_words %&gt;%
+  pair_count(linenumber, word, sort = TRUE)
+set.seed(2016)
+word_cooccurences %&gt;%
+  filter(n &gt;= 10) %&gt;%
+  graph_from_data_frame() %&gt;%
+  ggraph(layout = &quot;fr&quot;) +
+  geom_edge_link(aes(edge_alpha = n, edge_width = n)) +
+  geom_node_point(color = &quot;plum4&quot;, size = 5) +
+  geom_node_text(aes(label = name), vjust = 1.8) +
+  ggtitle(expression(paste(&quot;Word Network in Jane Austen&#39;s &quot;, 
+                           italic(&quot;Emma&quot;)))) +
+  theme_void()
+
+## Word clouds are a common tool too
+library(wordcloud)
+tb &lt;- tidy_books %&gt;%
+  count(word) 
+wordcloud(tb$word, tb$n, max.words = 100)
+
+tb &lt;- tidy_books %&gt;%
+  inner_join(bing) %&gt;%
+  count(word, sentiment, sort = TRUE)
+tb_wide &lt;- spread(tb, sentiment, n)
+tb_wide[is.na(tb_wide)] &lt;- 0
+tb_wide_mat &lt;- as.matrix(tb_wide[,2:3])
+rownames(tb_wide_mat) &lt;- unlist(tb_wide[,1])
+comparison.cloud(tb_wide_mat, colors = c(&quot;#F8766D&quot;, &quot;#00BFC4&quot;),
+                max.words = 100)
+
+#-----------------------------------------------------------------
+## Beyond polarity
+## Topic modeling:  
+## Uses Natural Language Processing techniques to automate analysis on 
+##   large collections of texts =&gt; probabilistic topic models that use
+##   Latent Dirichlet Allocation (LDA)
+#-----------------------------------------------------------------
+
+## Sometimes tokenizing at the word level does not make sense:
+## e.g., I am not having a good day.
+## In this case, we probably want to tokenize by sentences rather than words.
+
+austen_sentences &lt;- austen_books() %&gt;% 
+  group_by(book) %&gt;% 
+  unnest_tokens(sentence, text, token = &quot;sentences&quot;) %&gt;% 
+  ungroup()
+austen_sentences$sentence[39]
+
+
+#-----------------------------------------------------------------
+## In class:
+## Let&#39;s play around with text from a data package, this time using
+##   the &quot;nrc&quot; lexicon
+#-----------------------------------------------------------------
+library(gutenbergr)
+gutenberg_metadata
+hgwells &lt;- gutenberg_download(c(35, 36, 5230, 159))
+
+devtools::install_github(&quot;bradleyboehmke/harrypotter&quot;)
+library(harrypotter)
+  
+
+
+
+#=============================================================
+## Next week: class cancelled, final take-home exam!
+#=============================================================
+
+## Potential topics for final exam:
+##
+## -- for/while loops, Boolean logic, Monte Carlo simulation
+## -- functions
+## -- error debugging based on an error/warning message
+## -- effective plotting with ggplot2
+## -- data wrangling with the tidyverse and dealing with messy data
+## -- linear/logistic regression (coefficient interpretation, model diagnostics, etc)
+## -- model selection 
+## -- multiple testing correction for p-values
+## -- bootstrapping and permutation tests
+## -- basics of Shiny programming
+## -- K-means clustering, hierarchical clustering, principal components analysis
+## -- text/sentiment analysis
+## -- confounding/Simpson&#39;s paradox</code></pre>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.1 (2018-07-02)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS High Sierra 10.13.6
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+ [1] workflowr_1.1.1   Rcpp_0.12.19      digest_0.6.18    
+ [4] rprojroot_1.3-2   R.methodsS3_1.7.1 backports_1.1.2  
+ [7] git2r_0.23.0      magrittr_1.5      evaluate_0.12    
+[10] stringi_1.2.4     whisker_0.3-2     R.oo_1.22.0      
+[13] R.utils_2.7.0     rmarkdown_1.10    tools_3.5.1      
+[16] stringr_1.3.1     yaml_2.2.0        compiler_3.5.1   
+[19] htmltools_0.3.6   knitr_1.20       </code></pre>
+</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
