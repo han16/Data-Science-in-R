@@ -6,7 +6,7 @@ output: workflowr::wflow_html
 ---
 
 
-```{r, echo=T, eval=F}
+```{r, echo=T}
 ########################################################
 #### Project presentations
 ####
@@ -49,7 +49,9 @@ str_detect(fruit, pattern = "fruit")
 str_subset(fruit, pattern = "fruit")
 str_subset(fruit, pattern = "Fruit")  ## Note: case sensitive
 my_fruit <- str_subset(fruit, pattern = "fruit")
+```
 
+```{r, echo=T}
 ## Split on a delimiter
 str_split(my_fruit, pattern = " ") ## Why is this a list?
 str_split_fixed(my_fruit, pattern = " ", n = 2)
@@ -57,7 +59,9 @@ str_split_fixed(my_fruit, pattern = " ", n = 2)
 my_fruit_df <- data.frame(my_fruit)
 my_fruit_df %>% 
   separate(my_fruit, into = c("pre", "post"), sep = " ")
+```
 
+```{r, echo=T}
 ## Substring extraction and replacement
 length(my_fruit)
 str_length(my_fruit)
@@ -69,6 +73,10 @@ x <- head(fruit, 3)
 str_sub(x, 1, 3) <- "AAA"  ## Can also be used for assignment
 x
 
+```
+
+
+```{r, echo=T}
 ## Collapse a vector to a single string
 head(fruit) %>% 
   str_c(collapse = ", ")
@@ -83,9 +91,11 @@ str_replace(my_fruit, pattern = "fruit", replacement = "THINGY")
 x[1] <- NA
 str_replace_na(x, "UNKNOWN!")
 
-#-----------------------------------------------------------------
+```
+
 ## Now: regular expressions in R
-#-----------------------------------------------------------------
+
+```{r, echo=T}
 
 ## Let's use the gapminder data for this part
 
@@ -104,7 +114,8 @@ countries <- levels(gapminder$country)
 str_subset(countries, pattern = "i.a")  ## Note: case sensitive! Italy doesn't match...
 str_subset(countries, pattern = regex("i.a"))
 str_subset(countries, pattern = "I.a")
-
+```
+```{r, echo=T}
 ## Anchors specify where an expression must occur within a string
 ## ^ = start
 ## $ = end
@@ -112,7 +123,9 @@ str_subset(countries, pattern = "I.a")
 str_subset(countries, pattern = "i.a$")
 str_subset(my_fruit, pattern = "d")
 str_subset(my_fruit, pattern = "^d")
+```
 
+```{r, echo=T}
 ## Some metacharacters need "escaping" = an additional backslash
 ## This is the case for any characters that would otherwise have a special interpretation
 ## e.g. $ * + . ? [ ] ^ { } | ( ) \
@@ -135,7 +148,9 @@ str_subset(fruit, pattern = "apple|berry")
 ## [^...] = NOT one of the characters in this class
 str_subset(countries, pattern = "[nls]ia$")
 str_subset(countries, pattern = "[^nls]ia$")
+```
 
+```{r, echo=T}
 ## \s = space
 ## [[:space:]] = space
 ## [[:punct:]] = punctuation
@@ -143,7 +158,9 @@ str_split_fixed(my_fruit, pattern = " ", n = 2)
 str_split_fixed(my_fruit, pattern = "\\s", n = 2)
 str_split_fixed(my_fruit, pattern = "[[:space:]]", n = 2)
 str_subset(countries, "[[:punct:]]")
+```
 
+```{r, echo=T}
 ## Quantifiers:
 ## * = 0 or more
 ## + = 1 or more
@@ -162,7 +179,9 @@ tmp <- c("file_record_transcript.pdf",
 str_subset(tmp, pattern = "^(file.*)\\.pdf$")
 str_subset(tmp, pattern = "^file.*[^.pdf]")
 
+```
 
+```{r, echo=T, eval=F}
 #-----------------------------------------------------------------
 ## In class: https://regexone.com/lesson/introduction_abcs
 ##
@@ -176,8 +195,10 @@ install_github("JoeyBernhardt/singer")
 library(singer) ## Data package with an excerpt from the Million Song Database
 places <- unique(singer_locations$city)
 song_titles <- singer_locations$title
+```
 
 
+```{r, echo=T, eval=F}
 #=============================================================
 ## Sentiment analysis aka opinion mining
 ## Read this: http://varianceexplained.org/r/trump-tweets/
@@ -222,7 +243,9 @@ original_books <- austen_books() %>%
                                      regex("^chapter [\\divxlc]", ignore_case = TRUE)))) %>%
   ungroup()
 original_books
+```
 
+```{r, echo=T, eval=F}
 ## We then use the unnest_tokens function to return text in one-token-per-row tidy format
 tidy_books <- original_books %>%
   unnest_tokens(word, text)
