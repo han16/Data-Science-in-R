@@ -6,8 +6,13 @@ output: workflowr::wflow_html
 ---
 
 
+## One categorical variable as predictor 
 
-```{r, echo=T}
+In simple linear regrssion model, the predictor could be a  continuous variable or categorical variable. 
+When it is 
+
+
+```{r, echo=F, eval=F}
 #knitr::opts_chunk$set(echo = TRUE)
 #knitr::read_chunk("chunks.R")
 library(tidyverse)
@@ -54,7 +59,7 @@ table2 %>% spread(key=type, value=count) %>%
 ## Correlation
 
 
-```{r, echo=T}
+```{r, echo=F, eval=F}
 #=============================================================
 ## Correlation
 #=============================================================
@@ -102,7 +107,7 @@ ggplot(datasaurus_dozen, aes(x = x, y = y, colour = dataset)) +
 ```
 
 
-```{r, echo=T}
+```{r, echo=F, eval=F}
 ## Perfect positive correlation
 x <- rnorm(100)
 y <- x + 3
@@ -111,7 +116,7 @@ ggplot(data.frame(x=x,y=y), aes(x,y)) + geom_point()
 ```
 
 
-```{r, echo=T}
+```{r, echo=F, eval=F}
 ## Perfect negative correlation
 x <- rnorm(100)
 y <- -2*x
@@ -119,7 +124,7 @@ cor(x,y)
 ggplot(data.frame(x=x,y=y), aes(x,y)) + geom_point()
 ```
 
-```{r, echo=T}
+```{r, echo=F, eval=F}
 ## Variability (error) has substantial influence
 library(forcats)
 x <- rnorm(100)
@@ -137,18 +142,18 @@ df %>% group_by(variability) %>%
   summarize(cor = cor(x,y))
 ```
 
-```{r, echo=T}
+```{r, echo=F, eval=F}
 ## Can perform hypothesis testing with correlations
 cor.test(setosa$Sepal.Length, setosa$Sepal.Width)
 ## How do we interpret this output?
 ```
 
-```{r, echo=T}
+```{r, echo=F, eval=F}
 cor.test(setosa$Petal.Length, setosa$Sepal.Width)
 ## How about this?
 ```
  
-```{r, echo=T} 
+```{r, echo=F, eval=F} 
 ## What about nonlinear data? => Spearman rank nonparametric correlation!
 ## Assumes monotonic data
 x <- seq(from=0.001, to=10, length=100)
@@ -161,7 +166,7 @@ cor(x,y, method="spearman")
 cor(order(x), order(y)) ## Same as Pearson correlation on ranks 
 ```
 
-```{r,echo=T}
+```{r,echo=F, eval=F}
 #-------------------------------------------------------------
 ## Calculate the Pearson and Spearman correlation between
 ## carat and price in the diamonds data for cut = "Ideal" diamonds.
@@ -178,7 +183,7 @@ ggplot(filter(diamonds, cut == "Ideal")) +
 
 ## Linear regression
 
-```{r, echo=T}
+```{r, echo=F, eval=F}
 
 #=============================================================
 ## Linear regression
@@ -215,7 +220,7 @@ summary(mod)
 
 ```
 
-```{r, echo=T}
+```{r, echo=F, eval=F}
 ## broom is a package that tidies results from a linear model / hypothesis tests
 ## 3 functions: tidy(), glance(), augment()
 library(broom)
@@ -224,7 +229,7 @@ glance(mod)  ## Concise one row summary
 augment(mod) ## Add columns from fit to original data that were modeled
 ```
 
-```{r, echo=T}
+```{r, echo=F, eval=F}
 ## Visualizing the regression
 ggplot(setosa, aes(x=Sepal.Width, y=Sepal.Length)) +
   geom_point() + 
@@ -233,20 +238,20 @@ ggplot(setosa, aes(x=Sepal.Width, y=Sepal.Length)) +
   theme_bw()
 ```
 
-```{r, echo=T}
+```{r, echo=F, eval=F}
 ## Predicting responses using the model
 ## What is the Sepal.Length when Sepal.Width = 2.6?
 new_setosa <- data.frame(Sepal.Width = c(2.6, 4, 3.5))
 predict(mod, new_setosa)
 ```
 
-```{r, echo=T}
+```{r, echo=F, eval=F}
 ## Predicting a new response with confidence or prediction interval
 ## Confidence interval: range likely to contain the mean response
 predict(mod, new_setosa, interval = "confidence")
 ```
 
-```{r, echo=T}
+```{r, echo=F, eval=F}
 ## Prediction interval: range likely to contain the response value of
 ##   a single new observation (wider than CI due to added uncertainty
 ##   for predicting a single point)
@@ -255,7 +260,7 @@ predict(mod, new_setosa, interval = "confidence", level=0.90)
 ```
 
 ## Checking model assumptions
-```{r, echo=T}
+```{r, echo=F, eval=F}
 ## 1. Residuals are normally distributed
 ## 2. Variance is the same for all predictors
 ## 3. Predictors are independent of one another
@@ -277,19 +282,19 @@ ggplot(aug) + geom_histogram(aes(x=.resid),
 ggplot(aug) + geom_qq(aes(sample=.resid))
 ```
 
-```{r, echo=T}
+```{r, echo=T, eval=F}
 ## Assumption 2
 ggplot(aug) + geom_point(aes(x=.fitted, y=.resid)) +
   geom_hline(yintercept=0, lty=2)
 ```
 
-```{r, echo=T}
+```{r, echo=T, eval=F}
 ## Assumption 4
 ggplot(aug) + geom_point(aes(x=Sepal.Width, y=Sepal.Length))
 ```
 ## Matrix algebra 
 
-```{r, echo=T}
+```{r, echo=T, eval=F}
 #=============================================================
 ## A quick break: Matrix algebra in R
 #=============================================================
@@ -315,26 +320,26 @@ A * B # not working
 A + B
 ```
 
-```{r, echo=T}
+```{r, echo=T, eval=F}
 ## If we are after "classic" matrix multiplication, we have to do as follows:
 A %*% B
 B %*% A
 ```
 
-```{r, echo=T}
+```{r, echo=T, eval=F}
 ## What is the difference between the two following operations?
 x1*x2
 x1 %*% x2
 ```
 
 
-```{r, echo=T}
+```{r, echo=T, eval=F}
 ## What happens when we transpose a matrix?
 t(A) + B
 A - t(B)
 ```
 
-```{r, echo=T}
+```{r, echo=T, eval=F}
 ## We can take the inverse of a square matrix
 A = rbind(c(-1,4), c(3,6))
 c = c(8,30)
@@ -345,7 +350,7 @@ x = solve(A,c)
 A %*% x
 ```
 
-```{r, echo=T}
+```{r, echo=T, eval=F}
 #### We can also use the solve function to find the inverse of a matrix
 A.inv = solve(A)
 
@@ -355,7 +360,7 @@ A %*% A.inv
 
 ### Note the rounding errors!
 ```
-```{r, echo=T}
+```{r, echo=F, eval=F}
 ### Recall linear regression
 ### If our model is Y = XB + e, then beta.hat = inverse(X'X)X'Y
 x1 <- rep(1, times=10)
@@ -369,14 +374,14 @@ summary(lm(y ~ x2))
 beta.hat
 ```
 
-```{r, echo=T}
+```{r, echo=F, eval=F}
 ## And double-check with a plot
 plot(x2, y, pch=20, cex=3)
 abline(beta.hat[1], beta.hat[2])
 ```
 
 
-```{r, echo=T}
+```{r, echo=F, eval=F}
 #### Do you remeber the form of var(beta.hat)?
 #### The diagonal elements of sigma^2 * inverse(X'X) 
 #### How do we estimate sigma^2? (Y-y.hat)'(Y-y.hat)/n-p
@@ -409,7 +414,7 @@ lm(y.sim ~ X.sim[,2])
 ```
 
 
-```{r, echo=T}
+```{r, echo=T, eval=F}
 #=============================================================
 ## Linear models: lm(Numeric response ~ <predictors>)
 ## 
@@ -427,14 +432,14 @@ summary(mod_species) ## Where is the Speciessetosa coefficient?
 ```
 
 
-```{r, echo=T}
+```{r, echo=F,eval=F}
 augment_species <- augment(mod_species)
 ggplot(augment_species, aes(x=Species, y=Sepal.Length)) +
          geom_point() +
   geom_point(aes(x=Species, y=.fitted), color="red", size=4)
 ```
 
-```{r, echo=T}
+```{r, echo=F, eval=F}
 ## Interactions: continuous and categorical
 ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width)) +
   geom_point(aes(color=Species))
@@ -442,7 +447,7 @@ mod1 <- lm(Sepal.Width ~ Sepal.Length + Species, data=iris)
 mod2 <- lm(Sepal.Width ~ Sepal.Length * Species, data=iris)
 ```
 
-```{r, echo=T}
+```{r, echo=F, eval=F}
 ## Use commands from modelr
 library(modelr)
 grid <- data_grid(iris, Sepal.Length, Sepal.Width, Species) %>%
@@ -462,10 +467,5 @@ model_matrix(iris, Sepal.Length ~ Species)
 ## For a true confirmatory analysis:
 ## Training set (60%), query set (20%), test set (20%)
 
-
-#=============================================================
-## Next time: Midterm! Class cancelled
-## Following that: logistic regression, model selection, multiple testing
-#=============================================================
 
 ```
