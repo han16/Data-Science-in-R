@@ -295,7 +295,7 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/jdblischak/workflowr">
+  <a href="https://han16.github.io/Data-Science-in-R/">
     <span class="fa fa-github"></span>
      
   </a>
@@ -323,11 +323,12 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-10-26</p>
+<p><strong>Last updated:</strong> 2018-12-19</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
-<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </details>
 </li>
 <li>
@@ -346,26 +347,84 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> 0d21361 </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/8d42e153503b39ee8bb06cdaef839f0b56feb404" target="_blank">8d42e15</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    .DS_Store
+    Ignored:    .RData
+    Ignored:    .Rhistory
     Ignored:    analysis/.DS_Store
-
-Untracked files:
-    Untracked:  analysis/lecture1.Rmd
-    Untracked:  analysis/lecture2.Rmd
-    Untracked:  analysis/lecture3.Rmd
-    Untracked:  docs/figure/
-
-Unstaged changes:
-    Modified:   analysis/index.Rmd
+    Ignored:    analysis/.Rapp.history
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/figure/
+    Ignored:    docs/.DS_Store
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
 </li>
 </ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/65c976f59543bd4d82b3bd4c4afc14f87ffc624e/analysis/lecture1.Rmd" target="_blank">65c976f</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+<td style="text-align:left;">
+Oct312018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/han16/Data-Science-in-R/65c976f59543bd4d82b3bd4c4afc14f87ffc624e/docs/lecture1.html" target="_blank">65c976f</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+<td style="text-align:left;">
+Oct312018
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
 <hr />
 <div id="r-tutorial" class="section level2">
 <h2>R tutorial</h2>
@@ -531,14 +590,134 @@ class(my_name_vector)</code></pre>
 
 hist(my_huge_matrix[,c(1:5)])</code></pre>
 <p><img src="figure/lecture1.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-11-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/65c976f59543bd4d82b3bd4c4afc14f87ffc624e/docs/figure/lecture1.Rmd/unnamed-chunk-11-1.png" target="_blank">65c976f</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>hist(my_huge_matrix[,1])</code></pre>
 <p><img src="figure/lecture1.Rmd/unnamed-chunk-11-2.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-11-2.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/65c976f59543bd4d82b3bd4c4afc14f87ffc624e/docs/figure/lecture1.Rmd/unnamed-chunk-11-2.png" target="_blank">65c976f</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>hist(my_huge_matrix[,2])</code></pre>
 <p><img src="figure/lecture1.Rmd/unnamed-chunk-11-3.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-11-3.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/65c976f59543bd4d82b3bd4c4afc14f87ffc624e/docs/figure/lecture1.Rmd/unnamed-chunk-11-3.png" target="_blank">65c976f</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>hist(my_huge_matrix[,3], main=&quot;Better histogram&quot;,
      xlab=&quot;Value&quot;, breaks=50, 
      col=&quot;cornflowerblue&quot;)</code></pre>
 <p><img src="figure/lecture1.Rmd/unnamed-chunk-11-4.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-11-4.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/65c976f59543bd4d82b3bd4c4afc14f87ffc624e/docs/figure/lecture1.Rmd/unnamed-chunk-11-4.png" target="_blank">65c976f</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>par(mfrow=c(2,3))
 hist(my_huge_matrix[,1])
 hist(my_huge_matrix[,2])
@@ -546,6 +725,36 @@ hist(my_huge_matrix[,3], main=&quot;Better histogram&quot;,
      xlab=&quot;Value&quot;, breaks=50, 
      col=&quot;cornflowerblue&quot;)</code></pre>
 <p><img src="figure/lecture1.Rmd/unnamed-chunk-11-5.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-11-5.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/65c976f59543bd4d82b3bd4c4afc14f87ffc624e/docs/figure/lecture1.Rmd/unnamed-chunk-11-5.png" target="_blank">65c976f</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <ul>
 <li>Scatterplots</li>
 </ul>
@@ -568,6 +777,36 @@ legend(&quot;topleft&quot;, pch=19,
        col=c(&quot;blue&quot;,&quot;red&quot;,&quot;black&quot;),
        legend=c(&quot;Setosa&quot;, &quot;Versicolor&quot;, &quot;Virginica&quot;))</code></pre>
 <p><img src="figure/lecture1.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-12-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/65c976f59543bd4d82b3bd4c4afc14f87ffc624e/docs/figure/lecture1.Rmd/unnamed-chunk-12-1.png" target="_blank">65c976f</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>## Plot Petal length vs width, coloring by sepal length
 col_vector &lt;- rep(NA, nrow(iris))
 high_index &lt;- which(iris$Sepal.Length &gt; 
@@ -587,9 +826,69 @@ legend(&quot;topleft&quot;, pch=19,
        legend=c(&quot;Low sepal length&quot;, 
                 &quot;High sepal length&quot;))</code></pre>
 <p><img src="figure/lecture1.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-13-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/65c976f59543bd4d82b3bd4c4afc14f87ffc624e/docs/figure/lecture1.Rmd/unnamed-chunk-13-1.png" target="_blank">65c976f</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>plot(x=1:nrow(iris), y=sort(iris$Petal.Width),
      type=&quot;l&quot;)</code></pre>
 <p><img src="figure/lecture1.Rmd/unnamed-chunk-13-2.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-13-2.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/65c976f59543bd4d82b3bd4c4afc14f87ffc624e/docs/figure/lecture1.Rmd/unnamed-chunk-13-2.png" target="_blank">65c976f</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <ul>
 <li>Boxplots</li>
 </ul>
@@ -597,6 +896,36 @@ legend(&quot;topleft&quot;, pch=19,
 boxplot(iris$Petal.Length ~ iris$Species,
         col=c(&quot;red&quot;, &quot;blue&quot;, &quot;green&quot;))</code></pre>
 <p><img src="figure/lecture1.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-14-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/65c976f59543bd4d82b3bd4c4afc14f87ffc624e/docs/figure/lecture1.Rmd/unnamed-chunk-14-1.png" target="_blank">65c976f</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>## Density plots
 ## Hint: which function to select species
 ## lines()
@@ -608,6 +937,36 @@ lines(density(iris$Petal.Length[which(iris$Species ==
 lines(density(iris$Petal.Length[which(iris$Species == 
                                        &quot;versicolor&quot;)]))</code></pre>
 <p><img src="figure/lecture1.Rmd/unnamed-chunk-14-2.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-14-2.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/han16/Data-Science-in-R/blob/65c976f59543bd4d82b3bd4c4afc14f87ffc624e/docs/figure/lecture1.Rmd/unnamed-chunk-14-2.png" target="_blank">65c976f</a>
+</td>
+<td style="text-align:left;">
+han16
+</td>
+<td style="text-align:left;">
+2018-10-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
@@ -627,9 +986,9 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 loaded via a namespace (and not attached):
- [1] workflowr_1.1.1   Rcpp_0.12.19      digest_0.6.18    
+ [1] workflowr_1.1.1   Rcpp_1.0.0        digest_0.6.18    
  [4] rprojroot_1.3-2   R.methodsS3_1.7.1 backports_1.1.2  
- [7] magrittr_1.5      git2r_0.23.0      evaluate_0.12    
+ [7] git2r_0.23.0      magrittr_1.5      evaluate_0.12    
 [10] stringi_1.2.4     whisker_0.3-2     R.oo_1.22.0      
 [13] R.utils_2.7.0     rmarkdown_1.10    tools_3.5.1      
 [16] stringr_1.3.1     yaml_2.2.0        compiler_3.5.1   
