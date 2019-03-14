@@ -519,10 +519,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomhan16DataScienceinRtree86f1a87f15780838a51b92dc88ddd41bf969000ftargetblank86f1a87a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/86f1a87f15780838a51b92dc88ddd41bf969000f" target="_blank">86f1a87</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomhan16DataScienceinRtreeee230a5ea62f81fe64f6584d20c7c312e0e7fa14targetblankee230a5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/ee230a5ea62f81fe64f6584d20c7c312e0e7fa14" target="_blank">ee230a5</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomhan16DataScienceinRtree86f1a87f15780838a51b92dc88ddd41bf969000ftargetblank86f1a87a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomhan16DataScienceinRtreeee230a5ea62f81fe64f6584d20c7c312e0e7fa14targetblankee230a5a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -579,6 +579,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/han16/Data-Science-in-R/blob/ee230a5ea62f81fe64f6584d20c7c312e0e7fa14/analysis/lecture7.Rmd" target="_blank">ee230a5</a>
+</td>
+<td>
+han16
+</td>
+<td>
+2019-03-14
+</td>
+<td>
+3/14/2019
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/han16/Data-Science-in-R/ee230a5ea62f81fe64f6584d20c7c312e0e7fa14/docs/lecture7.html" target="_blank">ee230a5</a>
+</td>
+<td>
+han16
+</td>
+<td>
+2019-03-14
+</td>
+<td>
+3/14/2019
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -656,136 +690,31 @@ Nov62018
 </div>
 <div id="one-categorical-variable-as-predictor" class="section level2">
 <h2>One categorical variable as predictor</h2>
-<p>In simple linear regrssion model, the predictor could be a continuous variable or categorical variable. When it is</p>
-<pre class="r"><code>########################################################
-#### Go over HW 4
-####
-#### Review for midterm (next Monday!)
-#### Read Chapter 23 from http://r4ds.had.co.nz/index.html.
-#### Read http://sjspielman.org/bio5312_fall2017/files/lm_supplement.pdf
-####
-#### Any questions from last week? 
-#### {factors, ggplot2 color, dplyr, tidy data, relational data}
-######################################################
-
-#-------------------------------------------------------------
-## In class warm-up to review tidy data:
-#-------------------------------------------------------------
-
-library(tidyverse)
-#library(rcfss)
-#data(dadmom) ## Note: this does not work for R 3.3.1
-dadmom %&gt;% 
-  gather(key=parent, value=income, -famid, -named, -namem) %&gt;%
-  mutate(new_parent = ifelse(parent == &quot;incd&quot;, &quot;dad&quot;, &quot;mom&quot;)) %&gt;%
-  mutate(name = ifelse(new_parent == &quot;dad&quot;, named, namem)) %&gt;%
-  select(-named, -namem, -parent) %&gt;%
-  arrange(income)
-
-table2 %&gt;% spread(key=type, value=count) %&gt;%
-  ## This next part goes back
-  gather(key=type,value=count,cases:population)
-
-## Tidy this dataframe (each variable should have its own column,
-## each observation its own row, and each value its own cell)</code></pre>
-</div>
-<div id="correlation" class="section level2">
-<h2>Correlation</h2>
-<pre class="r"><code>## It is VERY important to visualize data!
-## Correlations (and summary statistics in general) can be
-## the same for VERY different distributions
-install.packages(&quot;datasauRus&quot;)
-library(datasauRus)
-datasaurus_dozen %&gt;% filter(dataset == &quot;dino&quot;) %&gt;%
-  summarize(cor = cor(x,y), sd_x = sd(x), sd_y = sd(y),
-            mean_x = mean(x), mean_y = mean(y))
-ggplot(datasaurus_dozen %&gt;% filter(dataset == &quot;dino&quot;)) +
-  geom_point(aes(x, y)) + theme_bw()
-
-datasaurus_dozen %&gt;% filter(dataset == &quot;bullseye&quot;) %&gt;%
-  summarize(cor = cor(x,y), sd_x = sd(x), sd_y = sd(y),
-            mean_x = mean(x), mean_y = mean(y))
-ggplot(datasaurus_dozen %&gt;% filter(dataset == &quot;bullseye&quot;)) +
-  geom_point(aes(x, y)) + theme_bw()
-  
-ggplot(datasaurus_dozen, aes(x = x, y = y, colour = dataset)) +
-  geom_point() +
-  theme_void() +
-  theme(legend.position = &quot;none&quot;) +
-  facet_wrap( ~ dataset, ncol = 3)</code></pre>
-</div>
-<div id="linear-regression" class="section level2">
-<h2>Linear regression</h2>
-</div>
-<div id="checking-model-assumptions" class="section level2">
-<h2>Checking model assumptions</h2>
-<pre class="r"><code>## Assumption 2
-ggplot(aug) + geom_point(aes(x=.fitted, y=.resid)) +
-  geom_hline(yintercept=0, lty=2)</code></pre>
-<pre class="r"><code>## Assumption 4
-ggplot(aug) + geom_point(aes(x=Sepal.Width, y=Sepal.Length))</code></pre>
-</div>
-<div id="matrix-algebra" class="section level2">
-<h2>Matrix algebra</h2>
-<pre class="r"><code>#=============================================================
-## A quick break: Matrix algebra in R
-#=============================================================
-
-## Creating a couple of matrices
-x1 &lt;- c(3,4,5,6)
-x2 &lt;- c(10,11,12,13)
-x3 &lt;- c(-1, -2, -3, -4)
-A &lt;- cbind(x1, x2, x3)
-B &lt;- rbind(x1, x2, x3)
-
-## Reminder about extracting elements from matrices
-A[1,3]  ## pulls element in row1, column3 of A
-A[,1]   ## pulls first column
-A[1,]
-A[2,2:3]
-A[2, c(1,3)]</code></pre>
-<pre class="r"><code>## Recall how multiplication/addition in R are done element-wise
-A * B # not working 
-A + B</code></pre>
-<pre class="r"><code>## If we are after &quot;classic&quot; matrix multiplication, we have to do as follows:
-A %*% B
-B %*% A</code></pre>
-<pre class="r"><code>## What is the difference between the two following operations?
-x1*x2
-x1 %*% x2</code></pre>
-<pre class="r"><code>## What happens when we transpose a matrix?
-t(A) + B
-A - t(B)</code></pre>
-<pre class="r"><code>## We can take the inverse of a square matrix
-A = rbind(c(-1,4), c(3,6))
-c = c(8,30)
-x = solve(A,c)
-
-#### This basically finds x, such that Ax=c
-#### Let&#39;s doubl check
-A %*% x</code></pre>
-<pre class="r"><code>#### We can also use the solve function to find the inverse of a matrix
-A.inv = solve(A)
-
-#### Check
-A.inv %*% A
-A %*% A.inv
-
-### Note the rounding errors!</code></pre>
-<pre class="r"><code>#=============================================================
-## Linear models: lm(Numeric response ~ &lt;predictors&gt;)
-## 
-## Single numeric predictor = Regression
-## Single categorical predictor = ANOVA
-## Multiple numeric predictors = Multiple regression
-## Multiple categorical predictors = n-way ANOVA
-## Single categorical and n numeric predictors = ANCOVA
-## Multiple categorical and n numeric predictors = linear model
-#=============================================================
-
-## What happens with a categorical predictor?
-mod_species &lt;- lm(Sepal.Length ~ Species, data=iris)
+<p>In simple linear regrssion model, the predictor could be a continuous variable or categorical variable. The categorical variable can have different levels, such as gender, race, etc. Intuatively it does not make sence to regress on these non-numerical variables. What happens is R will convert them into “numeric” levels. When there are <span class="math inline">\(K\)</span> levels, in the regression summary, we only see estimates of <span class="math inline">\(K-1\)</span> levels to avoid collinearity as the last level could be determined by all other <span class="math inline">\(K-1\)</span> levels.</p>
+<pre class="r"><code>data(iris)
+levels(iris$Species)</code></pre>
+<pre><code>[1] &quot;setosa&quot;     &quot;versicolor&quot; &quot;virginica&quot; </code></pre>
+<pre class="r"><code>mod_species &lt;- lm(Sepal.Length ~ Species, data=iris)
 summary(mod_species) ## Where is the Speciessetosa coefficient?</code></pre>
+<pre><code>
+Call:
+lm(formula = Sepal.Length ~ Species, data = iris)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1.6880 -0.3285 -0.0060  0.3120  1.3120 
+
+Coefficients:
+                  Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)         5.0060     0.0728  68.762  &lt; 2e-16 ***
+Speciesversicolor   0.9300     0.1030   9.033 8.77e-16 ***
+Speciesvirginica    1.5820     0.1030  15.366  &lt; 2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 0.5148 on 147 degrees of freedom
+Multiple R-squared:  0.6187,    Adjusted R-squared:  0.6135 
+F-statistic: 119.3 on 2 and 147 DF,  p-value: &lt; 2.2e-16</code></pre>
 <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">

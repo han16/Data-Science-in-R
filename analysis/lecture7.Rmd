@@ -6,10 +6,6 @@ output: workflowr::wflow_html
 ---
 
 
-## One categorical variable as predictor 
-
-In simple linear regrssion model, the predictor could be a  continuous variable or categorical variable. 
-When it is 
 
 
 ```{r, echo=F, eval=F}
@@ -20,7 +16,7 @@ library(tidyverse)
 
 
 
-```{r, echo=T, eval=F}
+```{r, echo=F, eval=F}
 
 ########################################################
 #### Go over HW 4
@@ -56,7 +52,6 @@ table2 %>% spread(key=type, value=count) %>%
 ```
 
 
-## Correlation
 
 
 ```{r, echo=F, eval=F}
@@ -81,7 +76,7 @@ ggplot(setosa) + geom_point(aes(x=Sepal.Length, y=Sepal.Width))
 ```
 
 
-```{r, echo=T, eval=F}
+```{r, echo=F, eval=F}
 ## It is VERY important to visualize data!
 ## Correlations (and summary statistics in general) can be
 ## the same for VERY different distributions
@@ -181,7 +176,6 @@ ggplot(filter(diamonds, cut == "Ideal")) +
   geom_point(aes(y=price, x=carat))
 ```
 
-## Linear regression
 
 ```{r, echo=F, eval=F}
 
@@ -259,7 +253,7 @@ predict(mod, new_setosa, interval = "predict")
 predict(mod, new_setosa, interval = "confidence", level=0.90)
 ```
 
-## Checking model assumptions
+
 ```{r, echo=F, eval=F}
 ## 1. Residuals are normally distributed
 ## 2. Variance is the same for all predictors
@@ -282,19 +276,19 @@ ggplot(aug) + geom_histogram(aes(x=.resid),
 ggplot(aug) + geom_qq(aes(sample=.resid))
 ```
 
-```{r, echo=T, eval=F}
+```{r, echo=F, eval=F}
 ## Assumption 2
 ggplot(aug) + geom_point(aes(x=.fitted, y=.resid)) +
   geom_hline(yintercept=0, lty=2)
 ```
 
-```{r, echo=T, eval=F}
+```{r, echo=F, eval=F}
 ## Assumption 4
 ggplot(aug) + geom_point(aes(x=Sepal.Width, y=Sepal.Length))
 ```
-## Matrix algebra 
 
-```{r, echo=T, eval=F}
+
+```{r, echo=F, eval=F}
 #=============================================================
 ## A quick break: Matrix algebra in R
 #=============================================================
@@ -314,32 +308,19 @@ A[2,2:3]
 A[2, c(1,3)]
 ```
 
-```{r, echo=T, eval=F}
+```{r, echo=F, eval=F}
 ## Recall how multiplication/addition in R are done element-wise
 A * B # not working 
 A + B
-```
-
-```{r, echo=T, eval=F}
 ## If we are after "classic" matrix multiplication, we have to do as follows:
 A %*% B
 B %*% A
-```
-
-```{r, echo=T, eval=F}
 ## What is the difference between the two following operations?
 x1*x2
 x1 %*% x2
-```
-
-
-```{r, echo=T, eval=F}
 ## What happens when we transpose a matrix?
 t(A) + B
 A - t(B)
-```
-
-```{r, echo=T, eval=F}
 ## We can take the inverse of a square matrix
 A = rbind(c(-1,4), c(3,6))
 c = c(8,30)
@@ -348,9 +329,7 @@ x = solve(A,c)
 #### This basically finds x, such that Ax=c
 #### Let's doubl check
 A %*% x
-```
 
-```{r, echo=T, eval=F}
 #### We can also use the solve function to find the inverse of a matrix
 A.inv = solve(A)
 
@@ -413,8 +392,12 @@ lm(y.sim ~ 0 + X.sim)
 lm(y.sim ~ X.sim[,2])
 ```
 
+## One categorical variable as predictor 
 
-```{r, echo=T, eval=F}
+In simple linear regrssion model, the predictor could be a  continuous variable or categorical variable. 
+The categorical variable can have different levels, such as gender, race, etc. Intuatively it does not make sence to regress on these non-numerical variables. What happens is R will convert them into "numeric" levels. When there are $K$ levels, in the regression summary, we only see estimates of $K-1$ levels to avoid collinearity as the last level could be determined by all other $K-1$ levels. 
+
+```{r, echo=F, eval=F}
 #=============================================================
 ## Linear models: lm(Numeric response ~ <predictors>)
 ## 
@@ -427,6 +410,11 @@ lm(y.sim ~ X.sim[,2])
 #=============================================================
 
 ## What happens with a categorical predictor?
+```
+
+```{r, echo=T}
+data(iris)
+levels(iris$Species)
 mod_species <- lm(Sepal.Length ~ Species, data=iris)
 summary(mod_species) ## Where is the Speciessetosa coefficient?
 ```
