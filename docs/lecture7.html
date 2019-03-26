@@ -13,7 +13,7 @@
 
 <meta name="date" content="2018-11-06" />
 
-<title>lecture7</title>
+<title>linear models</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -413,7 +413,7 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">lecture7</h1>
+<h1 class="title toc-ignore">linear models</h1>
 <h4 class="author"><em>Shengtong</em></h4>
 <h4 class="date"><em>2018-11-06</em></h4>
 
@@ -440,7 +440,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-03-14
+<strong>Last updated:</strong> 2019-03-26
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -519,10 +519,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomhan16DataScienceinRtreeee230a5ea62f81fe64f6584d20c7c312e0e7fa14targetblankee230a5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/ee230a5ea62f81fe64f6584d20c7c312e0e7fa14" target="_blank">ee230a5</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomhan16DataScienceinRtreeddeb9edb1235a2cc8077bbe3bd4f34223a4be29btargetblankddeb9eda"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/ddeb9edb1235a2cc8077bbe3bd4f34223a4be29b" target="_blank">ddeb9ed</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomhan16DataScienceinRtreeee230a5ea62f81fe64f6584d20c7c312e0e7fa14targetblankee230a5a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomhan16DataScienceinRtreeddeb9edb1235a2cc8077bbe3bd4f34223a4be29btargetblankddeb9eda" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -579,6 +579,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/han16/Data-Science-in-R/blob/ddeb9edb1235a2cc8077bbe3bd4f34223a4be29b/analysis/lecture7.Rmd" target="_blank">ddeb9ed</a>
+</td>
+<td>
+han16
+</td>
+<td>
+2019-03-14
+</td>
+<td>
+3/14/2019
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/han16/Data-Science-in-R/ddeb9edb1235a2cc8077bbe3bd4f34223a4be29b/docs/lecture7.html" target="_blank">ddeb9ed</a>
+</td>
+<td>
+han16
+</td>
+<td>
+2019-03-14
+</td>
+<td>
+3/14/2019
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -687,6 +721,89 @@ Nov62018
 <hr>
 </div>
 </div>
+</div>
+<div id="model-setting" class="section level2">
+<h2>Model setting</h2>
+<p>Suppose we have a numerical response <span class="math inline">\(y\)</span>, which could be modeled as a lienar combination of <span class="math inline">\(p\)</span> precitors as</p>
+<p><span class="math display">\[y=\beta_0+\beta_1x_1+\cdots+\beta_px_p+\epsilon\]</span></p>
+<p>The <span class="math inline">\({\it least~square}\)</span> method tries to minumuzes the squared sum of residuals,</p>
+<p><span class="math display">\[f(\beta_0, \beta_1, \cdots, \beta_p)=\sum_{i=1}^n[y_i-(\beta_0+\sum_{j=1}^p\beta_jx_{ij})]^2\]</span> The following assumptions are generally used,</p>
+<ul>
+<li><span class="math inline">\(\epsilon_i\)</span>, the residual for <span class="math inline">\(i\)</span>th observation are independently and identically distributed, i.e. i.i.d</li>
+<li><span class="math inline">\(E(\epsilon_i)=0\)</span> and <span class="math inline">\(var(\epsilon_i)=\sigma^2&lt;\infty\)</span></li>
+<li><span class="math inline">\(\epsilon_i\)</span> are normally distributed.</li>
+</ul>
+</div>
+<div id="model-fitting" class="section level2">
+<h2>Model fitting</h2>
+<p>It is more helpful to use compacted matrix form</p>
+<p>Let <span class="math display">\[Y=\left[\begin{array}
+{r}
+y_1 \\
+y_2 \\
+\vdots\\
+y_n
+\end{array}\right]\]</span></p>
+<p><span class="math display">\[\mathbf{\beta}=\left[\begin{array}
+{r}
+\beta_1 \\
+\beta_2 \\
+\vdots\\
+\beta_n
+\end{array}\right]\]</span></p>
+<p><span class="math display">\[\mathbf{\epsilon}=\left[\begin{array}
+{r}
+\epsilon_1 \\
+\epsilon_2 \\
+\vdots\\
+\epsilon_n
+\end{array}\right]\]</span></p>
+<p><span class="math display">\[\mathbf{X} = \left[\begin{array}
+{rrr}
+1 &amp; x_{11} &amp; \cdots &amp;x_{1p} \\
+1 &amp; x_{21} &amp; \cdots &amp;  x_{2p}\\
+\vdots &amp; \vdots &amp; \cdots &amp; \vdots\\
+1 &amp; x_{n1} &amp; \cdots &amp; x_{np}
+\end{array}\right]
+\]</span></p>
+<p>Then</p>
+<p><span class="math display">\[\mathbf{Y}=\mathbf{X\beta}+\mathbf{\epsilon}\]</span></p>
+<p>By minimizing <span class="math inline">\(\mathbf{\epsilon}&#39;\mathbf{\epsilon}\)</span> with respect to <span class="math inline">\(\beta\)</span> yields</p>
+<p><span class="math display">\[\widehat{\mathbf{\beta}}=(\mathbf{X&#39;X})^{-1}\mathbf{X&#39;Y}\]</span></p>
+<p>The following Properties hold</p>
+<ul>
+<li><p><span class="math inline">\(E(\hat{\beta})=\beta\)</span> unbiased since <span class="math display">\[
+\begin{aligned}
+E(\hat{\beta})&amp;=(\mathbf{X&#39;X})^{-1}\mathbf{X&#39;}E(\mathbf{Y})\\
+&amp;=(\mathbf{X&#39;X})^{-1}\mathbf{X&#39;X\beta}\\
+&amp;=\mathbf{\beta}
+\end{aligned}
+\]</span></p></li>
+<li><p><span class="math inline">\(var(\hat{\beta})=\sigma^2(\mathbf{X&#39;X})^{-1}\)</span></p></li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+var(\hat{\beta})&amp;=var[(\mathbf{X&#39;X})^{-1}\mathbf{X&#39;Y}]\\
+&amp;=(\mathbf{X&#39;X})^{-1} \mathbf{X&#39;} var(\mathbf{Y}) \mathbf{X(X&#39;X)^{-1}}\\
+&amp;=\sigma^2 (\mathbf{X&#39;X})^{-1} \mathbf{X&#39;} \mathbf{X(X&#39;X)^{-1}} \\
+&amp;=\sigma^2(\mathbf{X&#39;X})^{-1}
+\end{aligned}
+\]</span></p>
+<ul>
+<li>When <span class="math inline">\(\mathbf{X}\)</span> is of full rank, <span class="math inline">\(S^2=\frac{(\mathbf{Y-X\hat{\beta}})&#39;(\mathbf{Y-X\hat{\beta}})}{n-p}\)</span> is an unbiased estimator of <span class="math inline">\(\sigma^2\)</span>.</li>
+</ul>
+</div>
+<div id="model-diagnostic" class="section level2">
+<h2>Model diagnostic</h2>
+</div>
+<div id="prediction" class="section level2">
+<h2>Prediction</h2>
+<p>There is a clear difference between prediction for a new variable <span class="math inline">\(x_0\)</span> and the mean response at <span class="math inline">\(x_0\)</span>.</p>
+<p>The predicted value <span class="math inline">\(y_0\)</span> is</p>
+<p><span class="math display">\[ \hat{y_0}=\hat{\beta_0}+\hat{\beta_1}x_0\]</span> and the standard error is</p>
+<p><span class="math display">\[s.e.(\hat{y_0})=\hat{\sigma}\sqrt{1+\frac{1}{n}+\frac{(x_0-\bar{x})^2}{\sum(x_i-\bar{x})^2}}\]</span> hence the <span class="math inline">\(1-\alpha\)</span> confidence interval is <span class="math inline">\(\hat{y_0}\pm t_{n-2, \alpha/2}\times s.e(\hat{y_0})\)</span>.</p>
+<p>However, the mean response is estimated as</p>
+<p><span class="math display">\[\hat{\mu_0}=\hat{\beta_0}+\hat{\beta_1}x_0\]</span> and because of the standard error of <span class="math display">\[s.e.(\hat{\mu_0})=\hat{\sigma}\sqrt{\frac{1}{n}+\frac{(x_0-\bar{x})^2}{\sum(x_i-\bar{x})^2}}\]</span> the corresponding <span class="math inline">\(1-\alpha\)</span> confidence interval is <span class="math inline">\(\hat{\mu_0}\pm t_{n-2, \alpha/2} \times s.e.(\hat{\mu_0})\)</span>.</p>
 </div>
 <div id="one-categorical-variable-as-predictor" class="section level2">
 <h2>One categorical variable as predictor</h2>

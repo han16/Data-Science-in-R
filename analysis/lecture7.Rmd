@@ -1,18 +1,128 @@
 ---
-title: "lecture7"
+title: "linear models"
 author: "Shengtong"
 date: "2018-11-06"
 output: workflowr::wflow_html
 ---
 
+## Model setting 
+
+Suppose we have a numerical response $y$, which could be modeled as a lienar combination of $p$ precitors as 
+
+$$y=\beta_0+\beta_1x_1+\cdots+\beta_px_p+\epsilon$$
+
+The ${\it least~square}$ method tries to minumuzes the squared sum of residuals, 
+
+$$f(\beta_0, \beta_1, \cdots, \beta_p)=\sum_{i=1}^n[y_i-(\beta_0+\sum_{j=1}^p\beta_jx_{ij})]^2$$
+ The following assumptions are generally used,  
+
+* $\epsilon_i$, the residual for $i$th observation are independently and identically distributed, i.e. i.i.d 
+* $E(\epsilon_i)=0$ and $var(\epsilon_i)=\sigma^2<\infty$
+* $\epsilon_i$ are normally distributed. 
+
+## Model fitting 
+
+It is more helpful to use compacted matrix form 
+
+Let $$Y=\left[\begin{array}
+{r}
+y_1 \\
+y_2 \\
+\vdots\\
+y_n
+\end{array}\right]$$
+
+ $$\mathbf{\beta}=\left[\begin{array}
+{r}
+\beta_1 \\
+\beta_2 \\
+\vdots\\
+\beta_n
+\end{array}\right]$$
 
 
 
+ $$\mathbf{\epsilon}=\left[\begin{array}
+{r}
+\epsilon_1 \\
+\epsilon_2 \\
+\vdots\\
+\epsilon_n
+\end{array}\right]$$
+
+
+
+$$\mathbf{X} = \left[\begin{array}
+{rrr}
+1 & x_{11} & \cdots &x_{1p} \\
+1 & x_{21} & \cdots &  x_{2p}\\
+\vdots & \vdots & \cdots & \vdots\\
+1 & x_{n1} & \cdots & x_{np}
+\end{array}\right]
+$$
+
+Then 
+
+$$\mathbf{Y}=\mathbf{X\beta}+\mathbf{\epsilon}$$
+
+By minimizing $\mathbf{\epsilon}'\mathbf{\epsilon}$ with respect to $\beta$ yields 
+
+$$\widehat{\mathbf{\beta}}=(\mathbf{X'X})^{-1}\mathbf{X'Y}$$
+
+The following Properties hold  
+
+* $E(\hat{\beta})=\beta$ unbiased since 
+$$
+\begin{aligned}
+E(\hat{\beta})&=(\mathbf{X'X})^{-1}\mathbf{X'}E(\mathbf{Y})\\
+&=(\mathbf{X'X})^{-1}\mathbf{X'X\beta}\\
+&=\mathbf{\beta}
+\end{aligned}
+$$
+
+* $var(\hat{\beta})=\sigma^2(\mathbf{X'X})^{-1}$
+
+$$
+\begin{aligned}
+var(\hat{\beta})&=var[(\mathbf{X'X})^{-1}\mathbf{X'Y}]\\
+&=(\mathbf{X'X})^{-1} \mathbf{X'} var(\mathbf{Y}) \mathbf{X(X'X)^{-1}}\\
+&=\sigma^2 (\mathbf{X'X})^{-1} \mathbf{X'} \mathbf{X(X'X)^{-1}} \\
+&=\sigma^2(\mathbf{X'X})^{-1}
+\end{aligned}
+$$
+
+* When $\mathbf{X}$ is of full rank, $S^2=\frac{(\mathbf{Y-X\hat{\beta}})'(\mathbf{Y-X\hat{\beta}})}{n-p}$ is an unbiased estimator of $\sigma^2$. 
+
+## Model diagnostic 
+
+## Prediction 
+
+There is a clear difference between prediction for a new variable $x_0$ and the mean response at $x_0$. 
+
+The predicted value $y_0$ is 
+
+$$ \hat{y_0}=\hat{\beta_0}+\hat{\beta_1}x_0$$
+and the standard error is 
+
+$$s.e.(\hat{y_0})=\hat{\sigma}\sqrt{1+\frac{1}{n}+\frac{(x_0-\bar{x})^2}{\sum(x_i-\bar{x})^2}}$$
+hence the $1-\alpha$ confidence interval is 
+$\hat{y_0}\pm t_{n-2, \alpha/2}\times s.e(\hat{y_0})$. 
+
+However, the mean response is estimated as 
+
+$$\hat{\mu_0}=\hat{\beta_0}+\hat{\beta_1}x_0$$
+ and because of the standard error of 
+ $$s.e.(\hat{\mu_0})=\hat{\sigma}\sqrt{\frac{1}{n}+\frac{(x_0-\bar{x})^2}{\sum(x_i-\bar{x})^2}}$$
+ the corresponding $1-\alpha$ confidence interval is 
+ $\hat{\mu_0}\pm t_{n-2, \alpha/2} \times s.e.(\hat{\mu_0})$. 
+ 
 ```{r, echo=F, eval=F}
 #knitr::opts_chunk$set(echo = TRUE)
 #knitr::read_chunk("chunks.R")
 library(tidyverse)
 ```
+
+
 
 
 
@@ -426,6 +536,11 @@ ggplot(augment_species, aes(x=Species, y=Sepal.Length)) +
          geom_point() +
   geom_point(aes(x=Species, y=.fitted), color="red", size=4)
 ```
+
+
+
+
+
 
 ```{r, echo=F, eval=F}
 ## Interactions: continuous and categorical
