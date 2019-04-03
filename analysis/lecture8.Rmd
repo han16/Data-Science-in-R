@@ -64,3 +64,24 @@ therefore it potentially throws away too many likely significant features. Famil
 
 
 ## FDR control 
+
+
+FDR: the expected value of the proportion of false positive among all significant features.
+
+$$
+FDR=E[\frac{F}{F+T}]
+
+$$
+
+Because significance is determined by threshold, thus FDR depends on the cutoff used to determine significance
+
+$$
+FDR(t)=E[\frac{F(t)}{S(t)}]
+
+$$
+
+If $m$ is large, FDR can be approximated by
+
+$$
+FDR(t) \approx \frac{E(F(t))}{E(S(t))}
+$$

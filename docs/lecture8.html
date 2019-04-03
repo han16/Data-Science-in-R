@@ -464,17 +464,17 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomhan16DataScienceinRtree512d27f75256d0f6b2de7d0ac89af6453f4a78bdtargetblank512d27fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/512d27f75256d0f6b2de7d0ac89af6453f4a78bd" target="_blank">512d27f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomhan16DataScienceinRtree0aff150fcd9b49c50484a9816b9a7821c3aa93detargetblank0aff150a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/han16/Data-Science-in-R/tree/0aff150fcd9b49c50484a9816b9a7821c3aa93de" target="_blank">0aff150</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomhan16DataScienceinRtree512d27f75256d0f6b2de7d0ac89af6453f4a78bdtargetblank512d27fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomhan16DataScienceinRtree0aff150fcd9b49c50484a9816b9a7821c3aa93detargetblank0aff150a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -491,12 +491,8 @@ Ignored files:
     Ignored:    analysis/figure/
     Ignored:    docs/.DS_Store
 
-Untracked files:
-    Untracked:  analysis/lecture8.Rmd
-
 Unstaged changes:
-    Modified:   analysis/lecture7.Rmd
-    Deleted:    lecture8.Rmd
+    Modified:   analysis/lecture8.Rmd
 
 </code></pre>
 <p>
@@ -535,6 +531,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/han16/Data-Science-in-R/blob/0aff150fcd9b49c50484a9816b9a7821c3aa93de/analysis/lecture8.Rmd" target="_blank">0aff150</a>
+</td>
+<td>
+han16
+</td>
+<td>
+2019-04-03
+</td>
+<td>
+4/3/2019
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/han16/Data-Science-in-R/0aff150fcd9b49c50484a9816b9a7821c3aa93de/docs/lecture8.html" target="_blank">0aff150</a>
+</td>
+<td>
+han16
+</td>
+<td>
+2019-04-03
+</td>
+<td>
+4/3/2019
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -700,6 +730,16 @@ FWER=Pr\{\bigcup_{i \in F}(p_i\leq \frac{\alpha}{m}) \}\\
 </div>
 <div id="fdr-control" class="section level2">
 <h2>FDR control</h2>
+<p>FDR: the expected value of the proportion of false positive among all significant features.</p>
+<p>$$ FDR=E[]</p>
+<p>$$</p>
+<p>Because significance is determined by threshold, thus FDR depends on the cutoff used to determine significance</p>
+<p>$$ FDR(t)=E[]</p>
+<p>$$</p>
+<p>If <span class="math inline">\(m\)</span> is large, FDR can be approximated by</p>
+<p><span class="math display">\[
+FDR(t) \approx \frac{E(F(t))}{E(S(t))}
+\]</span></p>
 </div>
 
 
