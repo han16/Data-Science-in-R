@@ -34,10 +34,10 @@ y_n
 
  $$\mathbf{\beta}=\left[\begin{array}
 {r}
+\beta_0 \\
 \beta_1 \\
-\beta_2 \\
 \vdots\\
-\beta_n
+\beta_p
 \end{array}\right]$$
 
 
@@ -115,6 +115,10 @@ $$\hat{\mu_0}=\hat{\beta_0}+\hat{\beta_1}x_0$$
  $$s.e.(\hat{\mu_0})=\hat{\sigma}\sqrt{\frac{1}{n}+\frac{(x_0-\bar{x})^2}{\sum(x_i-\bar{x})^2}}$$
  the corresponding $1-\alpha$ confidence interval is 
  $\hat{\mu_0}\pm t_{n-2, \alpha/2} \times s.e.(\hat{\mu_0})$. 
+ 
+ 
+## ROC curve 
+ 
  
 ```{r, echo=F, eval=F}
 #knitr::opts_chunk$set(echo = TRUE)

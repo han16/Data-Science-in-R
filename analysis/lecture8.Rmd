@@ -1,0 +1,66 @@
+---
+title: "Hypothesis testing"
+author: "Shengtong"
+date: "2018-11-06"
+output: workflowr::wflow_html
+---
+
+
+## Two type errors
+
+The ingredients of hypothesis testing consist of 
+
+* $H_0$, a null hypotheses 
+* $H_a$, an alternative hypotheses (it is not necessarily the complement of null hypotheses) 
+* a test statistic (dependent on the sample) 
+* a measure of significance, e.g. p value. 
+
+There are four outcomes for the test which are summarized in the Table \ref{4outcome}. Power is defined as the probability of rejecting the null hypotheses given the alternative is true, i.e., $1-\beta$. It is used to compare two test methods. The more power, the better the method is.
+
+
+|  | $H_0$ accepted | $H_0$ rejected  
+-|--|---------------|----------------------------------------------------  
+$H_0$ is true | Correct decision  | Type 1 error 
+   |           | $prob=1-\alpha$  | $prob=\alpha$ 
+$H_0$ is false | Type 2 error  | Correct decision (true negative) 
+| | $prob=\beta$ | $prob=1-\beta$
+ 
+
+About p value:
+
+* Defined as the probability of obtaining a test statistic at least as extreme as the one that was observed in the sample, given the null hypothesis is true.
+*  If the null hypothesis is true, a null p value is uniformly  distributed within interval (0, 1).
+
+
+
+## multiple testing 
+
+
+But if performing many independent tests, p values don't have the same meaning. Consider multiple testing scenario in the following Table 
+
+
+
+ | claimed significant | claimed not significant | total
+--|-------------------|--------------------------|----------
+Null true | $F$ | $m_0-F$ | $m_0$ 
+Alternative true |               $T$ |  $m_1-T$ | $m_1$
+total | $S$ | $m-S$ | $m$
+
+Suppose there are $m$ hypothesis with $m$ p values, $p_1, p_2, \cdots, p_m$. The goal is determining a function $T(p, \alpha)$ such that rejecting null hypothesis with $p_i\leq T(p, \alpha)$ implies that $Error\leq \alpha$.
+
+Bonferroni correction:
+$$
+T(p, \alpha)=max\{p_i; p_i\leq \frac{\alpha}{m}\}
+$$
+which is a strong control because
+$$
+FWER=Pr\{\bigcup_{i \in F}(p_i\leq \frac{\alpha}{m}) \}\\
+\leq \sum_{i \in F} \{Pr(p_i\leq \frac{\alpha}{m})\}\\
+ \leq m_0\frac{\alpha}{m}\leq m \frac{\alpha}{m}=\alpha
+$$
+therefore it potentially throws away too many likely significant features. Family wise error rate (FWER) is the probability of making one or more false discoveries. 
+
+
+
+
+## FDR control 
